@@ -1,0 +1,162 @@
+{
+ "Dine In": {
+  "netSales": 46705.15,
+  "lastWeek": "2026-10-12"
+ },
+ "Grubhub - Delivery": {
+  "netSales": 405.49,
+  "lastWeek": "2026-10-12"
+ },
+ "DoorDash -  Delivery": {
+  "netSales": 8023.81,
+  "lastWeek": "2026-10-12"
+ },
+ "UberEats - Delivery": {
+  "netSales": 4908.72,
+  "lastWeek": "2026-10-12"
+ },
+ "App Pickup": {
+  "netSales": 7804.77,
+  "lastWeek": "2026-10-12"
+ },
+ "DoorDash - Takeout": {
+  "netSales": 1396.09,
+  "lastWeek": "2026-10-12"
+ },
+ "UberEats - Takeout": {
+  "netSales": 966.56,
+  "lastWeek": "2026-10-12"
+ },
+ "Grubhub - Takeout": {
+  "netSales": 32.16,
+  "lastWeek": "2026-10-12"
+ },
+ "App Delivery": {
+  "netSales": 20.98,
+  "lastWeek": "2026-10-12"
+ },
+ "DoorDash - Delivery": {
+  "netSales": 1080.2,
+  "lastWeek": "2026-10-12"
+ },
+ "Doordash - Takeout": {
+  "netSales": 256.97,
+  "lastWeek": "2026-10-12"
+ },
+ "App Curbside": {
+  "netSales": 191.3,
+  "lastWeek": "2026-10-12"
+ },
+ "Uber Eats - Delivery": {
+  "netSales": 682.15,
+  "lastWeek": "2026-10-12"
+ },
+ "DeliverThat": {
+  "netSales": 560,
+  "lastWeek": "2026-10-12"
+ },
+ "UberEats Delivery": {
+  "netSales": 2403.09,
+  "lastWeek": "2026-10-12"
+ },
+ "Ubereats Delivery": {
+  "netSales": 272.53,
+  "lastWeek": "2026-10-12"
+ },
+ "DoorDash Delivery": {
+  "netSales": 370.1,
+  "lastWeek": "2026-10-12"
+ },
+ "Ubereats Takeout": {
+  "netSales": 74.27,
+  "lastWeek": "2026-10-12"
+ },
+ "Uber Eats - Takeout": {
+  "netSales": 189.07,
+  "lastWeek": "2026-10-12"
+ },
+ "Doordash Delivery": {
+  "netSales": 594.33,
+  "lastWeek": "2026-10-12"
+ },
+ "App Catering": {
+  "netSales": 140,
+  "lastWeek": "2026-10-12"
+ },
+ "Ez Cater": {
+  "netSales": 0,
+  "lastWeek": "2026-10-12"
+ },
+ "Take Out": {
+  "netSales": 0,
+  "lastWeek": "2026-10-12"
+ },
+ "Phone Order": {
+  "netSales": 0,
+  "lastWeek": "2026-10-12"
+ },
+ "Mobile App - Delivery": {
+  "netSales": 0,
+  "lastWeek": "2026-10-12"
+ },
+ "App Catering Pickup": {
+  "netSales": 0,
+  "lastWeek": "2026-10-12"
+ },
+ "Dine In Guid": {
+  "netSales": 0,
+  "lastWeek": "2026-10-12"
+ },
+ "UberEats Takeout": {
+  "netSales": 0,
+  "lastWeek": "2026-10-12"
+ },
+ "No Dining Option": {
+  "netSales": 0,
+  "lastWeek": "2026-10-12"
+ },
+ "Catering (Phone/In store)": {
+  "netSales": 0,
+  "lastWeek": "2026-10-12"
+ },
+ "Catering Online Ordering - Pick Up": {
+  "netSales": 0,
+  "lastWeek": "2026-10-12"
+ },
+ "Online Ordering - Takeout": {
+  "netSales": 0,
+  "lastWeek": "2026-10-12"
+ },
+ "Mobile App - Pickup": {
+  "netSales": 0,
+  "lastWeek": "2026-10-12"
+ },
+ "Online Ordering": {
+  "netSales": 0,
+  "lastWeek": "2026-10-12"
+ },
+ "Pickup": {
+  "netSales": 0,
+  "lastWeek": "2026-10-12"
+ },
+ "DoorDash Takeout": {
+  "netSales": 0,
+  "lastWeek": "2026-10-12"
+ },
+ "App Pickup Lane": {
+  "netSales": 0,
+  "lastWeek": "2026-10-12"
+ },
+ "Doordash Takeout": {
+  "netSales": 0,
+  "lastWeek": "2026-10-12"
+ },
+ "Toast Delivery Services": {
+  "netSales": 0,
+  "lastWeek": "2026-10-12"
+ },
+ "Curbside": {
+  "netSales": 0,
+  "lastWeek": "2026-10-12"
+ }
+}
