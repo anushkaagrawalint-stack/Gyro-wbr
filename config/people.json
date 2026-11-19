@@ -1,0 +1,11 @@
+[
+ {
+  "id": "00e87709-0903-4a10-8c41-1c5998360c16",
+  "email": "admin@kutlerri.ai",
+  "name": "Admin",
+  "role": "admin",
+  "locations": [],
+  "salt": "74b6f94c97b38a700c21875d59ad763d",
+  "hash": "56d17768e554062502af521e3d9deff6b3e356f4938b3018d777bb2379174c46cfc6c2e5ee1beeafe43b440b30347a8f0406a0d9fbd3df96996364bea9ad83c4"
+ }
+]
