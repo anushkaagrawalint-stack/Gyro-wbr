@@ -1,0 +1,20 @@
+[
+ {
+  "table": "Location Results",
+  "column": "Var vs LY",
+  "axis": "column",
+  "mode": "pill",
+  "rules": [
+   {
+    "op": "<",
+    "v": 0,
+    "color": "purple"
+   },
+   {
+    "op": ">=",
+    "v": 0,
+    "color": "amber"
+   }
+  ]
+ }
+]
