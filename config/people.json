@@ -18,16 +18,5 @@
   ],
   "salt": "5ac618329942738ea1d1a3bf8489496b",
   "hash": "6ff0be2fc1d0bc115ff1790d57683cb133a59725055efedf9c22e696d1b74a818bd66e6aa393021c52d789cf430a9eaf9718c114d2dab1e531317b9e084968ae"
- },
- {
-  "id": "c7d2a4d0-fe20-484a-880a-a77dad73afea",
-  "email": "tmp-lv@t.test",
-  "name": "Tmp",
-  "role": "location",
-  "locations": [
-   "Fondren"
-  ],
-  "salt": "79351b7ad460a91dea55c279d80b81b4",
-  "hash": "1c20a8c898dd7f127d4b4ba2a7d591cdeeaf70fae9aa20ad91efde7018b159bbf5780f57558ef29ce7d60e3b310d415de12334fe7b01a9b62247da459814e2e4"
  }
 ]
