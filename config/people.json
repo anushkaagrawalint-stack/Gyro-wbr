@@ -27,5 +27,16 @@
   "locations": [],
   "salt": "6ced2ce4aa38481fe4f08092ea0c49ad",
   "hash": "7484629076f4fae0cf65c3cd0db4ec7d1de02cc6b56a00761ffcdc3162c156e818835d02233a105fe05a393f561dde64d1fdce0712f3b72c2616dc3ccbbd5d21"
+ },
+ {
+  "id": "99023321-93bd-45a1-8942-060015f2f009",
+  "email": "katy@t.test",
+  "name": "Kay",
+  "role": "location",
+  "locations": [
+   "Katy"
+  ],
+  "salt": "67ba7f0edb42cfd66598613188a5b1c9",
+  "hash": "581569953c296d1f2519f7d50d1e6c0827bdf723a8aa35a0193fb245532ff6a471fbd7434cc6ab405dc1880bf04e8776ca1aa74de57721133c72a6870b9fd2f3"
  }
 ]
