@@ -18,5 +18,14 @@
   ],
   "salt": "5ac618329942738ea1d1a3bf8489496b",
   "hash": "6ff0be2fc1d0bc115ff1790d57683cb133a59725055efedf9c22e696d1b74a818bd66e6aa393021c52d789cf430a9eaf9718c114d2dab1e531317b9e084968ae"
+ },
+ {
+  "id": "dd0b7325-1fc6-4c6f-89b1-ec50c13d554c",
+  "email": "client@t.test",
+  "name": "Cee",
+  "role": "client",
+  "locations": [],
+  "salt": "82e8e1b913b2ef573eae27f17651ff8f",
+  "hash": "da857af3def093950a723d5a8c4930bbdfde6ce09672cd0d6abfcda92cec0411aced2c41759c1bf4efa6b04fc95115adaf871a888ca3d14b1e49547e0f6ef0b1"
  }
 ]
