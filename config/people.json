@@ -20,15 +20,6 @@
   "hash": "6ff0be2fc1d0bc115ff1790d57683cb133a59725055efedf9c22e696d1b74a818bd66e6aa393021c52d789cf430a9eaf9718c114d2dab1e531317b9e084968ae"
  },
  {
-  "id": "31c44883-68b0-4779-be08-730e62634319",
-  "email": "client@t.test",
-  "name": "Cee",
-  "role": "client",
-  "locations": [],
-  "salt": "7662f3f8aa896163d9daf7b2d4506ca7",
-  "hash": "9333dece50ec6e131c323142a69c2c3956a82a80dbcf59bfe76653b9710c47368e39f409f7a7ebc1c0e7946fca22dd9c514d5a865364fa79205a265e21482027"
- },
- {
   "id": "36071ad1-e324-457a-afbb-f3b1f2c348c9",
   "email": "katy@t.test",
   "name": "Kay",
