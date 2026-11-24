@@ -18,5 +18,14 @@
   ],
   "salt": "5ac618329942738ea1d1a3bf8489496b",
   "hash": "6ff0be2fc1d0bc115ff1790d57683cb133a59725055efedf9c22e696d1b74a818bd66e6aa393021c52d789cf430a9eaf9718c114d2dab1e531317b9e084968ae"
+ },
+ {
+  "id": "f6cb8060-7e46-450d-96e7-11155e7085b4",
+  "email": "anushka.agrawal@kutlerr.ai",
+  "name": "Anushka",
+  "role": "client",
+  "locations": [],
+  "salt": "ae2b8ebd8faecb72b7dd1ef68129b7a0",
+  "hash": "fcfeb28854439b18695babcfd7e3f45f7be5b4edfbf95a0ca222c5eb35a25c10276d5d322c0c7f5b306f18e99d69675dac281abb3e10ab4d489b1f5373e9a975"
  }
 ]
