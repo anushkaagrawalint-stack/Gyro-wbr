@@ -1,50 +1,20 @@
 {
  "categories": [
   {
-   "name": "In-Store",
-   "color": "#9f7cef",
-   "lines": [
-    {
-     "name": "In-Store",
-     "options": [
-      "Dine In",
-      "Dine In Guid"
-     ]
-    }
-   ]
-  },
-  {
-   "name": "Take Out",
+   "name": "Takeout",
    "color": "#f9a8d4",
    "lines": [
     {
      "name": "Takeout",
      "options": [
-      "Take Out"
-     ]
-    },
-    {
-     "name": "DoorDash - Takeout",
-     "options": [
-      "Doordash - Takeout",
-      "DoorDash - Takeout",
-      "Doordash Takeout",
-      "DoorDash Takeout"
-     ]
-    },
-    {
-     "name": "UberEats - Takeout",
-     "options": [
-      "Uber Eats - Takeout",
-      "UberEats - Takeout",
-      "Ubereats Takeout",
-      "UberEats Takeout"
-     ]
-    },
-    {
-     "name": "Grubhub - Takeout",
-     "options": [
-      "Grubhub - Takeout"
+      "Dine In",
+      "Dine In GUID",
+      "Dine In Guid",
+      "Take Out",
+      "Take Out GUID",
+      "Take Out Guid",
+      "Pickup",
+      "Online Ordering"
      ]
     },
     {
@@ -56,15 +26,61 @@
      ]
     },
     {
-     "name": "Pickup",
+     "name": "Curbside",
      "options": [
-      "Pickup"
+      "App Curbside",
+      "Curbside",
+      "Curbside Pickup"
+     ]
+    },
+    {
+     "name": "Doordash Takeout",
+     "options": [
+      "DoorDash - Takeout",
+      "Doordash - Takeout",
+      "DoorDash Takeout",
+      "Doordash Takeout"
+     ]
+    },
+    {
+     "name": "Uber Eats - Takeout",
+     "options": [
+      "Uber Eats - Takeout",
+      "UberEats - Takeout",
+      "UberEats Takeout",
+      "Ubereats Takeout"
+     ]
+    },
+    {
+     "name": "Grubhub Takeout",
+     "options": [
+      "Grubhub - Takeout"
      ]
     },
     {
      "name": "App Pickup Lane",
      "options": [
       "App Pickup Lane"
+     ]
+    },
+    {
+     "name": "Phone Order",
+     "options": [
+      "Phone Order"
+     ]
+    },
+    {
+     "name": "Google Ordering",
+     "options": [
+      "Direct Order by Google",
+      "Google Food Ordering",
+      "Google Ordering"
+     ]
+    },
+    {
+     "name": "Postmates Takeout",
+     "options": [
+      "Postmates Takeout"
      ]
     }
    ]
@@ -74,21 +90,38 @@
    "color": "#86efac",
    "lines": [
     {
-     "name": "DoorDash - Delivery",
-     "options": [
-      "DoorDash -  Delivery",
-      "DoorDash - Delivery",
-      "Doordash Delivery",
-      "DoorDash Delivery"
-     ]
-    },
-    {
      "name": "Uber Eats - Delivery",
      "options": [
       "Uber Eats - Delivery",
       "UberEats - Delivery",
-      "Ubereats Delivery",
-      "UberEats Delivery"
+      "UberEats Delivery",
+      "Ubereats Delivery"
+     ]
+    },
+    {
+     "name": "App Delivery",
+     "options": [
+      "App Delivery",
+      "Mobile App - Delivery",
+      "Online Ordering - Delivery"
+     ]
+    },
+    {
+     "name": "Delivery",
+     "options": [
+      "Delivery",
+      "Delivery GUID",
+      "Delivery Guid"
+     ]
+    },
+    {
+     "name": "DoorDash Delivery",
+     "options": [
+      "DoorDash -  Delivery",
+      "DoorDash - Delivery",
+      "DoorDash Delivery",
+      "Doordash Delivery",
+      "Toast Delivery Services"
      ]
     },
     {
@@ -98,17 +131,15 @@
      ]
     },
     {
-     "name": "App Delivery",
-     "options": [
-      "App Delivery",
-      "Mobile App - Delivery",
-      "Toast Delivery Services"
-     ]
-    },
-    {
      "name": "DeliverThat",
      "options": [
       "DeliverThat"
+     ]
+    },
+    {
+     "name": "Google Delivery",
+     "options": [
+      "Google Delivery"
      ]
     }
    ]
@@ -120,7 +151,11 @@
     {
      "name": "App Catering",
      "options": [
-      "App Catering"
+      "App Catering",
+      "App Catering Delivery",
+      "App Catering Pickup",
+      "Catering Online Ordering - Delivery",
+      "Catering Online Ordering - Pick Up"
      ]
     },
     {
@@ -130,14 +165,7 @@
      ]
     },
     {
-     "name": "App Catering Pickup",
-     "options": [
-      "App Catering Pickup",
-      "Catering Online Ordering - Pick Up"
-     ]
-    },
-    {
-     "name": "EzCater",
+     "name": "Ez Cater",
      "options": [
       "Ez Cater"
      ]
@@ -149,28 +177,9 @@
    "color": "#93c5fd",
    "lines": [
     {
-     "name": "Phone Order",
-     "options": [
-      "Phone Order"
-     ]
-    },
-    {
-     "name": "App Curbside",
-     "options": [
-      "App Curbside",
-      "Curbside"
-     ]
-    },
-    {
      "name": "No Dining Option",
      "options": [
       "No Dining Option"
-     ]
-    },
-    {
-     "name": "Online Ordering",
-     "options": [
-      "Online Ordering"
      ]
     }
    ]
