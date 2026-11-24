@@ -1,0 +1,28 @@
+.adm .grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:18px;align-items:start}
+.adm .row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.adm .row.end{justify-content:flex-end}
+.adm .stack{display:grid;gap:10px}
+.adm .note{font-size:11.3px;color:var(--muted);line-height:1.5}
+.adm .msg{padding:10px 14px;border-radius:12px;font-size:11.8px;margin:0 0 14px;border:1px solid transparent}
+.adm .msg.err{background:#fee2e2;color:#991b1b;border-color:#fecaca}
+.adm .msg.ok{background:#dcfce7;color:#166534;border-color:#bbf7d0}
+.adm .msg.warn{background:#fef3c7;color:#92400e;border-color:#fde68a}
+.adm input[type=text],.adm input[type=email],.adm input[type=password],.adm input[type=date],.adm input[type=number]{font:500 12.1px var(--sans);color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:10px;padding:9px 12px;min-width:0}
+.adm input.narrow{width:90px}
+.adm .btn{font:600 12px var(--sans);color:#fff;background:var(--accent);border:0;border-radius:10px;padding:9px 16px;cursor:pointer}
+.adm .btn.ghost{color:var(--ink);background:var(--card);border:1px solid var(--line)}
+.adm .btn.danger{background:#b91c1c}
+.adm .btn:disabled{opacity:.5;cursor:not-allowed}
+.adm .btn.sm{padding:6px 11px;font-size:11px}
+.adm table{min-width:0}
+.adm td{font-family:var(--sans);font-size:11.7px}
+.adm td.left,.adm th.left{text-align:left}
+.adm .chip{display:inline-flex;align-items:center;gap:6px;font-size:11px;background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:3px 10px;margin:2px}
+.adm .chip button{border:0;background:none;cursor:pointer;color:var(--muted);font-size:13px;line-height:1;padding:0}
+.adm .unm{background:#fef3c7}
+.adm .swatch{width:26px;height:26px;border:1px solid var(--line);border-radius:7px;padding:0;background:none}
+.adm label.chk{display:inline-flex;gap:6px;align-items:center;font-size:11.7px}
+.adm h4{margin:0 0 10px;font-size:12.5px}
+.adm .dim{color:var(--muted)}
+.adm td .row{flex-wrap:nowrap}
+.adm td{vertical-align:middle}

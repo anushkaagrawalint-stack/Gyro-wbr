@@ -1,0 +1,63 @@
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editors / IDEs
+.vscode/
+.idea/
+*.swp
+
+# Secrets and local config
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+credentials*.json
+
+# Claude Code local settings
+.claude/settings.local.json
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-error.log*
+.next/
+.nuxt/
+.cache/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.ipynb_checkpoints/
+.pytest_cache/
+
+# Build output
+dist/
+build/
+out/
+coverage/
+
+# Logs and temp files
+*.log
+tmp/
+temp/
+~$*
+
+# Raw data exports (may contain business or customer data)
+data/raw/
+*.xlsx
+*.xls
+*.csv
+!data/sample/**
+
+# App data and reference inputs (business data, never commit)
+.data/
+/reference/
+.next/
+next-env.d.ts
+*.tsbuildinfo
+.env.local
