@@ -35,7 +35,7 @@ export default function LoginPage() {
       <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet" />
       <div
         style={{
-          minHeight: '100vh', width: '100%', display: 'grid', placeItems: 'center', padding: 16, fontFamily: "'Montserrat', 'Inter', system-ui, sans-serif",
+          minHeight: 'calc(100vh / .67)', width: '100%', display: 'grid', placeItems: 'center', padding: 16, fontFamily: "'Montserrat', 'Inter', system-ui, sans-serif",
           background: 'radial-gradient(120% 120% at 100% 100%, #6322bb 0%, #4a1f9a 28%, #321a6b 55%, #25104f 100%)',
         }}
       >
