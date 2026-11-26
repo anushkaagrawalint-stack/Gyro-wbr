@@ -13,12 +13,13 @@
  },
  {
   "weekStart": "2026-11-16",
-  "uploadedAt": "2026-11-26T11:25:18.320Z",
+  "uploadedAt": "2026-11-26T12:22:11.909Z",
   "sections": [
    "toast",
    "reviews",
    "loyalty",
-   "marketing"
+   "marketing",
+   "tpd"
   ]
  }
 ]
