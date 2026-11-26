@@ -1,0 +1,76 @@
+[
+ {
+  "name": "Fondren",
+  "hidden": false,
+  "platforms": [
+   "Google",
+   "Uber Eats",
+   "DoorDash",
+   "Yelp"
+  ],
+  "aliases": []
+ },
+ {
+  "name": "Sugar Land",
+  "hidden": false,
+  "platforms": [
+   "Google",
+   "Uber Eats",
+   "DoorDash"
+  ],
+  "aliases": []
+ },
+ {
+  "name": "Richmond",
+  "hidden": false,
+  "platforms": [
+   "Google",
+   "Uber Eats",
+   "DoorDash",
+   "Yelp"
+  ],
+  "aliases": []
+ },
+ {
+  "name": "Katy",
+  "hidden": false,
+  "platforms": [
+   "Google",
+   "Uber Eats",
+   "DoorDash"
+  ],
+  "aliases": []
+ },
+ {
+  "name": "Missouri City",
+  "hidden": false,
+  "platforms": [
+   "Google",
+   "Uber Eats",
+   "DoorDash"
+  ],
+  "aliases": []
+ },
+ {
+  "name": "Spring",
+  "hidden": false,
+  "platforms": [
+   "Google",
+   "Uber Eats",
+   "DoorDash"
+  ],
+  "aliases": [
+   "Klein"
+  ]
+ },
+ {
+  "name": "Pearland",
+  "hidden": false,
+  "platforms": [
+   "Google",
+   "Uber Eats",
+   "DoorDash"
+  ],
+  "aliases": []
+ }
+]
