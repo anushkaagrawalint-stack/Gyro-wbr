@@ -38,7 +38,7 @@ export function renderMarketing(){
     kcard('Replied & Reply Rate', n(tot.replied), `<span>Reply rate: ${rt(tot.replied, tot.delivered)}</span>`);
   const cells = r => `<td>${n(r.sent)}</td><td>${n(r.delivered)}</td><td>${n(r.bounced)}</td><td>${n(r.spamBlocked)}</td><td>${n(r.unsubscribed)}</td><td>${op(r)}</td><td>${n(r.replied)}</td>`;
   const card = (title, id) => `<section class="card panel"><div class="panel-h"><h3>${title}</h3></div><div class="chartbox"><canvas id="${id}"></canvas></div></section>`;
-  const chartRow = has ? `<div class="ov-two">${card(`Email Funnel - Last ${mkDays} Days`, 'mkFunnel')}${card(`Campaigns Compared - Last ${mkDays} Days`, 'mkCampaigns')}</div>` : '';
+  const chartRow = has ? `<div class="ov-two">${card(`Sent, Delivered & Opened by Campaign - Last ${mkDays} Days`, 'mkFunnel')}${card(`Rates by Campaign - Last ${mkDays} Days`, 'mkCampaigns')}</div>` : '';
   document.getElementById('mkTables').innerHTML = chartRow + `<section class="card panel">
     <div class="panel-h"><span class="t-title">Email Campaigns - Last ${mkDays} Days (Apollo)</span><button class="dl" title="Download table">⤓</button></div>
     <div class="tablewrap"><table class="ctr" style="min-width:820px"><thead><tr><th>Campaigns</th><th>Sent</th><th>Delivered</th><th>Bounced</th><th>Spam Blocked</th><th>Unsubscribed</th><th>Opened</th><th>Replied</th></tr></thead>
@@ -49,13 +49,17 @@ export function renderMarketing(){
   if (!has) return;
   const SEQ = ['#9f7cef', 'rgba(209,213,219,0.7)', '#93c5fd', '#f9a8d4', '#86efac'];   // bar colours in order: purple, grey, blue, pink, green
   const legend = { position: 'bottom', labels: { boxWidth: 36, boxHeight: 12, color: css('--muted') } };
-  const scales = { y: { beginAtZero: true, grid: grid(), ticks: { color: css('--muted'), precision: 0 } }, x: { grid: grid(), ticks: { color: css('--muted') } } };
-  const tip = { callbacks: { label: c => `${c.dataset.label ? c.dataset.label + ': ' : ''}${Math.round(c.parsed.y).toLocaleString('en-US')}` } };
+  const pc = (a, b) => b ? a / b * 100 : 0;                                              // a share of b, in percent
+  const scales = { x: { beginAtZero: true, grid: grid(), ticks: { color: css('--muted'), callback: v => v + '%' } }, y: { grid: grid(), ticks: { color: css('--muted') } } };
+  const tip = { callbacks: { label: c => `${c.dataset.label ? c.dataset.label + ': ' : ''}${c.parsed.x.toFixed(2)}%` } };
+  // left chart: one group per campaign. Sent = 100%, delivered as a share of sent, opened as a share of delivered (the open rate on the cards)
+  const groups = rows;
   mkCharts.push(new Chart(document.getElementById('mkFunnel'), { type: 'bar',
-    data: { labels: ['Sent', 'Delivered', 'Opened', 'Replied'], datasets: [{ data: [tot.sent, tot.delivered, tot.opened, tot.replied], backgroundColor: SEQ.slice(0, 4), borderRadius: 4 }] },
-    options: { maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: tip }, scales } }));
+    data: { labels: groups.map(r => r.name), datasets: [['Sent (100%)', r => r.sent ? 100 : 0], ['Delivered (% of sent)', r => pc(r.delivered, r.sent)], ['Opened (% of delivered)', r => pc(r.opened, r.delivered)]].map(([label, f], i) => ({ label, data: groups.map(f), backgroundColor: SEQ[i], borderRadius: 4 })) },
+    options: { indexAxis: 'y', maintainAspectRatio: false, plugins: { legend, tooltip: tip }, scales: { ...scales, x: { ...scales.x, max: 100 } } } }));
+  // horizontal bars of rates by campaign (right): bounced, spam blocked and unsubscribed, each as a share of the emails sent
   mkCharts.push(new Chart(document.getElementById('mkCampaigns'), { type: 'bar',
-    data: { labels: rows.map(r => r.name), datasets: [['Delivered', 'delivered'], ['Opened', 'opened'], ['Replied', 'replied']].map(([label, k], i) => ({ label, data: rows.map(r => r[k]), backgroundColor: SEQ[i], borderRadius: 4 })) },
-    options: { maintainAspectRatio: false, plugins: { legend, tooltip: tip }, scales } }));
+    data: { labels: rows.map(r => r.name), datasets: [['Bounce rate', r => pc(r.bounced, r.sent)], ['Spam blocked rate', r => pc(r.spamBlocked, r.sent)], ['Unsubscribe rate', r => pc(r.unsubscribed, r.sent)]].map(([label, f], i) => ({ label, data: rows.map(f), backgroundColor: SEQ[i], borderRadius: 4 })) },
+    options: { indexAxis: 'y', maintainAspectRatio: false, plugins: { legend, tooltip: tip }, scales } }));
 }
 
