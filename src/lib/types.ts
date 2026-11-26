@@ -61,6 +61,11 @@ export interface FormatConfig {
   rules: FormatRule[];
 }
 
+/** What the admin says about each restaurant on a delivery app: DoorDash badges, and Uber Eats "Top Eats". A restaurant with no entry has none. */
+export const DD_STATUSES = ['Most Loved', 'Almost There', 'Need Work', 'Poor'] as const;
+export const UE_STATUSES = ['Top Eats'] as const;
+export interface DeliveryStatus { ue: Record<string, string>; dd: Record<string, string> }
+
 export const PERIODS = ['weekly', 'ptd', 'mtd', 'quarterly', 'ytd'] as const;
 export type PeriodKey = (typeof PERIODS)[number];
 export type Kind = 'actual' | 'ly';

@@ -2,7 +2,7 @@
 /* eslint-disable */
 // Ported verbatim from reference/index.html (the source of truth for every number and layout).
 // DOM-string rendering, so the types are loose; the public entry is mount() in ./main.ts and the data contract is Boot in src/lib/data/boot.ts.
-import { DATA, LOCATIONS, money, sum } from './core';
+import { BOOT, DATA, LOCATIONS, money, sum } from './core';
 import { rwRows, rwStats } from './reviews';
 
 /* =========================================================================
@@ -70,6 +70,7 @@ export function tpExt(d){   // add weighted fields so totals can be derived by p
 }
 export function tpSum(o){ const t={}; LOCATIONS.forEach(l => Object.entries(tpExt(o[l]||{})).forEach(([k,v]) => { if(typeof v==='number') t[k]=(t[k]||0)+v; })); return t; }
 
+export const trophy = (side, l) => BOOT.deliveryStatus?.[side]?.[l] === (side === 'ue' ? 'Top Eats' : 'Most Loved') ? '🏆 ' + l : l;   // admin-chosen Top Eats (Uber Eats) / Most Loved (DoorDash) restaurants get a trophy in the sales table
 export function renderTpd(){
   const S = DATA.tpd?.[tpMode] || {}, tot = tpSum(S), L = LOCATIONS.map(l => [l, tpExt(S[l]||{}), S[l]||{}]);
   let kp = '', html = '';
@@ -79,7 +80,7 @@ export function renderTpd(){
          kcard('Total Net Payout', T_m0(tot.payout), VLW) + kcard('Overall Error Rate', T_p1(err(tot)), VLW2);
     html += tpTable('UE Performance by Location',
       ['Location','Total Sales','Net Payout','Order Volume','AOV','Avg Rating - Weekly','Top Complaint'],
-      L.map(([l,d,raw]) => [l, T_m0(d.sales), T_m0(d.payout), T_n(d.orders), T_m0(div(d.sales,d.orders)), T_r2(div(d.ratSum,d.ratN)), note(noOther(raw.topComplaint))]),
+      L.map(([l,d,raw]) => [trophy('ue',l), T_m0(d.sales), T_m0(d.payout), T_n(d.orders), T_m0(div(d.sales,d.orders)), T_r2(div(d.ratSum,d.ratN)), note(noOther(raw.topComplaint))]),
       ['All Stores', T_m0(tot.sales), T_m0(tot.payout), T_n(tot.orders), T_m0(div(tot.sales,tot.orders)), T_r2(div(tot.ratSum,tot.ratN)), DASH]);
     const ops = d => [errPill(err(d)), T_n(d.missing||0), T_n(d.wrong||0), T_ms(div(d.waitSum,d.waitN)), waitPill(div(d.avoidSum,d.avoidN)),
                       T_n(d.avoidOrders||0), T_p1(div(d.avoidCancels||0,d.orders)*100), T_p1(div(d.upSum,d.upN))];
@@ -106,7 +107,7 @@ export function renderTpd(){
          kcard('Promo ROAS', T_x2(pR(tot)), '<span>Var: -<br>Var%: - vs LW</span>') + kcard('Sponsor ROAS', T_x2(sR(tot)), '<span>Var: -<br>Var%: - vs LW</span>');
     html += tpTable('DD Performance by Location',
       ['Location','Total Sales ($)','Net Payout ($)','Order Volume','AOV','Top Complaints'],
-      L.map(([l,d,raw]) => [l, T_m0(d.sales), T_m0(d.payout), T_n(d.orders), T_m0(div(d.sales,d.orders)), note(noOther(raw.topComplaint))]),
+      L.map(([l,d,raw]) => [trophy('dd',l), T_m0(d.sales), T_m0(d.payout), T_n(d.orders), T_m0(div(d.sales,d.orders)), note(noOther(raw.topComplaint))]),
       ['All Stores', T_m0(tot.sales), T_m0(tot.payout), T_n(tot.orders), T_m0(div(tot.sales,tot.orders)), DASH]);
     // Love / Like / Dislike calculated from Superorder (SO 7 & 90) DoorDash star counts of the latest week.
     // Mapping (index 0 = 5 star ... 4 = 1 star): Love = 5 star, Like = 4 star, Dislike = 3, 2 and 1 star.

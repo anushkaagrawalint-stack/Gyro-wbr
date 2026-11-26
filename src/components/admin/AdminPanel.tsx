@@ -4,13 +4,14 @@ import { useState } from 'react';
 import type { Boot } from '@/lib/data/boot';
 import './admin.css';
 import { CateringScreen } from './CateringScreen';
+import { DeliveryStatusScreen } from './DeliveryStatusScreen';
 import { FormattingScreen } from './FormattingScreen';
 import { LocationsScreen } from './LocationsScreen';
 import { MappingScreen } from './MappingScreen';
 import { PeopleScreen } from './PeopleScreen';
 import { WeeksScreen } from './WeeksScreen';
 
-const SCREENS = ['Weeks & data', 'Catering', 'Mapping', 'Locations', 'People & access', 'Formatting'] as const;
+const SCREENS = ['Weeks & data', 'Catering', 'Delivery apps', 'Mapping', 'Locations', 'People & access', 'Formatting'] as const;
 type Screen = (typeof SCREENS)[number];
 
 interface Props {
@@ -40,6 +41,7 @@ export function AdminPanel({ boot, unmapped }: Props) {
       )}
       {screen === 'Weeks & data' && <WeeksScreen currentWeek={boot.week.weekStart} />}
       {screen === 'Catering' && <CateringScreen currentWeek={boot.week.weekStart} />}
+      {screen === 'Delivery apps' && <DeliveryStatusScreen />}
       {screen === 'Mapping' && <MappingScreen />}
       {screen === 'Locations' && <LocationsScreen />}
       {screen === 'People & access' && <PeopleScreen meEmail={boot.user.email} />}

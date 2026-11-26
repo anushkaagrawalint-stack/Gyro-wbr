@@ -4,7 +4,7 @@ import path from 'node:path';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { publishWeek, saveLocationsWithMigration } from '../src/lib/data/admin';
 import { buildBoot } from '../src/lib/data/boot';
-import { loadLocations, saveMapping } from '../src/lib/data/config';
+import { loadDeliveryStatus, loadLocations, saveDeliveryStatus, saveMapping } from '../src/lib/data/config';
 import { getWeek } from '../src/lib/data/weeks';
 import { LocalStorage } from '../src/lib/storage/local';
 import type { PublicPerson } from '../src/lib/types';
@@ -44,6 +44,17 @@ describe.skipIf(!hasReference)('what each access level receives (built on the se
     expect(c.sections.marketing).toBeDefined();
     expect(c.sections.catering).toBeDefined();
     expect(c.locData.weekly.actual['All Locations'].total).toBeCloseTo(77077.74, 2);
+  });
+
+  it('delivery app statuses: saved, validated, and each person only receives their own restaurants', async () => {
+    expect(await loadDeliveryStatus(s)).toEqual({ ue: {}, dd: {} });
+    const saved = await saveDeliveryStatus(s, { ue: { Katy: 'Top Eats', Fondren: '' }, dd: { Katy: 'Need Work', Richmond: 'Most Loved' } });
+    expect(saved).toEqual({ ue: { Katy: 'Top Eats' }, dd: { Katy: 'Need Work', Richmond: 'Most Loved' } });   // a blank status is dropped
+    await expect(saveDeliveryStatus(s, { ue: { Katy: 'Most Loved' }, dd: {} })).rejects.toThrow(/not a Uber Eats status/);   // DoorDash badges are not valid on Uber Eats
+    await expect(saveDeliveryStatus(s, { ue: {}, dd: { Nowhere: 'Poor' } })).rejects.toThrow(/not a restaurant/);
+    expect((await buildBoot(s, client))!.boot.deliveryStatus).toEqual(saved);
+    expect((await buildBoot(s, katy))!.boot.deliveryStatus).toEqual({ ue: { Katy: 'Top Eats' }, dd: { Katy: 'Need Work' } });   // Richmond's badge is not sent to Katy
+    await saveDeliveryStatus(s, { ue: {}, dd: {} });
   });
 
   it('a Location person only ever receives their own location, and no Marketing data', async () => {

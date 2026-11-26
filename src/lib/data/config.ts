@@ -1,5 +1,5 @@
 import type { Storage } from '../storage';
-import type { FormatConfig, LocationConfig, Mapping, MappingCategory } from '../types';
+import { DD_STATUSES, UE_STATUSES, type DeliveryStatus, type FormatConfig, type LocationConfig, type Mapping, type MappingCategory } from '../types';
 
 export const UNMAPPED = 'Unmapped';
 export const UNMAPPED_COLOR = '#d1d5db';
@@ -132,5 +132,30 @@ export function validateFormats(list: FormatConfig[]): FormatConfig[] {
 export async function saveFormats(s: Storage, list: FormatConfig[]): Promise<FormatConfig[]> {
   const v = validateFormats(list);
   await s.put('config/formats.json', v);
+  return v;
+}
+
+/* ---------- delivery app status (DoorDash: Most Loved ... Poor, Uber Eats: Top Eats) ---------- */
+
+export async function loadDeliveryStatus(s: Storage): Promise<DeliveryStatus> {
+  const v = await s.get<Partial<DeliveryStatus>>('config/delivery-status.json');
+  return { ue: { ...(v?.ue ?? {}) }, dd: { ...(v?.dd ?? {}) } };
+}
+
+/** Keeps only known restaurants and known statuses; a restaurant with no status is simply left out. */
+export async function saveDeliveryStatus(s: Storage, input: DeliveryStatus): Promise<DeliveryStatus> {
+  const names = new Set((await loadLocations(s)).map((l) => l.name));
+  const one = (v: Record<string, string> | undefined, allowed: readonly string[], what: string) => {
+    const out: Record<string, string> = {};
+    for (const [loc, st] of Object.entries(v ?? {})) {
+      if (!st) continue;
+      if (!names.has(loc)) throw new ConfigError(`"${loc}" is not a restaurant.`);
+      if (!allowed.includes(st)) throw new ConfigError(`"${st}" is not a ${what} status.`);
+      out[loc] = st;
+    }
+    return out;
+  };
+  const v: DeliveryStatus = { ue: one(input?.ue, UE_STATUSES, 'Uber Eats'), dd: one(input?.dd, DD_STATUSES, 'DoorDash') };
+  await s.put('config/delivery-status.json', v);
   return v;
 }

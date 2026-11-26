@@ -321,3 +321,9 @@ table.ctr td:first-child{font-size:13px}
 #view-catering table td,#view-catering table.ctr td{font-size:14px}
 #view-catering table td:first-child,#view-catering table.ctr td:first-child{font-size:15px}
 #view-catering .pc{font-size:12px}
+
+/* catering: the Outbound metrics table keeps its Metrics column in view while scrolling sideways, and ends with a Total column set slightly apart */
+#ctMetrics table.ctr th:first-child,#ctMetrics table.ctr td:first-child{position:sticky;left:0;z-index:2;background:var(--card);box-shadow:1px 0 0 var(--line)}
+#ctMetrics table.ctr th:first-child{z-index:3;background:var(--bg)}
+#ctMetrics table.ctr th:last-child,#ctMetrics table.ctr td:last-child{border-left:12px solid var(--card);background-clip:padding-box;font-weight:700;background-color:color-mix(in srgb,var(--accent) 7%,var(--card))}
+#ctMetrics table.ctr th:last-child{background-color:var(--bg)}

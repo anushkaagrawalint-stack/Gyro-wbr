@@ -1,9 +1,9 @@
 import { allowedLocations, tabsFor } from '../auth/access';
 import type { Storage } from '../storage';
-import { PLATFORMS, loadFormats, loadLocations, loadMapping } from './config';
+import { PLATFORMS, loadDeliveryStatus, loadFormats, loadLocations, loadMapping } from './config';
 import { buildLocData, channelsFor, fillUnmapped, type Channel, type LocData } from './revenue';
 import { addDays, getWeek, latestWeekStart, listWeeks, sectionFor } from './weeks';
-import type { FormatConfig, LoyaltyData, PublicPerson, ReviewsData, UeAdRow, WeekData } from '../types';
+import type { DeliveryStatus, FormatConfig, LoyaltyData, PublicPerson, ReviewsData, UeAdRow, WeekData } from '../types';
 
 const MONTH_NAMES = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
@@ -32,6 +32,8 @@ export interface Boot {
   /** section -> week it actually came from, when this week's upload did not include it. */
   asOf: Record<string, string>;
   formats: FormatConfig[];
+  /** Admin's DoorDash / Uber Eats badges per restaurant (only the restaurants this person can see). */
+  deliveryStatus: DeliveryStatus;
 }
 
 /** Key of the company-wide entry in locData for location logins. */
@@ -144,9 +146,11 @@ export function filterSections(role: PublicPerson['role'], allowed: string[], s:
 export async function buildBoot(s: Storage, person: PublicPerson, weekStart?: string | null): Promise<BootResult | null> {
   const weeks = await listWeeks(s);
   const ws = weekStart && weeks.some((w) => w.weekStart === weekStart) ? weekStart : await latestWeekStart(s);
-  const [locCfg, mapping, formats] = await Promise.all([loadLocations(s), loadMapping(s), loadFormats(s)]);
+  const [locCfg, mapping, formats, statusAll] = await Promise.all([loadLocations(s), loadMapping(s), loadFormats(s), loadDeliveryStatus(s)]);
   const visible = locCfg.filter((l) => !l.hidden).map((l) => l.name);
   const allowed = allowedLocations(person, visible);
+  const only = (m: Record<string, string>) => Object.fromEntries(Object.entries(m).filter(([l]) => allowed.includes(l)));
+  const deliveryStatus: DeliveryStatus = { ue: only(statusAll.ue), dd: only(statusAll.dd) };
   const base = { weeks: weeks.map((w) => ({ weekStart: w.weekStart, label: weekOfLabel(w.weekStart) })) };
   const user = { email: person.email, role: person.role, name: person.name };
   const integrations: Record<string, string[]> = {};
@@ -154,7 +158,7 @@ export async function buildBoot(s: Storage, person: PublicPerson, weekStart?: st
 
   if (!ws) {
     // nothing uploaded yet: an empty dashboard, so the admin can still reach the Admin tab
-    const boot: Boot = { user, tabs: tabsFor(person.role), locations: allowed, channels: channelsFor(mapping, false), locData: {}, integrations, sections: {}, week: { weekOf: '-', weekStart: '' }, asOf: {}, formats };
+    const boot: Boot = { user, tabs: tabsFor(person.role), locations: allowed, channels: channelsFor(mapping, false), locData: {}, integrations, sections: {}, week: { weekOf: '-', weekStart: '' }, asOf: {}, formats, deliveryStatus };
     return { boot, ...base, unmapped: [] };
   }
   const week = (await getWeek(s, ws)) as WeekData;
@@ -199,7 +203,7 @@ export async function buildBoot(s: Storage, person: PublicPerson, weekStart?: st
   }
   const boot: Boot = {
     user, tabs, locations: allowed, channels: channelsFor(mapping, hasUnmapped), locData, integrations,
-    sections: filtered, company, week: { weekOf: weekOfLabel(ws), weekStart: ws }, asOf, formats,
+    sections: filtered, company, week: { weekOf: weekOfLabel(ws), weekStart: ws }, asOf, formats, deliveryStatus,
   };
   return { boot, ...base, unmapped: unmappedOptions };
 }

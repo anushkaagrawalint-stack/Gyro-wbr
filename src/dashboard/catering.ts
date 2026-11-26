@@ -85,9 +85,11 @@ export function renderCatering(){
   const D = DATA.catering || {}, per = ctMode === 'periodic', W = per ? ctPeriodRows() : (D.weeks || []), last5 = per ? W : W.slice(-5), cur = W[W.length-1] || {};
   const lab = l => per ? l.replace('/ Week', '/ Period') : l;
   document.getElementById('ctEyebrow').textContent = per ? 'PoP - Catering Trend - Outbound' : 'WoW - Catering Trend - Outbound';
+  const ctTotal = {};                                                                    // the Total column: counts and $ are summed over the weeks (periods) shown; the percentages are then recomputed from those sums
+  ['calls','connected','over90','emails','opens','mqls','mqlFup','ordersPaid','valuePaid'].forEach(k => ctTotal[k] = W.some(w => w[k] != null) ? W.reduce((a, w) => a + (w[k] || 0), 0) : null);
   document.getElementById('ctMetrics').innerHTML = W.length ? ctTable('Outbound Catering Team - Input & Output Metrics', per ? 'Fiscal periods (4-4-5 calendar). Counts are the sum of the weeks in each period; percentages are recalculated from those sums. Blank paid values count as $0 when there were no paid orders.' : '',
-    ['Metrics', ...W.map(w => per ? w.week : 'Week of '+w.week)],
-    CT_TABLE.map(([label,key,kind]) => [lab(label), ...W.map(w => ctFmt(ctVal(w,key),kind))]), W.length) : '';
+    ['Metrics', ...W.map(w => per ? w.week : 'Week of '+w.week), 'Total'],
+    CT_TABLE.map(([label,key,kind]) => [lab(label), ...W.map(w => ctFmt(ctVal(w,key),kind)), ctFmt(ctVal(ctTotal,key),kind)]), W.length) : '';
 
   ctCharts.forEach(({key,kind,label,h3,chart}) => { h3.textContent = per ? `Period Trend - ${lab(label)}` : `5-Week Trend - ${label}`;
     chart.data.labels = last5.map(w => per ? w.short : 'Wk '+w.week); chart.data.datasets[0].data = last5.map(w => ctVal(w,key)); chart.update(); });
