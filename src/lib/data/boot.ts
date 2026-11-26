@@ -3,7 +3,7 @@ import type { Storage } from '../storage';
 import { PLATFORMS, loadDeliveryStatus, loadFormats, loadLocations, loadMapping } from './config';
 import { buildLocData, channelsFor, fillUnmapped, type Channel, type LocData } from './revenue';
 import { addDays, getWeek, latestWeekStart, listWeeks, sectionFor } from './weeks';
-import type { DeliveryStatus, FormatConfig, LoyaltyData, PublicPerson, ReviewsData, UeAdRow, WeekData } from '../types';
+import type { DeliveryStatus, FormatConfig, LoyaltyData, Mapping, PublicPerson, ReviewsData, UeAdRow, WeekData } from '../types';
 
 const MONTH_NAMES = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
@@ -13,6 +13,8 @@ export interface Boot {
   tabs: string[];
   locations: string[];
   channels: Channel[];
+  /** The dining-option to channel mapping, for the read-only view of the owner (admin and client logins only). */
+  mapping?: Mapping;
   locData: LocData;
   integrations: Record<string, string[]>;
   sections: {
@@ -42,6 +44,10 @@ export const COMPANY_KEY = '__company';
 export interface Company {
   reviews?: { so7_90: unknown[][]; so30: unknown[][] };
   tpd?: { ue: Record<string, number>; dd: Record<string, number> };
+  /** Uber Eats ad sales and spend over every campaign (the ROAS of all locations). */
+  ueAds?: { sales: number; spend: number };
+  /** The All Stores row of the Uber Eats tables of the "UBER EATS-DOOR DASH" tab, so a location login compares with the same company figures as the shared tabs. */
+  tpdSheet?: { uePerf?: { head: string[]; row: string[] }; ueOps?: { head: string[]; row: string[] } };
   loyalty?: Record<string, number | null>;
   catering?: { total: Record<string, number> | null; weekTotals: Record<string, number>[] };
 }
@@ -102,7 +108,13 @@ export function companyTotals(visible: string[], s: Boot['sections']): Company {
       return sum;
     };
     c.tpd = { ue: total(t.ue), dd: total(t.dd) };
+    const sh = t.sheet as Obj | undefined;
+    if (sh) {
+      const allRow = (tb: Obj | undefined) => { const row = (tb?.rows as string[][] | undefined)?.find((r) => r[0] === 'All Stores'); return tb && row ? { head: tb.head as string[], row } : undefined; };
+      c.tpdSheet = { uePerf: allRow(sh.uePerf), ueOps: allRow(sh.ueOps) };
+    }
   }
+  if (s.ueAds) c.ueAds = { sales: s.ueAds.reduce((a, r) => a + (r.sales || 0), 0), spend: s.ueAds.reduce((a, r) => a + (r.spend || 0), 0) };
   if (s.loyalty) {
     const rows = Object.entries(s.loyalty.locations).filter(([l]) => vis.has(l)).map(([, v]) => v as Obj);
     const sum = sumKeys(rows);
@@ -169,7 +181,7 @@ export async function buildBoot(s: Storage, person: PublicPerson, weekStart?: st
 
   if (!ws) {
     // nothing uploaded yet: an empty dashboard, so the admin can still reach the Admin tab
-    const boot: Boot = { user, tabs: tabsFor(person.role), locations: allowed, channels: channelsFor(mapping, false), locData: {}, integrations, sections: {}, week: { weekOf: '-', weekStart: '' }, asOf: {}, formats, deliveryStatus };
+    const boot: Boot = { user, tabs: tabsFor(person.role), locations: allowed, channels: channelsFor(mapping, false), locData: {}, integrations, sections: {}, week: { weekOf: '-', weekStart: '' }, asOf: {}, formats, deliveryStatus, ...(person.role === 'location' ? {} : { mapping }) };
     return { boot, ...base, unmapped: [] };
   }
   const week = (await getWeek(s, ws)) as WeekData;
@@ -214,7 +226,7 @@ export async function buildBoot(s: Storage, person: PublicPerson, weekStart?: st
   }
   const boot: Boot = {
     user, tabs, locations: allowed, channels: channelsFor(mapping, hasUnmapped), locData, integrations,
-    sections: filtered, company, week: { weekOf: weekOfLabel(ws), weekStart: ws }, asOf, formats, deliveryStatus,
+    sections: filtered, company, week: { weekOf: weekOfLabel(ws), weekStart: ws }, asOf, formats, deliveryStatus, ...(person.role === 'location' ? {} : { mapping }),
   };
   return { boot, ...base, unmapped: unmappedOptions };
 }

@@ -1,11 +1,11 @@
 import type { PublicPerson, Role } from '../types';
 
-export const ALL_TABS = ['Overview', 'Revenue Channels', 'Reviews & Ratings', '3rd Party Delivery', 'Loyalty', 'Marketing', 'Catering', 'Location'] as const;
+export const ALL_TABS = ['Overview', 'Revenue Channels', 'Reviews & Ratings', '3rd Party Delivery', 'Loyalty', 'Marketing', 'Catering', 'Location', 'Scorecard'] as const;
 
 /** Tabs a role may see. The Admin tab is added for admins only. */
 export function tabsFor(role: Role): string[] {
   if (role === 'admin') return [...ALL_TABS, 'Admin'];
-  if (role === 'location') return ALL_TABS.filter((t) => t !== 'Marketing');
+  if (role === 'location') return ALL_TABS.filter((t) => t !== 'Marketing' && t !== 'Scorecard');   // a restaurant login sees only its own location, so there is nothing to rank
   return [...ALL_TABS];
 }
 

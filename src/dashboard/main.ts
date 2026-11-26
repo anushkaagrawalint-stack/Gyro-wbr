@@ -10,12 +10,15 @@ import { renderTpd } from './tpd';
 import { renderLoyalty } from './loyalty';
 import { renderMarketing } from './marketing';
 import { renderCatering } from './catering';
+import { renderScorecard } from './scorecard';
+import { renderFiscal } from './fiscal';
 import { renderLocation } from './location';
 import { applyFormats } from './formats';
 import { renderLocationViews } from './locviews';
 
 /* ---------- static chrome ---------- */
-document.getElementById('tabs').innerHTML = TABS.map(t =>
+const HIDDEN_TABS = ['Location'];   // tabs kept in the app but not shown for now: remove a name here to bring its button back
+document.getElementById('tabs').innerHTML = TABS.filter(t => !HIDDEN_TABS.includes(t)).map(t =>
   `<button class="tab ${t===TABS[0]?'on':LIVE_TABS[t]?'':'soon'}" ${LIVE_TABS[t]?`data-view="${LIVE_TABS[t]}" style="cursor:pointer"`:''}>${t}</button>`).join('');
 document.querySelectorAll('.periodSeg').forEach(seg => {
   seg.innerHTML = Object.entries(PERIODS).map(([k,p]) =>
@@ -40,7 +43,7 @@ document.getElementById('tabs').addEventListener('click', e => {
 
 
 // first paint
-render(); renderRevenue(); renderReviews(); renderTpd(); renderLoyalty(); renderMarketing(); renderCatering(); renderLocation(); renderLocationViews();
+render(); renderRevenue(); renderReviews(); renderTpd(); renderLoyalty(); renderMarketing(); renderCatering(); renderLocation(); renderLocationViews(); renderScorecard(); renderFiscal();
 if (TABS[0] !== 'Overview') document.querySelectorAll('main > div[id^="view-"]').forEach(v => v.hidden = v.id !== 'view-' + LIVE_TABS[TABS[0]]);
 applyFormats();
 

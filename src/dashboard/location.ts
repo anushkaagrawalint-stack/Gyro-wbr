@@ -44,6 +44,20 @@ export function locCalc(loc){
   const ueRaw = all ? {} : (DATA.tpd?.ue?.[loc] || {}), ddRaw = all ? {} : (DATA.tpd?.dd?.[loc] || {});
   o.ue = { sales:U.sales, orders:U.orders, payout:U.payout, aov:div(U.sales,U.orders), err:div(U.inaccurate,U.accOrders)*100, wait:div(U.waitSum,U.waitN), avoid:div(U.avoidSum,U.avoidN), up:div(U.upSum,U.upN), top: all ? null : noOther(ueRaw.topComplaint) };
   o.dd = { sales:Dd.sales, orders:Dd.orders, payout:Dd.payout, aov:div(Dd.sales,Dd.orders), err:div(Dd.errOrders,Dd.opsOrders)*100, wait:div(Dd.waitW,Dd.delivered), avoid:div(Dd.avoidW,Dd.delivered), up:div(Dd.upSum,Dd.upN), promo:div(Dd.pSales,Dd.pSpend), spons:div(Dd.sSales,Dd.sSpend), top: all ? null : noOther(ddRaw.topComplaint) };
+  // with the "UBER EATS-DOOR DASH" tab, the Uber Eats figures are the tab's own, exactly as the shared 3rd Party Delivery tab shows them
+  const SH = DATA.tpd?.sheet, shRow = (tb, name) => tb?.rows?.find(r => r[0] === name), shTb = (key, name) => { const t = SH?.[key], r = shRow(t, name); if (t && r) return { head: t.head, row: r }; return name === 'All Stores' ? CO?.tpdSheet?.[key] ?? null : null; };
+  const sP = shTb('uePerf', all ? 'All Stores' : loc), sO = shTb('ueOps', all ? 'All Stores' : loc);
+  const shGet = (t, re) => { const i = t ? t.head.findIndex(h => re.test(h)) : -1; return i >= 0 ? t.row[i] : null; };
+  const shNum = (t, re) => { const v = parseFloat(String(shGet(t, re) ?? '').replace(/[$,%\s]/g, '')); return isNaN(v) ? null : v; };
+  const shMin = (t, re) => { const m = /(\d+)\s*min\s*(\d+)\s*sec/i.exec(shGet(t, re) ?? ''); return m ? +m[1] + +m[2] / 60 : null; };
+  if (sP) { const up = (k, v) => { if (v != null) o.ue[k] = v; }; up('sales', shNum(sP, /^total sales/i)); up('payout', shNum(sP, /^net payout/i)); up('orders', shNum(sP, /^order volume/i)); up('aov', shNum(sP, /^aov/i));
+    const tc = String(shGet(sP, /complaint/i) ?? '').trim(); if (!all && tc !== '') o.ue.top = tc === '-' ? '' : tc; }
+  if (sO) { const up = (k, v) => { if (v != null) o.ue[k] = v; }; up('err', shNum(sO, /^order error rate/i)); up('wait', shMin(sO, /^average courier wait/i)); up('avoid', shMin(sO, /^avoidable wait time/i)); up('up', shNum(sO, /^uptime/i)); }
+  // Uber Eats ads ROAS: only where an ad ran (the "Uber Eats Ads" table); all locations = every campaign
+  const adsAll = DATA.ueAds || [], adsMine = all ? null : adsAll.filter(a => (a.location || '').split(', ').includes(loc));
+  const adSum = rows => rows.reduce((t, a) => ({ sales: t.sales + (a.sales || 0), spend: t.spend + (a.spend || 0) }), { sales: 0, spend: 0 });
+  const adT = all ? (CO?.ueAds || adSum(adsAll)) : (adsMine.length ? adSum(adsMine) : null);
+  o.ue.ads = adT && adT.spend ? adT.sales / adT.spend : null;
   o.deliv = (o.ue.sales || 0) + (o.dd.sales || 0);
   // ---- loyalty (AppFront)
   const LCs = DATA.loyalty?.locations || {}, prior = d => d.salesVar == null ? null : d.sales / (1 + d.salesVar / 100);
@@ -72,7 +86,6 @@ export function locTables(loc, c, co, comp){
   const csum = c.chan.reduce((t, x) => t + x.a, 0), mix = (v, base) => base ? `${(v / base * 100).toFixed(1)}%<span class="mixbar" style="width:${Math.max(2, Math.min(100, v / base * 100))}%"></span>` : '-';
   const chRows = c.chan.filter(x => x.a || x.l).map(x => [x.name, money(x.a), mix(x.a, csum), money(x.l), money(x.a - x.l), pill(varPct(x.a, x.l))]);
   const salesTbl = tpTable('Sales by Channel', ['Channel','Net Sales','Mix','Last Year','Var $ vs LY','Var % vs LY'], chRows, ['Total', money(csum), '100.0%', money(c.chan.reduce((t, x) => t + x.l, 0)), money(csum - c.chan.reduce((t, x) => t + x.l, 0)), pill(s.v)]);
-  const sellTbl = tpTable("What's Selling", ['Category','Net Sales','Mix'], c.cats.slice(0, 8).map(x => [x.name, money(x.a), mix(x.a, csum)]), null);      // no last-year columns: last year's sales are mostly under 'No Sales Category', so a category comparison would mislead
 
   /* ---------- guest feedback ---------- */
   const COL = ['#4c1d95','#7c3aed','#9f7cef','#c4b5fd','#e5e7eb'];
@@ -110,7 +123,7 @@ export function locTables(loc, c, co, comp){
     LOCATIONS.map(cmp), ['All Locations', money(co.sales.a), pill(co.sales.v), ratingTxt(co.rAll.rating), co.rAll.n, T_m0(co.deliv), waitPill(co.ue.avoid), waitPill(co.dd.avoid), nfmt(co.ly.newMembers), co.cat ? nfmt(co.cat.mqls) : 'NA']);
   if (!all) cmpTbl = cmpTbl.replace(`<tr><td>${loc}</td>`, `<tr class="selrow"><td>${loc}</td>`);
 
-  return `<div class="ov-two">${salesTbl}${sellTbl}</div>` + fbTbl + dTbl + `<div class="ov-two">${lyTbl}${catTbl}</div>` + cmpTbl;
+  return salesTbl + fbTbl + dTbl + `<div class="ov-two">${lyTbl}${catTbl}</div>` + cmpTbl;
 }
 
 /* ---------- Location tab: the visual scorecard (rules in plain JavaScript, no external service) ---------- */
@@ -213,8 +226,6 @@ export function renderLocation(){
   const chBars = c.chan.filter(x => x.a || x.l).map(x => { const col = CH_RAMP[CHANNELS.findIndex(k => k.name === x.name) % CH_RAMP.length];
     return `<div class="lc-bl"><div class="nm"><i style="background:${col}"></i>${x.name}</div><div class="trk" title="${x.name}: this week ${money(x.a)}, last year ${money(x.l)}"><div class="fill" style="width:${x.a / cmax * 100}%;background:${col}"></div><b class="tick" style="left:${x.l / cmax * 100}%"></b></div><div class="amt">${money(x.a)}</div>${varChip(varPct(x.a, x.l))}</div>`; }).join('');
   const chPanel = `<section class="card panel"><div class="panel-h"><span class="t-title">Sales by Channel</span><span class="lc-key"><u class="a"></u>This week<u class="l"></u>Last year</span></div><div class="lc-chwrap">${chRing}<div class="lc-bls">${chBars}</div></div></section>`;
-  const top8 = c.cats.slice(0, 8), tmax = top8.length ? top8[0].a : 1;
-  const sellPanel = `<section class="card panel"><div class="panel-h"><span class="t-title">What's Selling</span><span class="lc-key">share of net sales</span></div><div class="lc-bls">${top8.map((x, i) => `<div class="lc-bl sell"><div class="rk">${i + 1}</div><div class="nm">${x.name}</div><div class="trk" title="${tt(x.name)}: ${money(x.a)} (${csum ? (x.a / csum * 100).toFixed(1) : '0.0'}% of net sales)"><div class="fill" style="width:${x.a / tmax * 100}%"></div></div><div class="amt">${money(x.a)}</div><span class="lc-pct">${csum ? (x.a / csum * 100).toFixed(1) : '0.0'}%</span></div>`).join('')}</div></section>`;
 
   /* ---------- guest feedback: one tile per platform ---------- */
   const fbTiles = c.rv.filter(x => x.on).map(x => { if (!x.on) return `<div class="lc-plat off"><div class="hd">${x.p}</div><div class="lc-empty">Not connected<br>at this location</div></div>`;
@@ -264,6 +275,6 @@ export function renderLocation(){
   let cmp = tpTable('How the Locations Compare', ['Location', ...defs.map(d => d[0])], cmpRows, cmpTot);
   if (!all) cmp = cmp.replace(`<tr><td>${loc}</td>`, `<tr class="selrow"><td>${loc}</td>`);
 
-  document.getElementById('locBody').innerHTML = hero + glance + tiles + vsPanel + `<div class="ov-two">${chPanel}${sellPanel}</div>` + fbPanel + deliv + `<div class="ov-two">${lyPanel}${catPanel}</div>` + cmp +
+  document.getElementById('locBody').innerHTML = hero + glance + tiles + vsPanel + chPanel + fbPanel + deliv + `<div class="ov-two">${lyPanel}${catPanel}</div>` + cmp +
     `<details class="lc-details"><summary>Detailed numbers</summary>${locTables(loc, c, co, comp)}</details>`;
 }

@@ -83,7 +83,7 @@ export function renderRevenue(){
       document.querySelector('#view-revenue > .filters').after(k); }
     const card = (t, v, d) => `<div class="card kpi"><div class="k">${t}</div><div class="v">${v}</div><div class="d">${d}</div></div>`;
     k.innerHTML = card(P.title, money(ta), `Var%: ${pct(varPct(ta, tw))} vs LW`) +
-      card('Growth vs Last Year', pct(varPct(ta, tl)), `Last year ${money(tl)}<br>Var $: ${ta == null || tl == null ? '-' : money(ta - tl)}`);
+      card('Growth vs Last Year', money(tl), `Var%: ${pct(varPct(ta, tl))}<br>Var $:${ta == null || tl == null ? '-' : money(ta - tl)}`);
   }
   document.getElementById('revBarTitle').textContent = `Revenue by Channel - ${P.label} vs LY & Budget`;
   document.getElementById('revMixTitle').textContent = `Actual Revenue Mix - ${P.label}`;

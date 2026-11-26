@@ -26,7 +26,7 @@ export const SALES_COLUMN = 'D';    // "Net Sales" in every Toast sheet
 
 export const TABS = BOOT.tabs;
 
-export const LIVE_TABS = { 'Overview':'overview', 'Revenue Channels':'revenue', 'Reviews & Ratings':'reviews', '3rd Party Delivery':'tpd', 'Loyalty':'loyalty', 'Marketing':'marketing', 'Catering':'catering', 'Location':'location' , 'Admin':'admin' };   // tab label -> view id
+export const LIVE_TABS = { 'Overview':'overview', 'Revenue Channels':'revenue', 'Reviews & Ratings':'reviews', '3rd Party Delivery':'tpd', 'Loyalty':'loyalty', 'Marketing':'marketing', 'Catering':'catering', 'Location':'location', 'Scorecard':'scorecard', 'Admin':'admin' };   // tab label -> view id
 
 export const DATA = { weekly: { meta: BOOT.week } };
 Object.assign(DATA, BOOT.sections || {});          // reviews, tpd, loyalty, marketing, catering (already cut to what this person may see)

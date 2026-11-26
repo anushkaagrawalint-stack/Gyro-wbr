@@ -102,15 +102,15 @@ function renderReviews() {
   let head, body, title;
   if (overall) {
     title = `Reviews & Ratings by Platform (${D})`;
-    head = `<tr><th>Platform</th><th>Rating</th><th>All Locations Rating</th><th># Reviews</th>${lw ? '<th>vs LW</th>' : ''}<th>5★</th><th>4★</th><th>3★</th><th>2★</th><th>1★</th></tr>`;
+    head = `<tr><th>Platform</th><th># Reviews</th>${lw ? '<th>vs LW</th>' : ''}<th>5★</th><th>4★</th><th>3★</th><th>2★</th><th>1★</th><th>${loc} Rating</th><th>All Locations Rating</th></tr>`;
     const row = (name, x, pv, c, cls) => { const d = lw && x.rating != null && pv?.rating != null ? x.rating - pv.rating : null;
-      return `<tr class="${cls || ''}"><td>${name}</td><td>${f2n(x.rating)}</td><td>${f2n(c.rating)}</td><td>${x.n}</td>${lw ? `<td>${d == null ? '-' : d >= 0 ? '+' + d.toFixed(2) : '(' + Math.abs(d).toFixed(2) + ')'}</td>` : ''}${starCells(x.s)}</tr>`; };
+      return `<tr class="${cls || ''}"><td>${name}</td><td>${x.n}</td>${lw ? `<td>${d == null ? '-' : d >= 0 ? '+' + d.toFixed(2) : '(' + Math.abs(d).toFixed(2) + ')'}</td>` : ''}${starCells(x.s)}<td>${f2n(x.rating)}</td><td>${f2n(c.rating)}</td></tr>`; };
     body = connected.map(p => row(p, rwStats(cur, [p], loc), prev ? rwStats(prev, [p], loc) : null, rwStats(C.cur, [p], null))).join('') + row('All Platforms', rwStats(cur, connected, loc), prev ? rwStats(prev, connected, loc) : null, rwStats(C.cur, connected, null), 'tot');
   } else {
     title = `${rvMode} Reviews by Week`;
-    head = `<tr><th>Week</th><th>Rating</th><th>All Locations Rating</th><th># Reviews</th><th>5★</th><th>4★</th><th>3★</th><th>2★</th><th>1★</th></tr>`;
+    head = `<tr><th>Week</th><th># Reviews</th><th>5★</th><th>4★</th><th>3★</th><th>2★</th><th>1★</th><th>${loc} Rating</th><th>All Locations Rating</th></tr>`;
     body = [...weeks].reverse().map(w => { const x = rwStats(mineAll.filter(r => r[2] === w), [rvMode], loc), c = rwStats(coAll.filter(r => r[2] === w), [rvMode], null);
-      return `<tr><td>${shortDate(w)}</td><td>${f2n(x.rating)}</td><td>${f2n(c.rating)}</td><td>${x.n}</td>${starCells(x.s)}</tr>`; }).join('');
+      return `<tr><td>${shortDate(w)}</td><td>${x.n}</td>${starCells(x.s)}<td>${f2n(x.rating)}</td><td>${f2n(c.rating)}</td></tr>`; }).join('');
   }
 
   const showTrend = overall && rvDays !== '7';   // a trend needs more than the current week
@@ -162,8 +162,8 @@ function renderTpdLoc() {
   const kpis = `<section class="kpis" style="grid-template-columns:repeat(auto-fit,minmax(240px,1fr))">
     ${kcard('Delivery App Sales', money(sales), split(ue.sales, dd.sales, money))}
     ${kcard('Orders', nfmt(orders), split(ue.orders, dd.orders, nfmt))}
-    ${kcard('Average Order', money(aov), `${split(ue.aov, dd.aov, money)}<br>All Locations ${money(coAov)}`)}
-    ${kcard(`${loc} Keeps`, `${money(payout)}${keep == null ? '' : ` (${keep.toFixed(1)}%)`}`, `${split(ue.payout, dd.payout, money)}<br>All Locations ${coKeep == null ? '-' : coKeep.toFixed(1) + '%'}`)}
+    ${kcard('Average Order', money(aov), `${dot(UE_COL)}Uber Eats ${money(ue.aov)}<br>${dot(DD_COL)}DoorDash ${money(dd.aov)}<br>All Locations ${money(coAov)}`)}
+    ${kcard(`${loc} Keeps`, `${money(payout)}${keep == null ? '' : ` <span style="font-size:.55em;font-weight:600">(${keep.toFixed(1)}%)</span>`}`, `${split(ue.payout, dd.payout, money)}<br>All Locations ${coKeep == null ? '-' : coKeep.toFixed(1) + '%'}`)}
   </section>`;
 
   // table: this restaurant against all locations, side by side for each app; the restaurant's figure is green when better, red when worse
@@ -176,7 +176,7 @@ function renderTpdLoc() {
     const r = (label, key, fmt, best) => [label, cell(a[key], A[key], fmt, best), fmt(A[key])];
     return [r('Sales', 'sales', mon), r('Orders', 'orders', cnt), r('Average Order', 'aov', mon), r('Net Payout', 'payout', mon),
       r('Avoidable Wait', 'avoid', wait, 'low'), r('Courier Wait', 'wait', wait, 'low'), r('Order Errors', 'err', pc, 'low'), r('Store Uptime', 'up', pc, 'high'),
-      ...(withRoas ? [r('Promo ROAS', 'promo', x2, 'high'), r('Sponsor ROAS', 'spons', x2, 'high')] : [])];
+      ...(withRoas ? [r('Promo ROAS', 'promo', x2, 'high'), r('Sponsor ROAS', 'spons', x2, 'high')] : (ok(a.ads) ? [r('Ads ROAS', 'ads', x2, 'high')] : []))];
   };
   const table = `<div class="ov-two">${tpTable(`${dot(UE_COL)}Uber Eats: ${loc} vs All Locations`, ['Metric', loc, 'All Locations'], rowsFor(ue, co.ue, false), null)}${tpTable(`${dot(DD_COL)}DoorDash: ${loc} vs All Locations`, ['Metric', loc, 'All Locations'], rowsFor(dd, co.dd, true), null)}</div>`;
 
@@ -298,7 +298,7 @@ function renderOverviewLoc() {
 
   const kpis = `<section class="kpis" style="grid-template-columns:repeat(3,minmax(0,1fr))">
     ${kcard(P.title, money(a), `Var%: ${pct(vLW)} vs LW`)}
-    ${kcard('Growth vs Last Year', pct(vLY), `Last year ${money(l)}<br><span style="color:var(--muted)">All Locations ${pct(cV)}</span>`)}
+    ${kcard('Growth vs Last Year', money(l), `Var%: ${pct(vLY)}<br><span style="color:var(--muted)">All Locations ${pct(cV)}</span>`)}
     ${kcard('Guest Rating (7 Days)', f2n(rr), `<span class="lc-stars" title="${rr == null ? 'No rating' : rr.toFixed(2) + ' out of 5 stars'}" style="--p:${rr == null ? 0 : rr / 5 * 100}%">★★★★★</span><br>${dRate}${c.rAll.n} reviews<br>All Locations ${f2n(co.rAll.rating)}`)}
     ${kcard('Delivery App Sales (Week)', money(c.deliv), `${dot(UE_COL)}Uber Eats ${money(c.ue.sales)}<br>${dot(DD_COL)}DoorDash ${money(c.dd.sales)}`)}
     ${kcard('New Loyalty Members (Week)', nfmt(L.newMembers), `${dot(LY_C.app)}App ${nfmt(L.newApp)}<br>${dot(LY_C.web)}Web ${nfmt(L.newWeb)}`)}
