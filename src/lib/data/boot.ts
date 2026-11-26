@@ -123,7 +123,18 @@ export function filterSections(role: PublicPerson['role'], allowed: string[], s:
   if (s.reviews) out.reviews = { so7_90: s.reviews.so7_90.filter((r) => ok.has(r[1])), so30: s.reviews.so30.filter((r) => ok.has(r[1])) };
   if (s.tpd) {
     const t = s.tpd as Obj;
-    out.tpd = { ...t, ue: pick(t.ue, allowed), dd: pick(t.dd, allowed) };
+    const cutTpd: Obj = { ...t, ue: pick(t.ue, allowed), dd: pick(t.dd, allowed) };
+    out.tpd = cutTpd;
+    if (t.sheet) {
+      // the tab's tables are text: keep this person's locations, and the All Stores row only when they may see every location in the table
+      const cut = (tb: Obj | undefined): Obj | undefined => {
+        if (!tb) return tb;
+        const locs = (tb.rows as string[][]).filter((r) => r[0] !== 'All Stores');
+        const full = locs.every((r) => ok.has(r[0]));
+        return { ...tb, rows: (tb.rows as string[][]).filter((r) => (r[0] === 'All Stores' ? full : ok.has(r[0]))) };
+      };
+      cutTpd.sheet = { uePerf: cut(t.sheet.uePerf), ueOps: cut(t.sheet.ueOps), ddRating: cut(t.sheet.ddRating) };
+    }
   }
   if (s.ueAds) out.ueAds = role === 'location' ? s.ueAds.filter((a) => a.location.split(', ').some((l) => ok.has(l))) : s.ueAds;
   if (s.loyalty) out.loyalty = { locations: pick(s.loyalty.locations, allowed), campaigns: role === 'location' ? [] : s.loyalty.campaigns };

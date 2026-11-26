@@ -71,20 +71,32 @@ export function tpExt(d){   // add weighted fields so totals can be derived by p
 export function tpSum(o){ const t={}; LOCATIONS.forEach(l => Object.entries(tpExt(o[l]||{})).forEach(([k,v]) => { if(typeof v==='number') t[k]=(t[k]||0)+v; })); return t; }
 
 export const trophy = (side, l) => BOOT.deliveryStatus?.[side]?.[l] === (side === 'ue' ? 'Top Eats' : 'Most Loved') ? '🏆 ' + l : l;   // admin-chosen Top Eats (Uber Eats) / Most Loved (DoorDash) restaurants get a trophy in the sales table
+const esc0 = t => String(t ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;');
+// a table of the "UBER EATS-DOOR DASH" tab: cells as the sheet shows them, the All Stores row as the total row; cell(row, text, header) and name(location) may change a cell
+function sheetTable(title, tb, cell, name){
+  const fmt = r => r.map((c, i) => i === 0 ? (name && r[0] !== 'All Stores' ? name(r[0]) : esc0(r[0])) : cell ? cell(r, esc0(c), tb.head[i]) : esc0(c));
+  const tot = tb.rows.find(r => r[0] === 'All Stores');
+  return tpTable(title, tb.head.map(esc0), tb.rows.filter(r => r !== tot).map(fmt), tot ? fmt(tot) : null);
+}
 export function renderTpd(){
+  const SHEET = DATA.tpd?.sheet;
   const S = DATA.tpd?.[tpMode] || {}, tot = tpSum(S), L = LOCATIONS.map(l => [l, tpExt(S[l]||{}), S[l]||{}]);
   let kp = '', html = '';
   if(tpMode==='ue'){
     const err = d => div(d.inaccurate, d.accOrders)*100;
     kp = kcard('Total Sales', T_m0(tot.sales), VLW) + kcard('Number of Orders', T_n(tot.orders), VLW1) +
          kcard('Total Net Payout', T_m0(tot.payout), VLW) + kcard('Overall Error Rate', T_p1(err(tot)), VLW2);
-    html += tpTable('UE Performance by Location',
+    // when the week has the "UBER EATS-DOOR DASH" tab, its tables are shown as they are; the Avg Rating column comes from the Uber Eats ratings of Reviews & Ratings (7 Days)
+    const ue7 = rwRows('7').cur.filter(r => r[0]==='Uber Eats');
+    html += SHEET?.uePerf ? sheetTable('UE Performance by Location', SHEET.uePerf, (r, c, h) => /^avg rating/i.test(h) ? T_r2(rwStats(ue7, ['Uber Eats'], r[0]==='All Stores' ? null : r[0]).rating) : /complaint/i.test(h) ? note(c) : c, l => trophy('ue', l)) :
+    tpTable('UE Performance by Location',
       ['Location','Total Sales','Net Payout','Order Volume','AOV','Avg Rating - Weekly','Top Complaint'],
       L.map(([l,d,raw]) => [trophy('ue',l), T_m0(d.sales), T_m0(d.payout), T_n(d.orders), T_m0(div(d.sales,d.orders)), T_r2(div(d.ratSum,d.ratN)), note(noOther(raw.topComplaint))]),
       ['All Stores', T_m0(tot.sales), T_m0(tot.payout), T_n(tot.orders), T_m0(div(tot.sales,tot.orders)), T_r2(div(tot.ratSum,tot.ratN)), DASH]);
     const ops = d => [errPill(err(d)), T_n(d.missing||0), T_n(d.wrong||0), T_ms(div(d.waitSum,d.waitN)), waitPill(div(d.avoidSum,d.avoidN)),
                       T_n(d.avoidOrders||0), T_p1(div(d.avoidCancels||0,d.orders)*100), T_p1(div(d.upSum,d.upN))];
-    html += tpTable('UE Operations by Location',
+    html += SHEET?.ueOps ? sheetTable('UE Operations by Location', SHEET.ueOps) :
+    tpTable('UE Operations by Location',
       ['Location','Order Error Rate (%)','Missing Items','Wrong Order/Item','Average Courier Wait','Avoidable Wait Time','Orders With Avoidable Wait','Avoidable Cancellation Rate','Uptime (%)'],
       L.map(([l,d]) => [l, ...ops(d)]), ['All Stores', ...ops(tot)]);
     // Uber Eats ads: one row per campaign (the "UE ADS" tab); only shown when the week has it
@@ -117,7 +129,8 @@ export function renderTpd(){
       return { ratN:s.n, loved:sum(DD_MAP.love), like:sum(DD_MAP.like), dislike:sum(DD_MAP.dislike) }; };
     const rate = d => { const n=d.ratN;
       return [n? vp(T_p1(d.loved/n*100), d.loved/n>=.5?'pos':'neg') : DASH, n? vp(T_p1(d.like/n*100),'pos') : DASH, n? vp(T_p1(d.dislike/n*100), d.dislike? 'neg':'pos') : DASH, T_n(n)]; };
-    html += tpTable('DD Rating Distribution by Location', ['Location','Love (%)','Like (%)','Dislike (%)','Total Reviews'],
+    html += SHEET?.ddRating ? sheetTable('DD Rating Distribution by Location', SHEET.ddRating) :
+    tpTable('DD Rating Distribution by Location', ['Location','Love (%)','Like (%)','Dislike (%)','Total Reviews'],
       LOCATIONS.map(l => [l, ...rate(soRate(l))]), ['All Stores', ...rate(soRate(null))]);
     const ops = d => [errPill(err(d)), T_n(d.errOrders), T_m0(d.errCharges), T_ms(div(d.waitW,d.delivered)), waitPill(div(d.avoidW,d.delivered)),
                       T_n(d.cancels), T_n(d.avoidCancels), T_p1(div(d.avoidCancels||0,d.opsOrders)*100), T_p1(div(d.upSum,d.upN))];

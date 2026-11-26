@@ -186,5 +186,18 @@ function checkTpd(t: unknown): NonNullable<WeekData['tpd']> {
       return [k.slice(0, 60), x];
     }))];
   }));
-  return { ue: side(t.ue, 'Uber Eats'), dd: side(t.dd, 'DoorDash') };
+  const out: Record<string, unknown> = { ue: side(t.ue, 'Uber Eats'), dd: side(t.dd, 'DoorDash') };
+  if (t.sheet != null) {
+    if (!isObj(t.sheet)) throw new WeekError('The Uber Eats / DoorDash tab tables are malformed.');
+    const sheet: Record<string, unknown> = {};
+    for (const k of ['uePerf', 'ueOps', 'ddRating']) {
+      const tb = (t.sheet as Record<string, unknown>)[k];
+      if (tb == null) continue;
+      const str = (x: unknown) => { if (typeof x !== 'string') throw new WeekError('The Uber Eats / DoorDash tab tables are malformed.'); return x.slice(0, 500); };
+      if (!isObj(tb) || !Array.isArray(tb.head) || !Array.isArray(tb.rows) || tb.rows.length > 50 || tb.head.length > 30) throw new WeekError('The Uber Eats / DoorDash tab tables are malformed.');
+      sheet[k] = { head: tb.head.map(str), rows: tb.rows.map((r) => { if (!Array.isArray(r) || r.length > 30) throw new WeekError('The Uber Eats / DoorDash tab tables are malformed.'); return r.map(str); }) };
+    }
+    out.sheet = sheet;
+  }
+  return out as NonNullable<WeekData['tpd']>;
 }

@@ -14,7 +14,10 @@ import type { LocationConfig } from '../types';
 import { resolveLocationName, weekStartFromRange } from './parse';
 
 export type TpdLocation = Record<string, number | string>;
-export interface TpdData { ue: Record<string, TpdLocation>; dd: Record<string, TpdLocation> }
+export interface TpdTable { head: string[]; rows: string[][] }
+/** Tables of the "UBER EATS-DOOR DASH" tab, as text. */
+export interface TpdSheet { uePerf?: TpdTable; ueOps?: TpdTable; ddRating?: TpdTable }
+export interface TpdData { ue: Record<string, TpdLocation>; dd: Record<string, TpdLocation>; sheet?: TpdSheet }
 
 type Cell = string | number | null;
 const rowsOf = (ws: XLSX.WorkSheet): Cell[][] => XLSX.utils.sheet_to_json<Cell[]>(ws, { header: 1, defval: null, blankrows: false });
@@ -207,9 +210,43 @@ function clean(acc: Acc): Acc {
   return acc;
 }
 
+/**
+ * The "UBER EATS-DOOR DASH" tab: three ready-made tables shown as they are (cell text as the sheet displays it).
+ * Uber Eats "Performance Overview" and "Operations Overview" sit on the left, DoorDash "Rating Distribution" on the right.
+ * Each table is found by its title cell; its header is the next row, its rows run until the first empty location cell.
+ */
+function sheetTables(wb: XLSX.WorkBook, cx: TpdContext): TpdSheet | null {
+  const name = wb.SheetNames.find((n) => n.toLowerCase().replace(/[^a-z]/g, '') === 'ubereatsdoordash');
+  if (!name) return null;
+  const all = XLSX.utils.sheet_to_json<Cell[]>(wb.Sheets[name], { header: 1, defval: null, blankrows: true, raw: false });
+  const out: TpdSheet = {};
+  const grab = (title: string, key: keyof TpdSheet) => {
+    let tr = -1, tc = -1;
+    all.forEach((r, i) => { if (tr < 0) r.forEach((c, j) => { if (tr < 0 && txt(c).toLowerCase() === title.toLowerCase()) { tr = i; tc = j; } }); });
+    if (tr < 0) { cx.warnings.push(`Tab "${name}" has no "${title}" table: it is not updated.`); return; }
+    let h = tr + 1;
+    while (h < all.length && txt(all[h]?.[tc]).toLowerCase() !== 'location') h++;
+    if (h >= all.length) { cx.warnings.push(`Table "${title}" in tab "${name}" has no Location header: it is not updated.`); return; }
+    const head: string[] = [];
+    for (let j = tc; txt(all[h][j]) !== ''; j++) head.push(txt(all[h][j]));
+    const rows: string[][] = [];
+    for (let i = h + 1; i < all.length && txt(all[i]?.[tc]) !== ''; i++) {
+      const raw = txt(all[i][tc]);
+      const loc = /^all stores$/i.test(raw) ? 'All Stores' : locOf(raw, name, cx);
+      if (!loc) continue;
+      rows.push([loc, ...head.slice(1).map((_, k) => txt(all[i][tc + 1 + k]))]);
+    }
+    out[key] = { head, rows };
+  };
+  grab('Performance Overview', 'uePerf');
+  grab('Operations Overview', 'ueOps');
+  grab('Rating Distribution', 'ddRating');
+  return out.uePerf || out.ueOps || out.ddRating ? out : null;
+}
+
 /** Both platforms from one workbook. Returns null when neither platform has any data (then the old copy is kept). */
 export function parseTpd(wb: XLSX.WorkBook, cx: TpdContext): TpdData | null {
-  const ue = uberEats(wb, cx), dd = doorDash(wb, cx);
-  if (!ue && !dd) return null;
-  return { ue: clean(ue ?? {}), dd: clean(dd ?? {}) };
+  const ue = uberEats(wb, cx), dd = doorDash(wb, cx), sheet = sheetTables(wb, cx);
+  if (!ue && !dd && !sheet) return null;
+  return { ue: clean(ue ?? {}), dd: clean(dd ?? {}), ...(sheet ? { sheet } : {}) };
 }
