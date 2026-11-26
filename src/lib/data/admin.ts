@@ -3,7 +3,7 @@ import type { Storage } from '../storage';
 import { ALL, type LocationConfig, type Person, type WeekData } from '../types';
 import { ConfigError, loadLocations, loadMapping, validateLocations } from './config';
 import { unmappedIn } from './revenue';
-import { deleteWeek, getWeek, listWeeks, saveWeek, UnmappedError, validateWeek, WeekConflict } from './weeks';
+import { checkCatering, deleteWeek, getWeek, listWeeks, saveWeek, UnmappedError, validateWeek, WeekConflict, WeekError } from './weeks';
 
 const OPTIONS_KEY = 'config/dining-options.json';
 export type DiningOptions = Record<string, { netSales: number; lastWeek: string }>;
@@ -52,6 +52,16 @@ export async function publishWeek(s: Storage, input: unknown, o: PublishOptions 
   await saveWeek(s, week);
   await recordDiningOptions(s, week);
   return { weekStart: week.weekStart, unmapped, replaced: !!prev };
+}
+
+/** Saves the catering data (from the separate catering workbook) onto an already published week. */
+export async function publishCatering(s: Storage, weekStart: string, input: unknown): Promise<{ weekStart: string; weeks: number; locationWeeks: number }> {
+  const week = await getWeek(s, weekStart);
+  if (!week) throw new WeekError('That week is not published. Publish the weekly workbook for it first.');
+  const catering = checkCatering(input) as { weeks: unknown[]; locationWeeks: unknown[] };
+  week.catering = catering;
+  await saveWeek(s, week);
+  return { weekStart, weeks: catering.weeks.length, locationWeeks: catering.locationWeeks.length };
 }
 
 export async function removeWeek(s: Storage, weekStart: string): Promise<void> {

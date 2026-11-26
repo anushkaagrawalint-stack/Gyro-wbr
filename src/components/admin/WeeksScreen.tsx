@@ -163,7 +163,7 @@ export function WeeksScreen({ currentWeek }: { currentWeek: string }) {
                 {replaceTarget && weekStart !== replaceTarget && <div className="msg warn">You are replacing the week of {replaceTarget}, but the date above is different.</div>}
                 <div className="note">
                   {parsed.summary.toastSheets} Toast sheets ({parsed.summary.toastRows.toLocaleString('en-US')} rows), {parsed.summary.reviewRows} review rows, {parsed.summary.loyaltyLocations} loyalty locations,
-                  {' '}{parsed.summary.campaigns} campaigns, {parsed.summary.apolloRows} Apollo rows. 3rd Party Delivery and Catering are not read from the workbook yet.
+                  {' '}{parsed.summary.campaigns} campaigns, {parsed.summary.apolloRows} Apollo rows. 3rd Party Delivery is not read from the workbook yet. Catering is uploaded separately, in the Catering tab.
                 </div>
                 {parsed.warnings.length > 0 && <div className="msg warn">{parsed.warnings.map((w) => <div key={w}>{w}</div>)}</div>}
               </>

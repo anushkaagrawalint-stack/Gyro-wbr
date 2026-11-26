@@ -151,3 +151,26 @@ function checkMarketing(m: unknown): MarketingData {
   };
   return { apollo: { '7': one(m.apollo['7'] ?? []), '30': one(m.apollo['30'] ?? []) } };
 }
+
+const COUNTS = ['calls', 'connected', 'over90', 'emails', 'opens', 'mqls', 'mqlFup'] as const;
+const counts = (v: unknown, what: string) => {
+  if (!isObj(v) || !COUNTS.every((k) => isNum(v[k]))) throw new WeekError(`${what} is malformed.`);
+  return Object.fromEntries(COUNTS.map((k) => [k, v[k] as number]));
+};
+const blockOf = (b: unknown) => {
+  if (!isObj(b) || typeof b.week !== 'string' || !isObj(b.locations)) throw new WeekError('A catering location block is malformed.');
+  return { week: b.week.slice(0, 60), locations: Object.fromEntries(Object.entries(b.locations).map(([n, c]) => [n.slice(0, 200), counts(c, `Catering row for ${n}`)])), total: counts(b.total, `Catering total for ${b.week}`) };
+};
+
+/** Strict shape check for the catering data that arrives from the browser (the separate catering workbook). */
+export function checkCatering(c: unknown): NonNullable<WeekData['catering']> {
+  if (!isObj(c) || !Array.isArray(c.weeks) || !Array.isArray(c.locationWeeks)) throw new WeekError('Catering data is malformed.');
+  const n = (x: unknown) => (isNum(x) ? x : null);
+  const weeks = c.weeks.map((w) => {
+    if (!isObj(w) || typeof w.week !== 'string' || !COUNTS.every((k) => isNum(w[k]))) throw new WeekError('A catering week row is malformed.');
+    return { week: w.week.slice(0, 60), ...Object.fromEntries(COUNTS.map((k) => [k, w[k] as number])), ordersConfirmed: n(w.ordersConfirmed), ordersPaid: n(w.ordersPaid), valueConfirmed: n(w.valueConfirmed), valuePaid: n(w.valuePaid) };
+  });
+  if (!weeks.length) throw new WeekError('The catering workbook has no weeks in its Outbound tab.');
+  const locationWeeks = c.locationWeeks.map(blockOf);
+  return { weeks, location: locationWeeks[locationWeeks.length - 1] ?? null, locationWeeks };
+}
