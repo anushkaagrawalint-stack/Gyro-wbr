@@ -84,8 +84,11 @@ export function renderTpd(){
   let kp = '', html = '';
   if(tpMode==='ue'){
     const err = d => div(d.inaccurate, d.accOrders)*100;
-    kp = kcard('Total Sales', T_m0(tot.sales), VLW) + kcard('Number of Orders', T_n(tot.orders), VLW1) +
-         kcard('Total Net Payout', T_m0(tot.payout), VLW) + kcard('Overall Error Rate', T_p1(err(tot)), VLW2);
+    // cards follow the tables on screen: with the tab's tables they read its All Stores row
+    const shv = (tb, re) => { const i = tb ? tb.head.findIndex(h => re.test(h)) : -1, r = tb?.rows.find(x => x[0] === 'All Stores'), v = i >= 0 && r ? parseFloat(String(r[i]).replace(/[$,%\s]/g, '')) : NaN; return isNaN(v) ? null : v; };
+    const cSales = shv(SHEET?.uePerf, /^total sales/i) ?? tot.sales, cPay = shv(SHEET?.uePerf, /^net payout/i) ?? tot.payout, cOrd = shv(SHEET?.uePerf, /^order volume/i) ?? tot.orders, cErr = shv(SHEET?.ueOps, /^order error rate/i) ?? err(tot);
+    kp = kcard('Total Sales', T_m0(cSales), VLW) + kcard('Number of Orders', T_n(cOrd), VLW1) +
+         kcard('Total Net Payout', T_m0(cPay), VLW) + kcard('Overall Error Rate', T_p1(cErr), VLW2);
     // when the week has the "UBER EATS-DOOR DASH" tab, its tables are shown as they are; the Avg Rating column comes from the Uber Eats ratings of Reviews & Ratings (7 Days)
     const ue7 = rwRows('7').cur.filter(r => r[0]==='Uber Eats');
     html += SHEET?.uePerf ? sheetTable('UE Performance by Location', SHEET.uePerf, (r, c, h) => /^avg rating/i.test(h) ? T_r2(rwStats(ue7, ['Uber Eats'], r[0]==='All Stores' ? null : r[0]).rating) : /complaint/i.test(h) ? note(c) : c, l => trophy('ue', l)) :
@@ -95,7 +98,11 @@ export function renderTpd(){
       ['All Stores', T_m0(tot.sales), T_m0(tot.payout), T_n(tot.orders), T_m0(div(tot.sales,tot.orders)), T_r2(div(tot.ratSum,tot.ratN)), DASH]);
     const ops = d => [errPill(err(d)), T_n(d.missing||0), T_n(d.wrong||0), T_ms(div(d.waitSum,d.waitN)), waitPill(div(d.avoidSum,d.avoidN)),
                       T_n(d.avoidOrders||0), T_p1(div(d.avoidCancels||0,d.orders)*100), T_p1(div(d.upSum,d.upN))];
-    html += SHEET?.ueOps ? sheetTable('UE Operations by Location', SHEET.ueOps) :
+    html += SHEET?.ueOps ? sheetTable('UE Operations by Location', SHEET.ueOps, (r, c, h) => {   // same colour pills as the rest of the table, from the numbers (never the sheet's colours)
+      const x = parseFloat(String(c).replace(/[^0-9.]/g, ''));
+      if (/^order error rate/i.test(h)) return isNaN(x) ? c : vp(c, x>=2?'neg':x>=.5?'flat':'pos');
+      if (/^avoidable wait time/i.test(h)) { const m = /(\d+)\s*min\s*(\d+)\s*sec/i.exec(c), v = m ? +m[1] + +m[2]/60 : NaN; return isNaN(v) ? c : vp(c, v>=WAIT_BAD?'neg':v>=WAIT_GOOD?'flat':'pos'); }
+      return c; }) :
     tpTable('UE Operations by Location',
       ['Location','Order Error Rate (%)','Missing Items','Wrong Order/Item','Average Courier Wait','Avoidable Wait Time','Orders With Avoidable Wait','Avoidable Cancellation Rate','Uptime (%)'],
       L.map(([l,d]) => [l, ...ops(d)]), ['All Stores', ...ops(tot)]);
@@ -129,7 +136,13 @@ export function renderTpd(){
       return { ratN:s.n, loved:sum(DD_MAP.love), like:sum(DD_MAP.like), dislike:sum(DD_MAP.dislike) }; };
     const rate = d => { const n=d.ratN;
       return [n? vp(T_p1(d.loved/n*100), d.loved/n>=.5?'pos':'neg') : DASH, n? vp(T_p1(d.like/n*100),'pos') : DASH, n? vp(T_p1(d.dislike/n*100), d.dislike? 'neg':'pos') : DASH, T_n(n)]; };
-    html += SHEET?.ddRating ? sheetTable('DD Rating Distribution by Location', SHEET.ddRating) :
+    html += SHEET?.ddRating ? sheetTable('DD Rating Distribution by Location', SHEET.ddRating, (r, c, h) => {   // same colour pills as before: Love green from 50%, Like green, Dislike red when above 0
+      const x = parseFloat(String(c).replace(/[^0-9.]/g, ''));
+      if (isNaN(x)) return c;
+      if (/^love/i.test(h)) return vp(c, x>=50?'pos':'neg');
+      if (/^like/i.test(h)) return vp(c, 'pos');
+      if (/^dislike/i.test(h)) return vp(c, x>0?'neg':'pos');
+      return c; }) :
     tpTable('DD Rating Distribution by Location', ['Location','Love (%)','Like (%)','Dislike (%)','Total Reviews'],
       LOCATIONS.map(l => [l, ...rate(soRate(l))]), ['All Stores', ...rate(soRate(null))]);
     const ops = d => [errPill(err(d)), T_n(d.errOrders), T_m0(d.errCharges), T_ms(div(d.waitW,d.delivered)), waitPill(div(d.avoidW,d.delivered)),
