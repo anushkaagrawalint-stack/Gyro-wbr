@@ -8,7 +8,10 @@
    "DoorDash",
    "Yelp"
   ],
-  "aliases": []
+  "aliases": [
+   "Southwest Freeway",
+   "Fondren Houston"
+  ]
  },
  {
   "name": "Sugar Land",
@@ -29,7 +32,9 @@
    "DoorDash",
    "Yelp"
   ],
-  "aliases": []
+  "aliases": [
+   "Waterview Town Center Dr"
+  ]
  },
  {
   "name": "Katy",
