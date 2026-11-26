@@ -74712,5 +74712,721 @@
     "topComplaint": ""
    }
   }
+ },
+ "catering": {
+  "weeks": [
+   {
+    "week": "Aug 12",
+    "calls": 363,
+    "connected": 26,
+    "over90": 9,
+    "emails": 64,
+    "opens": 12,
+    "mqls": 6,
+    "mqlFup": 2,
+    "ordersConfirmed": null,
+    "ordersPaid": 0,
+    "valueConfirmed": null,
+    "valuePaid": null
+   },
+   {
+    "week": "Aug 17",
+    "calls": 719,
+    "connected": 41,
+    "over90": 18,
+    "emails": 200,
+    "opens": 22,
+    "mqls": 23,
+    "mqlFup": 5,
+    "ordersConfirmed": null,
+    "ordersPaid": null,
+    "valueConfirmed": null,
+    "valuePaid": null
+   },
+   {
+    "week": "Aug 24",
+    "calls": 1015,
+    "connected": 81,
+    "over90": 27,
+    "emails": 625,
+    "opens": 54,
+    "mqls": 15,
+    "mqlFup": 7,
+    "ordersConfirmed": null,
+    "ordersPaid": null,
+    "valueConfirmed": null,
+    "valuePaid": null
+   },
+   {
+    "week": "Aug 31",
+    "calls": 749,
+    "connected": 36,
+    "over90": 15,
+    "emails": 629,
+    "opens": 46,
+    "mqls": 14,
+    "mqlFup": 8,
+    "ordersConfirmed": null,
+    "ordersPaid": null,
+    "valueConfirmed": null,
+    "valuePaid": null
+   },
+   {
+    "week": "Sep 7",
+    "calls": 314,
+    "connected": 35,
+    "over90": 25,
+    "emails": 638,
+    "opens": 49,
+    "mqls": 13,
+    "mqlFup": 4,
+    "ordersConfirmed": null,
+    "ordersPaid": 1,
+    "valueConfirmed": null,
+    "valuePaid": 776.48
+   },
+   {
+    "week": "Sep 14",
+    "calls": 979,
+    "connected": 101,
+    "over90": 49,
+    "emails": 642,
+    "opens": 45,
+    "mqls": 12,
+    "mqlFup": 5,
+    "ordersConfirmed": null,
+    "ordersPaid": null,
+    "valueConfirmed": null,
+    "valuePaid": null
+   },
+   {
+    "week": "Sep 21",
+    "calls": 1136,
+    "connected": 85,
+    "over90": 44,
+    "emails": 645,
+    "opens": 36,
+    "mqls": 19,
+    "mqlFup": 13,
+    "ordersConfirmed": null,
+    "ordersPaid": null,
+    "valueConfirmed": null,
+    "valuePaid": null
+   },
+   {
+    "week": "Sep 28",
+    "calls": 1742,
+    "connected": 94,
+    "over90": 44,
+    "emails": 678,
+    "opens": 40,
+    "mqls": 25,
+    "mqlFup": 16,
+    "ordersConfirmed": null,
+    "ordersPaid": null,
+    "valueConfirmed": null,
+    "valuePaid": null
+   },
+   {
+    "week": "Oct 5",
+    "calls": 1965,
+    "connected": 148,
+    "over90": 49,
+    "emails": 797,
+    "opens": 52,
+    "mqls": 22,
+    "mqlFup": 14,
+    "ordersConfirmed": null,
+    "ordersPaid": null,
+    "valueConfirmed": null,
+    "valuePaid": null
+   },
+   {
+    "week": "Oct 12",
+    "calls": 2366,
+    "connected": 158,
+    "over90": 55,
+    "emails": 812,
+    "opens": 58,
+    "mqls": 28,
+    "mqlFup": 19,
+    "ordersConfirmed": null,
+    "ordersPaid": 1,
+    "valueConfirmed": null,
+    "valuePaid": 488.41
+   },
+   {
+    "week": "Oct 19",
+    "calls": 957,
+    "connected": 54,
+    "over90": 22,
+    "emails": 792,
+    "opens": 45,
+    "mqls": 20,
+    "mqlFup": 5,
+    "ordersConfirmed": null,
+    "ordersPaid": null,
+    "valueConfirmed": null,
+    "valuePaid": null
+   },
+   {
+    "week": "Oct 26",
+    "calls": 2062,
+    "connected": 291,
+    "over90": 130,
+    "emails": 679,
+    "opens": 45,
+    "mqls": 60,
+    "mqlFup": 21,
+    "ordersConfirmed": null,
+    "ordersPaid": 1,
+    "valueConfirmed": null,
+    "valuePaid": 583.15
+   },
+   {
+    "week": "Nov 2",
+    "calls": 2015,
+    "connected": 258,
+    "over90": 122,
+    "emails": 686,
+    "opens": 49,
+    "mqls": 36,
+    "mqlFup": 26,
+    "ordersConfirmed": null,
+    "ordersPaid": 4,
+    "valueConfirmed": null,
+    "valuePaid": 1500.57
+   },
+   {
+    "week": "Nov 9",
+    "calls": 1309,
+    "connected": 140,
+    "over90": 76,
+    "emails": 932,
+    "opens": 125,
+    "mqls": 23,
+    "mqlFup": 13,
+    "ordersConfirmed": null,
+    "ordersPaid": 5,
+    "valueConfirmed": null,
+    "valuePaid": 1775.35
+   },
+   {
+    "week": "Nov 16",
+    "calls": 2319,
+    "connected": 204,
+    "over90": 98,
+    "emails": 926,
+    "opens": 68,
+    "mqls": 36,
+    "mqlFup": 15,
+    "ordersConfirmed": null,
+    "ordersPaid": 1,
+    "valueConfirmed": null,
+    "valuePaid": 1159.05
+   }
+  ],
+  "location": {
+   "week": "Nov 16",
+   "locations": {
+    "Fondren": {
+     "calls": 1565,
+     "connected": 140,
+     "over90": 71,
+     "emails": 539,
+     "opens": 45,
+     "mqls": 30,
+     "mqlFup": 11
+    },
+    "Sugar Land": {
+     "calls": 97,
+     "connected": 13,
+     "over90": 6,
+     "emails": 14,
+     "opens": 1,
+     "mqls": 2,
+     "mqlFup": 2
+    },
+    "Richmond": {
+     "calls": 264,
+     "connected": 23,
+     "over90": 11,
+     "emails": 136,
+     "opens": 10,
+     "mqls": 1,
+     "mqlFup": 0
+    },
+    "Pearland": {
+     "calls": 393,
+     "connected": 28,
+     "over90": 10,
+     "emails": 237,
+     "opens": 12,
+     "mqls": 3,
+     "mqlFup": 2
+    }
+   },
+   "total": {
+    "calls": 2319,
+    "connected": 204,
+    "over90": 98,
+    "emails": 926,
+    "opens": 68,
+    "mqls": 36,
+    "mqlFup": 15
+   }
+  },
+  "locationWeeks": [
+   {
+    "week": "Sep 21",
+    "locations": {
+     "Fondren": {
+      "calls": 830,
+      "connected": 59,
+      "over90": 29,
+      "emails": 509,
+      "opens": 20,
+      "mqls": 14,
+      "mqlFup": 11
+     },
+     "Sugar Land": {
+      "calls": 35,
+      "connected": 5,
+      "over90": 4,
+      "emails": 20,
+      "opens": 2,
+      "mqls": 0,
+      "mqlFup": 0
+     },
+     "Richmond": {
+      "calls": 139,
+      "connected": 9,
+      "over90": 5,
+      "emails": 61,
+      "opens": 9,
+      "mqls": 1,
+      "mqlFup": 1
+     },
+     "Pearland": {
+      "calls": 132,
+      "connected": 12,
+      "over90": 6,
+      "emails": 55,
+      "opens": 5,
+      "mqls": 4,
+      "mqlFup": 1
+     }
+    },
+    "total": {
+     "calls": 1136,
+     "connected": 85,
+     "over90": 44,
+     "emails": 645,
+     "opens": 36,
+     "mqls": 19,
+     "mqlFup": 13
+    }
+   },
+   {
+    "week": "Sep 28",
+    "locations": {
+     "Fondren": {
+      "calls": 1270,
+      "connected": 79,
+      "over90": 37,
+      "emails": 488,
+      "opens": 25,
+      "mqls": 17,
+      "mqlFup": 11
+     },
+     "Sugar Land": {
+      "calls": 56,
+      "connected": 2,
+      "over90": 2,
+      "emails": 18,
+      "opens": 1,
+      "mqls": 2,
+      "mqlFup": 2
+     },
+     "Richmond": {
+      "calls": 231,
+      "connected": 5,
+      "over90": 2,
+      "emails": 114,
+      "opens": 7,
+      "mqls": 4,
+      "mqlFup": 3
+     },
+     "Pearland": {
+      "calls": 185,
+      "connected": 8,
+      "over90": 3,
+      "emails": 58,
+      "opens": 7,
+      "mqls": 2,
+      "mqlFup": 0
+     }
+    },
+    "total": {
+     "calls": 1742,
+     "connected": 94,
+     "over90": 44,
+     "emails": 678,
+     "opens": 40,
+     "mqls": 25,
+     "mqlFup": 16
+    }
+   },
+   {
+    "week": "Oct 5",
+    "locations": {
+     "Fondren": {
+      "calls": 1556,
+      "connected": 115,
+      "over90": 34,
+      "emails": 594,
+      "opens": 37,
+      "mqls": 12,
+      "mqlFup": 8
+     },
+     "Sugar Land": {
+      "calls": 40,
+      "connected": 1,
+      "over90": 1,
+      "emails": 24,
+      "opens": 1,
+      "mqls": 1,
+      "mqlFup": 0
+     },
+     "Richmond": {
+      "calls": 128,
+      "connected": 9,
+      "over90": 2,
+      "emails": 117,
+      "opens": 9,
+      "mqls": 0,
+      "mqlFup": 0
+     },
+     "Pearland": {
+      "calls": 241,
+      "connected": 23,
+      "over90": 12,
+      "emails": 62,
+      "opens": 5,
+      "mqls": 9,
+      "mqlFup": 6
+     }
+    },
+    "total": {
+     "calls": 1965,
+     "connected": 148,
+     "over90": 49,
+     "emails": 797,
+     "opens": 52,
+     "mqls": 22,
+     "mqlFup": 14
+    }
+   },
+   {
+    "week": "Oct 12",
+    "locations": {
+     "Fondren": {
+      "calls": 1845,
+      "connected": 111,
+      "over90": 38,
+      "emails": 617,
+      "opens": 44,
+      "mqls": 24,
+      "mqlFup": 17
+     },
+     "Sugar Land": {
+      "calls": 39,
+      "connected": 4,
+      "over90": 1,
+      "emails": 24,
+      "opens": 1,
+      "mqls": 0,
+      "mqlFup": 0
+     },
+     "Richmond": {
+      "calls": 172,
+      "connected": 17,
+      "over90": 6,
+      "emails": 105,
+      "opens": 5,
+      "mqls": 2,
+      "mqlFup": 1
+     },
+     "Pearland": {
+      "calls": 310,
+      "connected": 26,
+      "over90": 10,
+      "emails": 66,
+      "opens": 8,
+      "mqls": 2,
+      "mqlFup": 1
+     }
+    },
+    "total": {
+     "calls": 2366,
+     "connected": 158,
+     "over90": 55,
+     "emails": 812,
+     "opens": 58,
+     "mqls": 28,
+     "mqlFup": 19
+    }
+   },
+   {
+    "week": "Oct 19",
+    "locations": {
+     "Fondren": {
+      "calls": 722,
+      "connected": 40,
+      "over90": 20,
+      "emails": 634,
+      "opens": 32,
+      "mqls": 17,
+      "mqlFup": 5
+     },
+     "Sugar Land": {
+      "calls": 30,
+      "connected": 0,
+      "over90": 0,
+      "emails": 18,
+      "opens": 1,
+      "mqls": 1,
+      "mqlFup": 0
+     },
+     "Richmond": {
+      "calls": 81,
+      "connected": 9,
+      "over90": 2,
+      "emails": 70,
+      "opens": 8,
+      "mqls": 1,
+      "mqlFup": 0
+     },
+     "Pearland": {
+      "calls": 124,
+      "connected": 5,
+      "over90": 0,
+      "emails": 70,
+      "opens": 4,
+      "mqls": 1,
+      "mqlFup": 0
+     }
+    },
+    "total": {
+     "calls": 957,
+     "connected": 54,
+     "over90": 22,
+     "emails": 792,
+     "opens": 45,
+     "mqls": 20,
+     "mqlFup": 5
+    }
+   },
+   {
+    "week": "Oct 26",
+    "locations": {
+     "Fondren": {
+      "calls": 1421,
+      "connected": 230,
+      "over90": 105,
+      "emails": 540,
+      "opens": 31,
+      "mqls": 47,
+      "mqlFup": 17
+     },
+     "Sugar Land": {
+      "calls": 75,
+      "connected": 7,
+      "over90": 0,
+      "emails": 21,
+      "opens": 3,
+      "mqls": 3,
+      "mqlFup": 1
+     },
+     "Richmond": {
+      "calls": 361,
+      "connected": 24,
+      "over90": 9,
+      "emails": 60,
+      "opens": 6,
+      "mqls": 6,
+      "mqlFup": 3
+     },
+     "Pearland": {
+      "calls": 205,
+      "connected": 30,
+      "over90": 16,
+      "emails": 58,
+      "opens": 5,
+      "mqls": 4,
+      "mqlFup": 0
+     }
+    },
+    "total": {
+     "calls": 2062,
+     "connected": 291,
+     "over90": 130,
+     "emails": 679,
+     "opens": 45,
+     "mqls": 60,
+     "mqlFup": 21
+    }
+   },
+   {
+    "week": "Nov 2",
+    "locations": {
+     "Fondren": {
+      "calls": 1396,
+      "connected": 179,
+      "over90": 93,
+      "emails": 414,
+      "opens": 30,
+      "mqls": 22,
+      "mqlFup": 20
+     },
+     "Sugar Land": {
+      "calls": 62,
+      "connected": 1,
+      "over90": 1,
+      "emails": 25,
+      "opens": 2,
+      "mqls": 2,
+      "mqlFup": 0
+     },
+     "Richmond": {
+      "calls": 214,
+      "connected": 26,
+      "over90": 8,
+      "emails": 93,
+      "opens": 8,
+      "mqls": 7,
+      "mqlFup": 6
+     },
+     "Pearland": {
+      "calls": 343,
+      "connected": 52,
+      "over90": 20,
+      "emails": 154,
+      "opens": 9,
+      "mqls": 5,
+      "mqlFup": 0
+     }
+    },
+    "total": {
+     "calls": 2015,
+     "connected": 258,
+     "over90": 122,
+     "emails": 686,
+     "opens": 49,
+     "mqls": 36,
+     "mqlFup": 26
+    }
+   },
+   {
+    "week": "Nov 9",
+    "locations": {
+     "Fondren": {
+      "calls": 919,
+      "connected": 106,
+      "over90": 64,
+      "emails": 552,
+      "opens": 79,
+      "mqls": 20,
+      "mqlFup": 11
+     },
+     "Sugar Land": {
+      "calls": 35,
+      "connected": 6,
+      "over90": 1,
+      "emails": 22,
+      "opens": 2,
+      "mqls": 0,
+      "mqlFup": 0
+     },
+     "Richmond": {
+      "calls": 157,
+      "connected": 9,
+      "over90": 5,
+      "emails": 127,
+      "opens": 15,
+      "mqls": 2,
+      "mqlFup": 2
+     },
+     "Pearland": {
+      "calls": 198,
+      "connected": 19,
+      "over90": 6,
+      "emails": 231,
+      "opens": 29,
+      "mqls": 1,
+      "mqlFup": 0
+     }
+    },
+    "total": {
+     "calls": 1309,
+     "connected": 140,
+     "over90": 76,
+     "emails": 932,
+     "opens": 125,
+     "mqls": 23,
+     "mqlFup": 13
+    }
+   },
+   {
+    "week": "Nov 16",
+    "locations": {
+     "Fondren": {
+      "calls": 1565,
+      "connected": 140,
+      "over90": 71,
+      "emails": 539,
+      "opens": 45,
+      "mqls": 30,
+      "mqlFup": 11
+     },
+     "Sugar Land": {
+      "calls": 97,
+      "connected": 13,
+      "over90": 6,
+      "emails": 14,
+      "opens": 1,
+      "mqls": 2,
+      "mqlFup": 2
+     },
+     "Richmond": {
+      "calls": 264,
+      "connected": 23,
+      "over90": 11,
+      "emails": 136,
+      "opens": 10,
+      "mqls": 1,
+      "mqlFup": 0
+     },
+     "Pearland": {
+      "calls": 393,
+      "connected": 28,
+      "over90": 10,
+      "emails": 237,
+      "opens": 12,
+      "mqls": 3,
+      "mqlFup": 2
+     }
+    },
+    "total": {
+     "calls": 2319,
+     "connected": 204,
+     "over90": 98,
+     "emails": 926,
+     "opens": 68,
+     "mqls": 36,
+     "mqlFup": 15
+    }
+   }
+  ]
  }
 }
