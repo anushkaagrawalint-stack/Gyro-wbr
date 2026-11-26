@@ -10,9 +10,9 @@ export class ConfigError extends Error {}
 
 const ALL_PLATFORMS = ['Google', 'Uber Eats', 'DoorDash'];
 export const DEFAULT_LOCATIONS: LocationConfig[] = [
-  { name: 'Fondren', hidden: false, platforms: [...ALL_PLATFORMS, 'Yelp'], aliases: [] },
+  { name: 'Fondren', hidden: false, platforms: [...ALL_PLATFORMS, 'Yelp'], aliases: ['Southwest Freeway', 'Fondren Houston'] },
   { name: 'Sugar Land', hidden: false, platforms: [...ALL_PLATFORMS], aliases: [] },
-  { name: 'Richmond', hidden: false, platforms: [...ALL_PLATFORMS, 'Yelp'], aliases: [] },
+  { name: 'Richmond', hidden: false, platforms: [...ALL_PLATFORMS, 'Yelp'], aliases: ['Waterview Town Center Dr'] },
   { name: 'Katy', hidden: false, platforms: [...ALL_PLATFORMS], aliases: [] },
   { name: 'Missouri City', hidden: false, platforms: [...ALL_PLATFORMS], aliases: [] },
   { name: 'Spring', hidden: false, platforms: [...ALL_PLATFORMS], aliases: ['Klein'] },

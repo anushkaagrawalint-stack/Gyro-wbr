@@ -3,6 +3,7 @@
  * Nothing here knows about mapping: Toast rows are kept raw (dining option, sales category, net sales).
  */
 import * as XLSX from 'xlsx';
+import { parseTpd, type TpdData } from './tpd';
 import { PERIODS, type ApolloRow, type Kind, type LocationConfig, type LoyaltyData, type LoyaltyLocation, type MarketingData, type PeriodKey, type ReviewRow, type ReviewsData, type ToastRow, type UeAdRow } from '../types';
 
 export const ALL_LOCATIONS = 'All Locations';
@@ -15,6 +16,8 @@ export interface ParsedWorkbook {
   loyalty?: LoyaltyData;
   marketing?: MarketingData;
   ueAds?: UeAdRow[];
+  /** Uber Eats and DoorDash weekly aggregates per location (3rd Party Delivery tab). */
+  tpd?: TpdData;
   /** Names in the workbook that match no configured location or alias, with where they were seen. */
   unknownLocations: { name: string; where: string }[];
   /** Human-readable notes: missing tabs, skipped rows. */
@@ -190,6 +193,10 @@ export function parseWorkbook(wb: XLSX.WorkBook, locations: LocationConfig[]): P
       out.ueAds = list;
     }
   }
+
+  /* ---------- Uber Eats and DoorDash (3rd Party Delivery) ---------- */
+  const tpd = parseTpd(wb, { locations, noteUnknown, warnings });
+  if (tpd) out.tpd = tpd;
 
   out.unknownLocations = [...unknown].map(([name, where]) => ({ name, where }));
   return out;

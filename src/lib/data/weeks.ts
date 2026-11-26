@@ -59,11 +59,12 @@ export function validateWeek(input: unknown): WeekData {
   if (!toast.weekly?.actual?.[ALL] && !Object.keys(toast.weekly?.actual ?? {}).length) throw new WeekError('The week needs at least the weekly Actual sales.');
   const out: WeekData = { weekStart: w.weekStart, uploadedAt: new Date().toISOString(), toast };
   if (typeof w.workbook === 'string') out.workbook = w.workbook.slice(0, 200);
-  // tpd and catering are never accepted from the browser: they are carried over on the server
+  // catering is never accepted here (it has its own upload); tpd is read from the weekly workbook
   if (w.reviews != null) out.reviews = checkReviews(w.reviews);
   if (w.loyalty != null) out.loyalty = checkLoyalty(w.loyalty);
   if (w.marketing != null) out.marketing = checkMarketing(w.marketing);
   if (w.ueAds != null) out.ueAds = checkUeAds(w.ueAds);
+  if (w.tpd != null) out.tpd = checkTpd(w.tpd);
   return out;
 }
 
@@ -173,4 +174,17 @@ export function checkCatering(c: unknown): NonNullable<WeekData['catering']> {
   if (!weeks.length) throw new WeekError('The catering workbook has no weeks in its Outbound tab.');
   const locationWeeks = c.locationWeeks.map(blockOf);
   return { weeks, location: locationWeeks[locationWeeks.length - 1] ?? null, locationWeeks };
+}
+
+function checkTpd(t: unknown): NonNullable<WeekData['tpd']> {
+  if (!isObj(t) || !isObj(t.ue) || !isObj(t.dd)) throw new WeekError('3rd Party Delivery data is malformed.');
+  const side = (v: Record<string, unknown>, what: string) => Object.fromEntries(Object.entries(v).map(([loc, o]) => {
+    if (!isObj(o)) throw new WeekError(`${what} row for ${loc} is malformed.`);
+    return [loc.slice(0, 200), Object.fromEntries(Object.entries(o).map(([k, x]) => {
+      if (typeof x === 'string') return [k.slice(0, 60), x.slice(0, 500)];
+      if (!isNum(x)) throw new WeekError(`${what} value "${k}" for ${loc} is not a number.`);
+      return [k.slice(0, 60), x];
+    }))];
+  }));
+  return { ue: side(t.ue, 'Uber Eats'), dd: side(t.dd, 'DoorDash') };
 }

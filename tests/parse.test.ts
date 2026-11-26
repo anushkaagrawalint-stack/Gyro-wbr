@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { DEFAULT_LOCATIONS } from '../src/lib/data/config';
+import { validateWeek } from '../src/lib/data/weeks';
 import { diningOptionsIn, parseWorkbook, weekStartFromRange } from '../src/lib/workbook/parse';
 import { embedded, hasReference, workbook } from './helpers/reference';
 
@@ -35,6 +36,24 @@ describe.skipIf(!hasReference)('workbook parser vs reference/index.html', () => 
 
   it('marketing (Apollo) matches', () => {
     expect(p().marketing).toEqual(embedded().marketing);
+  });
+
+  it('Uber Eats and DoorDash match the numbers embedded in the reference dashboard', () => {
+    const t = p().tpd!, e = embedded().tpd as Record<'ue' | 'dd', Record<string, Record<string, number | string>>>;
+    for (const side of ['ue', 'dd'] as const) {
+      expect(Object.keys(t[side]).sort()).toEqual(Object.keys(e[side]).sort());
+      for (const loc of Object.keys(e[side])) for (const k of new Set([...Object.keys(e[side][loc]), ...Object.keys(t[side][loc])])) {
+        const want = e[side][loc][k] ?? (typeof t[side][loc][k] === 'string' ? '' : 0), got = t[side][loc][k] ?? (typeof want === 'string' ? '' : 0);   // a zero count is left out of the reference
+        if (typeof want === 'number') expect(got as number, `${side} ${loc} ${k}`).toBeCloseTo(want, 1);
+        else expect(got, `${side} ${loc} ${k}`).toBe(want);
+      }
+    }
+  });
+
+  it('a parsed week with Uber Eats and DoorDash passes the server check and keeps them', () => {
+    const w = p();
+    const saved = validateWeek({ weekStart: w.weekStart, toast: w.toast, reviews: w.reviews, loyalty: w.loyalty, marketing: w.marketing, tpd: w.tpd });
+    expect(saved.tpd).toEqual(w.tpd);
   });
 
   it('keeps Toast rows raw and lists every dining option', () => {

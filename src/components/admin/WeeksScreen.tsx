@@ -123,7 +123,7 @@ export function WeeksScreen({ currentWeek }: { currentWeek: string }) {
     if (!parsed) return;
     setBusy(true); setStatus(null);
     try {
-      const week = { weekStart, workbook: fileName, toast: parsed.toast, reviews: parsed.reviews, loyalty: parsed.loyalty, marketing: parsed.marketing, ueAds: parsed.ueAds };
+      const week = { weekStart, workbook: fileName, toast: parsed.toast, reviews: parsed.reviews, loyalty: parsed.loyalty, marketing: parsed.marketing, ueAds: parsed.ueAds, tpd: parsed.tpd };
       await api('/api/admin/weeks', 'POST', { week, replace, allowUnmapped });
       reloadDashboard(weekStart);
     } catch (e) {
@@ -163,7 +163,7 @@ export function WeeksScreen({ currentWeek }: { currentWeek: string }) {
                 {replaceTarget && weekStart !== replaceTarget && <div className="msg warn">You are replacing the week of {replaceTarget}, but the date above is different.</div>}
                 <div className="note">
                   {parsed.summary.toastSheets} Toast sheets ({parsed.summary.toastRows.toLocaleString('en-US')} rows), {parsed.summary.reviewRows} review rows, {parsed.summary.loyaltyLocations} loyalty locations,
-                  {' '}{parsed.summary.campaigns} campaigns, {parsed.summary.apolloRows} Apollo rows. 3rd Party Delivery is not read from the workbook yet. Catering is uploaded separately, in the Catering tab.
+                  {' '}{parsed.summary.campaigns} campaigns, {parsed.summary.apolloRows} Apollo rows. {parsed.tpd ? `${Object.keys(parsed.tpd.ue).length} Uber Eats and ${Object.keys(parsed.tpd.dd).length} DoorDash locations.` : 'No Uber Eats or DoorDash tabs found.'} Catering is uploaded separately, in the Catering tab.
                 </div>
                 {parsed.warnings.length > 0 && <div className="msg warn">{parsed.warnings.map((w) => <div key={w}>{w}</div>)}</div>}
               </>

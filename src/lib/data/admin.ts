@@ -41,9 +41,10 @@ export async function publishWeek(s: Storage, input: unknown, o: PublishOptions 
   if (prev && !o.replace) throw new WeekConflict(`The week of ${week.weekStart} is already published. Choose "Replace" to overwrite it.`);
   const unmapped = unmappedIn(week.toast, await loadMapping(s));
   if (unmapped.length && !o.allowUnmapped) throw new UnmappedError(`${unmapped.length} dining option(s) are not mapped yet.`, unmapped);
-  // 3rd Party Delivery and Catering are not in the workbook: keep the old copy when replacing, or the embedded one for its own week
+  // Catering has its own upload, and 3rd Party Delivery is kept when a workbook has no Uber Eats / DoorDash tabs: keep the old copy when replacing, or the embedded one for its own week
   const embedded = await s.get<{ weekStart: string; tpd?: unknown; catering?: unknown }>('config/embedded.json');
   for (const k of ['tpd', 'catering'] as const) {
+    if (week[k] != null) continue;
     if (prev?.[k] != null) week[k] = prev[k];
     else if (embedded && embedded.weekStart === week.weekStart && embedded[k] != null) week[k] = embedded[k];
   }
