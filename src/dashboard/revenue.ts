@@ -103,30 +103,26 @@ export function renderRevenue(){
     html += `<tr class="tot"><td>Total</td>${cells({ a:tot('actual'), l:tot('ly'), b:tot('bud'), w:tot('lw') })}</tr>`;
   } else {                                                                            // one channel opened from the filter: its row + its subcategories
     const c = CHANNELS.find(x => x.name === revFilter);
-    const cd = DATA[view.period]?.cats?.[revLoc] || {};                                      // sales categories under each line: { actual:{line:{category:value}}, ly:{...} }
-    const esc = s => String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');
-    const catsOf = l => { const A = cd.actual?.[l], L = cd.ly?.[l];
-      return [...new Set([...Object.keys(A||{}), ...Object.keys(L||{})])].map(n => ({ n, a: A ? (A[n] ?? 0) : undefined, l: L ? (L[n] ?? 0) : undefined }))
-        .filter(x => x.a || x.l).sort((x,y) => Math.max(Math.abs(y.a||0), Math.abs(y.l||0)) - Math.max(Math.abs(x.a||0), Math.abs(x.l||0))); };
-    c.lines.filter(there).forEach(l => {
-      const cs = catsOf(l), open = cs.length > 0 && openLines.has(l);
-      html += `<tr class="sub ${cs.length?'has':''} ${open?'open':''}" data-line="${esc(l)}"><td><span class="chev" ${cs.length?'':'style="visibility:hidden"'}>▶</span>${l}</td>${cells(lineVals(c,l))}</tr>`;
-      if (open) cs.forEach(x => { html += `<tr class="cat"><td>${x.n}</td>${cells({ a:x.a, l:x.l })}</tr>`; });
-    });
+    c.lines.filter(there).forEach(l => { html += `<tr class="sub" data-line="${l.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;')}"><td>${l}</td>${cells(lineVals(c,l))}</tr>`; });
     html += `<tr class="tot"><td>Total</td>${cells(chVals(c))}</tr>`;                 // the channel's own figures now sit on a Total line under its subcategories
   }
   document.getElementById('revBody').innerHTML = html;
 
-  revBar.data.datasets[0].data = CHANNELS.map(c => chSum('actual',c));
-  revBar.data.datasets[1].data = CHANNELS.map(c => chSum('ly',c));
-  revBar.data.datasets[2].data = CHANNELS.map(c => chSum('bud',c));
-  mixChart.data.datasets[0].data = CHANNELS.map(c => chSum('actual',c) || 0);
+  // the charts show exactly what the table shows: the channels in this view, or the lines of the one channel picked in the filter
+  const LINE_COL = ['#9f7cef', '#f9a8d4', '#86efac', '#fcd34d', '#93c5fd', '#fdba74', '#a5b4fc', '#6ee7b7'];
+  const one = revFilter === 'All' ? null : CHANNELS.find(x => x.name === revFilter);
+  const items = one ? one.lines.filter(there).map((l, i) => ({ n:l, col:LINE_COL[i % LINE_COL.length], a:get('actual',l) ?? null, l:get('ly',l) ?? null, b:get('bud',l) ?? null }))
+    : visCh.map(c => ({ n:c.name, col:c.color, a:chSum('actual',c), l:chSum('ly',c), b:chSum('bud',c) }));
+  document.getElementById('revBarTitle').textContent = one ? `${one.name} by Line - ${P.label} vs LY & Budget` : `Revenue by Channel - ${P.label} vs LY & Budget`;
+  document.getElementById('revMixTitle').textContent = one ? `Actual ${one.name} Mix - ${P.label}` : `Actual Revenue Mix - ${P.label}`;
+  revBar.data.labels = items.map(x => x.n);
+  revBar.data.datasets[0].data = items.map(x => x.a);
+  revBar.data.datasets[1].data = items.map(x => x.l);
+  revBar.data.datasets[2].data = items.map(x => x.b);
+  mixChart.data.labels = items.map(x => x.n);
+  mixChart.data.datasets[0].data = items.map(x => x.a || 0);
+  mixChart.data.datasets[0].backgroundColor = items.map(x => x.col);
   revBar.update(); mixChart.update();
 }
 
-document.getElementById('revBody').addEventListener('click', e => {                     // open / close a subcategory's sales categories
-  const tr = e.target.closest('tr.sub.has'); if (!tr) return;
-  const l = tr.dataset.line; openLines.has(l) ? openLines.delete(l) : openLines.add(l);
-  renderRevenue();
-});
 

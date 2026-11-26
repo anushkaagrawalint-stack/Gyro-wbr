@@ -76,11 +76,6 @@ const chartCard = (title, id, right) => `<section class="card panel"><div class=
 const segHtml = (id, items, cur, attr) => `<div class="seg" id="${id}" style="margin:0">${items.map(([k, l]) => `<button ${attr}="${k}" class="${k === cur ? 'on' : ''}">${l}</button>`).join('')}</div>`;
 function wireDownloads(h) {
   h.querySelectorAll('.dl[data-dl]').forEach(b => b.addEventListener('click', () => { const c = document.getElementById(b.dataset.dl), a = document.createElement('a'); a.href = c.toDataURL('image/png'); a.download = b.dataset.dl + '.png'; a.click(); }));
-  h.querySelectorAll('.dl:not([data-dl])').forEach(b => b.addEventListener('click', () => {
-    const t = b.closest('.panel').querySelector('table'); if (!t) return;
-    const csv = [...t.querySelectorAll('tr')].map(r => [...r.children].map(c => '"' + c.textContent.replace(/"/g, '""').trim() + '"').join(',')).join('\n');
-    const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' })); a.download = 'reviews.csv'; a.click();
-  }));
 }
 
 function renderReviews() {

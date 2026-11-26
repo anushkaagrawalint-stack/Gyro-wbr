@@ -43,3 +43,14 @@ document.getElementById('tabs').addEventListener('click', e => {
 render(); renderRevenue(); renderReviews(); renderTpd(); renderLoyalty(); renderMarketing(); renderCatering(); renderLocation(); renderLocationViews();
 if (TABS[0] !== 'Overview') document.querySelectorAll('main > div[id^="view-"]').forEach(v => v.hidden = v.id !== 'view-' + LIVE_TABS[TABS[0]]);
 applyFormats();
+
+/* table download: every table's button (class "dl", no data-dl) saves that table as a CSV named after its title */
+document.addEventListener('click', e => {
+  const b = e.target.closest('.dl:not([data-dl])'); if (!b) return;
+  const box = b.closest('.panel') || b.closest('section') || b.closest('.card'), t = box && box.querySelector('table'); if (!t) return;
+  const q = v => '"' + String(v).replace(/"/g, '""').replace(/\s+/g, ' ').trim() + '"';
+  const csv = [...t.querySelectorAll('tr')].map(r => [...r.children].flatMap(c => { const s = q([...c.childNodes].map(n => n.textContent.trim()).filter(Boolean).join(' ')); return Array(Math.max(1, +c.colSpan || 1)).fill(s); }).join(',')).join('\r\n');
+  const ttl = box.querySelector('.t-title, h3'), name = (ttl ? ttl.textContent : 'table').replace(/[^A-Za-z0-9]+/g, '-').replace(/^-+|-+$/g, '') || 'table';
+  const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8' })); a.download = name + '.csv'; document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+});

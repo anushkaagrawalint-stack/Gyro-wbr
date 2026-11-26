@@ -47,7 +47,7 @@ export function applyFormats(){
 if (BOOT) {
   let ft; new MutationObserver(() => { clearTimeout(ft); ft = setTimeout(applyFormats, 30); }).observe(document.querySelector('main'), { childList: true, subtree: true });
   const so = document.querySelector('.signout');
-  if (so) { so.insertAdjacentHTML('beforebegin', `<span class="whoami">${BOOT.user.email} · ${BOOT.user.role}</span>`);
+  if (so) {
     so.addEventListener('click', async () => { try { await fetch('/api/logout', { method:'POST', headers:{ 'X-Requested-With':'gwbr' } }); } catch (e) {} location.href = '/login'; }); }
   const SEC_VIEW = { reviews:'view-reviews', tpd:'view-tpd', loyalty:'view-loyalty', marketing:'view-marketing', catering:'view-catering' };
   Object.entries(BOOT.asOf || {}).forEach(([k, ws]) => { const v = document.getElementById(SEC_VIEW[k]); if (v) v.insertAdjacentHTML('afterbegin', `<div class="asof">Showing data from the week of ${fmtD(ws)}: this week's upload did not include this section.</div>`); });
