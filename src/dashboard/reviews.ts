@@ -101,7 +101,7 @@ export function renderReviews(){
   document.getElementById('rwStarTitle').textContent = overall ? `Star Distribution by Platform (${D})` : rwMode==='google' ? `Star Distribution - In-Store (${D})` : `Star Distribution - ${pn} (${D})`;
   rwBar.data.labels = overall ? RW_ORDER : locs;
   rwBar.data.datasets[0].data = overall ? RW_ORDER.map(p => rwStats(cur,[p]).rating) : locs.map(l => rwStats(cur, plats, l).rating);
-  rwBar.data.datasets[0].backgroundColor = overall ? RW_ORDER.map((p,i) => BAR_SEQ[i % 5]) : '#9f7cef';
+  rwBar.data.datasets[0].backgroundColor = overall ? RW_ORDER.map((p,i) => BAR_SEQ[i % 5]) : locs.map(() => '#9f7cef');   // one purple per bar (a single colour string would leave the per-platform colours on the first bars)
   const sel = document.getElementById('rwStarSel'), opts = ['All Locations', ...locs];
   if(sel.options.length!==opts.length || opts.some((o,i)=>sel.options[i].text!==o)) sel.innerHTML = opts.map(l => `<option>${l}</option>`).join('');
   if(!opts.includes(rwStarLoc)) rwStarLoc = 'All Locations'; sel.value = rwStarLoc;
