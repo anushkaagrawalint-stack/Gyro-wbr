@@ -1,6 +1,6 @@
 {
  "weekStart": "2026-11-16",
- "uploadedAt": "2026-11-26T12:59:32.580Z",
+ "uploadedAt": "2026-11-26T15:41:11.105Z",
  "toast": {
   "weekly": {
    "actual": {
@@ -70398,7 +70398,7 @@
    }
   }
  },
- "workbook": "Input-Gyro Republic WBR (1).xlsx",
+ "workbook": "Input-Gyro Republic WBR (3).xlsx",
  "reviews": {
   "so7_90": [
    [
@@ -74376,6 +74376,22 @@
    ]
   }
  },
+ "ueAds": [
+  {
+   "campaign": "Ad Campaign 09/25/2026",
+   "location": "Pearland",
+   "sales": 717.44,
+   "spend": 84.84,
+   "roas": 8.46,
+   "impressions": 5807,
+   "clicks": 149,
+   "ctr": 2.5658687790597554,
+   "orders": 21,
+   "conv": 14.093959731543624,
+   "cpo": 4.04,
+   "newCustomers": null
+  }
+ ],
  "tpd": {
   "ue": {
    "Spring": {
