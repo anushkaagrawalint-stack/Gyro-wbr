@@ -1,162 +1,162 @@
 {
  "Dine In": {
-  "netSales": 46705.15,
-  "lastWeek": "2026-10-12"
+  "netSales": 45274.04,
+  "lastWeek": "2026-11-16"
  },
  "Grubhub - Delivery": {
-  "netSales": 405.49,
-  "lastWeek": "2026-10-12"
+  "netSales": 72.92,
+  "lastWeek": "2026-11-16"
  },
  "DoorDash -  Delivery": {
-  "netSales": 8023.81,
-  "lastWeek": "2026-10-12"
+  "netSales": 10446.14,
+  "lastWeek": "2026-11-16"
  },
  "UberEats - Delivery": {
-  "netSales": 4908.72,
-  "lastWeek": "2026-10-12"
+  "netSales": 5194.38,
+  "lastWeek": "2026-11-16"
  },
  "App Pickup": {
-  "netSales": 7804.77,
-  "lastWeek": "2026-10-12"
+  "netSales": 7771.79,
+  "lastWeek": "2026-11-16"
  },
  "DoorDash - Takeout": {
-  "netSales": 1396.09,
-  "lastWeek": "2026-10-12"
+  "netSales": 918.46,
+  "lastWeek": "2026-11-16"
  },
  "UberEats - Takeout": {
-  "netSales": 966.56,
-  "lastWeek": "2026-10-12"
+  "netSales": 2173.17,
+  "lastWeek": "2026-11-16"
  },
  "Grubhub - Takeout": {
-  "netSales": 32.16,
-  "lastWeek": "2026-10-12"
+  "netSales": 60.56,
+  "lastWeek": "2026-11-16"
  },
  "App Delivery": {
-  "netSales": 20.98,
-  "lastWeek": "2026-10-12"
+  "netSales": 0,
+  "lastWeek": "2026-11-16"
  },
  "DoorDash - Delivery": {
-  "netSales": 1080.2,
-  "lastWeek": "2026-10-12"
+  "netSales": 0,
+  "lastWeek": "2026-11-16"
  },
  "Doordash - Takeout": {
-  "netSales": 256.97,
-  "lastWeek": "2026-10-12"
+  "netSales": 0,
+  "lastWeek": "2026-11-16"
  },
  "App Curbside": {
-  "netSales": 191.3,
-  "lastWeek": "2026-10-12"
+  "netSales": 140.83,
+  "lastWeek": "2026-11-16"
  },
  "Uber Eats - Delivery": {
-  "netSales": 682.15,
-  "lastWeek": "2026-10-12"
+  "netSales": 961.04,
+  "lastWeek": "2026-11-16"
  },
  "DeliverThat": {
-  "netSales": 560,
-  "lastWeek": "2026-10-12"
+  "netSales": 1043,
+  "lastWeek": "2026-11-16"
  },
  "UberEats Delivery": {
-  "netSales": 2403.09,
-  "lastWeek": "2026-10-12"
+  "netSales": 1005.78,
+  "lastWeek": "2026-11-16"
  },
  "Ubereats Delivery": {
-  "netSales": 272.53,
-  "lastWeek": "2026-10-12"
+  "netSales": 0,
+  "lastWeek": "2026-11-16"
  },
  "DoorDash Delivery": {
-  "netSales": 370.1,
-  "lastWeek": "2026-10-12"
+  "netSales": 0,
+  "lastWeek": "2026-11-16"
  },
  "Ubereats Takeout": {
-  "netSales": 74.27,
-  "lastWeek": "2026-10-12"
+  "netSales": 0,
+  "lastWeek": "2026-11-16"
  },
  "Uber Eats - Takeout": {
-  "netSales": 189.07,
-  "lastWeek": "2026-10-12"
+  "netSales": 0,
+  "lastWeek": "2026-11-16"
  },
  "Doordash Delivery": {
-  "netSales": 594.33,
-  "lastWeek": "2026-10-12"
+  "netSales": 0,
+  "lastWeek": "2026-11-16"
  },
  "App Catering": {
-  "netSales": 140,
-  "lastWeek": "2026-10-12"
+  "netSales": 0,
+  "lastWeek": "2026-11-16"
  },
  "Ez Cater": {
   "netSales": 0,
-  "lastWeek": "2026-10-12"
+  "lastWeek": "2026-11-16"
  },
  "Take Out": {
   "netSales": 0,
-  "lastWeek": "2026-10-12"
+  "lastWeek": "2026-11-16"
  },
  "Phone Order": {
   "netSales": 0,
-  "lastWeek": "2026-10-12"
+  "lastWeek": "2026-11-16"
  },
  "Mobile App - Delivery": {
   "netSales": 0,
-  "lastWeek": "2026-10-12"
+  "lastWeek": "2026-11-16"
  },
  "App Catering Pickup": {
-  "netSales": 0,
-  "lastWeek": "2026-10-12"
+  "netSales": 213,
+  "lastWeek": "2026-11-16"
  },
  "Dine In Guid": {
   "netSales": 0,
-  "lastWeek": "2026-10-12"
+  "lastWeek": "2026-11-16"
  },
  "UberEats Takeout": {
   "netSales": 0,
-  "lastWeek": "2026-10-12"
+  "lastWeek": "2026-11-16"
  },
  "No Dining Option": {
   "netSales": 0,
-  "lastWeek": "2026-10-12"
+  "lastWeek": "2026-11-16"
  },
  "Catering (Phone/In store)": {
   "netSales": 0,
-  "lastWeek": "2026-10-12"
+  "lastWeek": "2026-11-16"
  },
  "Catering Online Ordering - Pick Up": {
-  "netSales": 0,
-  "lastWeek": "2026-10-12"
+  "netSales": 344,
+  "lastWeek": "2026-11-16"
  },
  "Online Ordering - Takeout": {
   "netSales": 0,
-  "lastWeek": "2026-10-12"
+  "lastWeek": "2026-11-16"
  },
  "Mobile App - Pickup": {
   "netSales": 0,
-  "lastWeek": "2026-10-12"
+  "lastWeek": "2026-11-16"
  },
  "Online Ordering": {
   "netSales": 0,
-  "lastWeek": "2026-10-12"
+  "lastWeek": "2026-11-16"
  },
  "Pickup": {
   "netSales": 0,
-  "lastWeek": "2026-10-12"
+  "lastWeek": "2026-11-16"
  },
  "DoorDash Takeout": {
   "netSales": 0,
-  "lastWeek": "2026-10-12"
+  "lastWeek": "2026-11-16"
  },
  "App Pickup Lane": {
   "netSales": 0,
-  "lastWeek": "2026-10-12"
+  "lastWeek": "2026-11-16"
  },
  "Doordash Takeout": {
   "netSales": 0,
-  "lastWeek": "2026-10-12"
+  "lastWeek": "2026-11-16"
  },
  "Toast Delivery Services": {
   "netSales": 0,
-  "lastWeek": "2026-10-12"
+  "lastWeek": "2026-11-16"
  },
  "Curbside": {
   "netSales": 0,
-  "lastWeek": "2026-10-12"
+  "lastWeek": "2026-11-16"
  }
 }
