@@ -1,1 +1,524 @@
-[]
+[
+ {
+  "table": "Location Results",
+  "column": "Var vs LW",
+  "axis": "column",
+  "mode": "pill",
+  "rules": [
+   {
+    "op": ">=",
+    "v": 5,
+    "color": "green"
+   },
+   {
+    "op": ">=",
+    "v": 0,
+    "color": "amber"
+   },
+   {
+    "op": "<",
+    "v": 0,
+    "color": "red"
+   }
+  ]
+ },
+ {
+  "table": "Location Results",
+  "column": "Var vs LY",
+  "axis": "column",
+  "mode": "pill",
+  "rules": [
+   {
+    "op": ">=",
+    "v": 5,
+    "color": "green"
+   },
+   {
+    "op": ">=",
+    "v": 0,
+    "color": "amber"
+   },
+   {
+    "op": "<",
+    "v": 0,
+    "color": "red"
+   }
+  ]
+ },
+ {
+  "table": "Location Results",
+  "column": "Var vs Bud",
+  "axis": "column",
+  "mode": "pill",
+  "rules": [
+   {
+    "op": ">=",
+    "v": 5,
+    "color": "green"
+   },
+   {
+    "op": ">=",
+    "v": 0,
+    "color": "amber"
+   },
+   {
+    "op": "<",
+    "v": 0,
+    "color": "red"
+   }
+  ]
+ },
+ {
+  "table": "Revenue by Channel - Consolidated",
+  "column": "Var % vs LW",
+  "axis": "column",
+  "mode": "pill",
+  "rules": [
+   {
+    "op": ">=",
+    "v": 5,
+    "color": "green"
+   },
+   {
+    "op": ">=",
+    "v": 0,
+    "color": "amber"
+   },
+   {
+    "op": "<",
+    "v": 0,
+    "color": "red"
+   }
+  ]
+ },
+ {
+  "table": "Revenue by Channel - Consolidated",
+  "column": "Var % vs LY",
+  "axis": "column",
+  "mode": "pill",
+  "rules": [
+   {
+    "op": ">=",
+    "v": 5,
+    "color": "green"
+   },
+   {
+    "op": ">=",
+    "v": 0,
+    "color": "amber"
+   },
+   {
+    "op": "<",
+    "v": 0,
+    "color": "red"
+   }
+  ]
+ },
+ {
+  "table": "Revenue by Channel - Consolidated",
+  "column": "Var % vs Bud",
+  "axis": "column",
+  "mode": "pill",
+  "rules": [
+   {
+    "op": ">=",
+    "v": 5,
+    "color": "green"
+   },
+   {
+    "op": ">=",
+    "v": 0,
+    "color": "amber"
+   },
+   {
+    "op": "<",
+    "v": 0,
+    "color": "red"
+   }
+  ]
+ },
+ {
+  "table": "UE Operations by Location",
+  "column": "Order Error Rate (%)",
+  "axis": "column",
+  "mode": "pill",
+  "rules": [
+   {
+    "op": ">=",
+    "v": 2,
+    "color": "red"
+   },
+   {
+    "op": ">=",
+    "v": 0.5,
+    "color": "amber"
+   },
+   {
+    "op": "<",
+    "v": 0.5,
+    "color": "green"
+   }
+  ]
+ },
+ {
+  "table": "UE Operations by Location",
+  "column": "Avoidable Wait Time",
+  "axis": "column",
+  "mode": "pill",
+  "rules": [
+   {
+    "op": ">=",
+    "v": 60,
+    "color": "red"
+   },
+   {
+    "op": ">=",
+    "v": 30,
+    "color": "amber"
+   },
+   {
+    "op": "<",
+    "v": 30,
+    "color": "green"
+   }
+  ]
+ },
+ {
+  "table": "DD Operations by Location",
+  "column": "Order Error Rate (%)",
+  "axis": "column",
+  "mode": "pill",
+  "rules": [
+   {
+    "op": ">=",
+    "v": 2,
+    "color": "red"
+   },
+   {
+    "op": ">=",
+    "v": 0.5,
+    "color": "amber"
+   },
+   {
+    "op": "<",
+    "v": 0.5,
+    "color": "green"
+   }
+  ]
+ },
+ {
+  "table": "DD Operations by Location",
+  "column": "Avoidable Wait Time",
+  "axis": "column",
+  "mode": "pill",
+  "rules": [
+   {
+    "op": ">=",
+    "v": 60,
+    "color": "red"
+   },
+   {
+    "op": ">=",
+    "v": 30,
+    "color": "amber"
+   },
+   {
+    "op": "<",
+    "v": 30,
+    "color": "green"
+   }
+  ]
+ },
+ {
+  "table": "DD Promotions & Sponsored Ads",
+  "column": "Promotions / ROAS",
+  "axis": "column",
+  "mode": "pill",
+  "rules": [
+   {
+    "op": ">=",
+    "v": 4,
+    "color": "green"
+   },
+   {
+    "op": "<",
+    "v": 4,
+    "color": "amber"
+   }
+  ]
+ },
+ {
+  "table": "DD Promotions & Sponsored Ads",
+  "column": "Sponsored / ROAS",
+  "axis": "column",
+  "mode": "pill",
+  "rules": [
+   {
+    "op": ">=",
+    "v": 4,
+    "color": "green"
+   },
+   {
+    "op": "<",
+    "v": 4,
+    "color": "amber"
+   }
+  ]
+ },
+ {
+  "table": "DD Rating Distribution by Location",
+  "column": "Love (%)",
+  "axis": "column",
+  "mode": "pill",
+  "rules": [
+   {
+    "op": ">=",
+    "v": 50,
+    "color": "green"
+   },
+   {
+    "op": "<",
+    "v": 50,
+    "color": "red"
+   }
+  ]
+ },
+ {
+  "table": "DD Rating Distribution by Location",
+  "column": "Like (%)",
+  "axis": "column",
+  "mode": "pill",
+  "rules": [
+   {
+    "op": ">=",
+    "v": 0,
+    "color": "green"
+   }
+  ]
+ },
+ {
+  "table": "DD Rating Distribution by Location",
+  "column": "Dislike (%)",
+  "axis": "column",
+  "mode": "pill",
+  "rules": [
+   {
+    "op": ">",
+    "v": 0,
+    "color": "red"
+   },
+   {
+    "op": "<=",
+    "v": 0,
+    "color": "green"
+   }
+  ]
+ },
+ {
+  "table": "Sales & Activity by Location",
+  "column": "Var % (vs prior period)",
+  "axis": "column",
+  "mode": "pill",
+  "rules": [
+   {
+    "op": ">=",
+    "v": 5,
+    "color": "green"
+   },
+   {
+    "op": ">=",
+    "v": 0,
+    "color": "amber"
+   },
+   {
+    "op": "<",
+    "v": 0,
+    "color": "red"
+   }
+  ]
+ },
+ {
+  "table": "Membership by Location",
+  "column": "Loyalty % (Members / Users)",
+  "axis": "column",
+  "mode": "pill",
+  "rules": [
+   {
+    "op": ">=",
+    "v": 80,
+    "color": "green"
+   },
+   {
+    "op": ">=",
+    "v": 70,
+    "color": "amber"
+   },
+   {
+    "op": "<",
+    "v": 70,
+    "color": "red"
+   }
+  ]
+ },
+ {
+  "table": "Campaign Performance",
+  "column": "Redemption %",
+  "axis": "column",
+  "mode": "pill",
+  "rules": [
+   {
+    "op": ">=",
+    "v": 20,
+    "color": "green"
+   },
+   {
+    "op": ">=",
+    "v": 5,
+    "color": "amber"
+   },
+   {
+    "op": "<",
+    "v": 5,
+    "color": "red"
+   }
+  ]
+ },
+ {
+  "table": "Campaign Performance",
+  "column": "Sales per $1 Discount",
+  "axis": "column",
+  "mode": "pill",
+  "rules": [
+   {
+    "op": ">=",
+    "v": 3,
+    "color": "green"
+   },
+   {
+    "op": ">=",
+    "v": 1,
+    "color": "amber"
+   },
+   {
+    "op": "<",
+    "v": 1,
+    "color": "red"
+   }
+  ]
+ },
+ {
+  "table": "How the Locations Compare",
+  "column": "Var % vs LY",
+  "axis": "column",
+  "mode": "pill",
+  "rules": [
+   {
+    "op": ">=",
+    "v": 5,
+    "color": "green"
+   },
+   {
+    "op": ">=",
+    "v": 0,
+    "color": "amber"
+   },
+   {
+    "op": "<",
+    "v": 0,
+    "color": "red"
+   }
+  ]
+ },
+ {
+  "table": "How the Locations Compare",
+  "column": "UE Avoidable Wait",
+  "axis": "column",
+  "mode": "pill",
+  "rules": [
+   {
+    "op": ">=",
+    "v": 60,
+    "color": "red"
+   },
+   {
+    "op": ">=",
+    "v": 30,
+    "color": "amber"
+   },
+   {
+    "op": "<",
+    "v": 30,
+    "color": "green"
+   }
+  ]
+ },
+ {
+  "table": "How the Locations Compare",
+  "column": "DD Avoidable Wait",
+  "axis": "column",
+  "mode": "pill",
+  "rules": [
+   {
+    "op": ">=",
+    "v": 60,
+    "color": "red"
+   },
+   {
+    "op": ">=",
+    "v": 30,
+    "color": "amber"
+   },
+   {
+    "op": "<",
+    "v": 30,
+    "color": "green"
+   }
+  ]
+ },
+ {
+  "table": "Sales by Channel",
+  "column": "Var % vs LY",
+  "axis": "column",
+  "mode": "pill",
+  "rules": [
+   {
+    "op": ">=",
+    "v": 5,
+    "color": "green"
+   },
+   {
+    "op": ">=",
+    "v": 0,
+    "color": "amber"
+   },
+   {
+    "op": "<",
+    "v": 0,
+    "color": "red"
+   }
+  ]
+ },
+ {
+  "table": "Loyalty (AppFront)",
+  "column": "Var % vs prior period",
+  "axis": "row",
+  "mode": "pill",
+  "rules": [
+   {
+    "op": ">=",
+    "v": 5,
+    "color": "green"
+   },
+   {
+    "op": ">=",
+    "v": 0,
+    "color": "amber"
+   },
+   {
+    "op": "<",
+    "v": 0,
+    "color": "red"
+   }
+  ]
+ }
+]
