@@ -13,7 +13,7 @@ const pct = (a: number, b: number) => (b ? Math.round((a / b) * 100) + '%' : '-'
 const MON = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
 /** "Oct 12" + a year -> 2026-10-12 (the sheet's week labels carry no year). */
 const isoOf = (label: string, year: string) => {
-  const m = /^([A-Za-z]{3})[a-z]*.?s+(d{1,2})/.exec(label.trim());
+  const m = /^([A-Za-z]{3})[a-z]*\.?\s+(\d{1,2})/.exec(label.trim());
   const mo = m ? MON.indexOf(m[1].toLowerCase()) + 1 : 0;
   return m && mo ? `${year}-${String(mo).padStart(2, '0')}-${String(+m[2]).padStart(2, '0')}` : '';
 };
@@ -61,7 +61,7 @@ export function CateringScreen({ currentWeek }: { currentWeek: string }) {
 
   const W = data?.weeks ?? [];
   const published = weeks.some((w) => w.weekStart === target);
-  const validDate = /^d{4}-d{2}-d{2}$/.test(target);
+  const validDate = /^\d{4}-\d{2}-\d{2}$/.test(target);
   const lastLabel = W[W.length - 1]?.week ?? '';
   const mismatch = validDate && lastLabel && isoOf(lastLabel, target.slice(0, 4)) !== target;
   const metric = (w: (typeof W)[number], k: string) => {

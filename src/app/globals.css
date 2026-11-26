@@ -105,7 +105,9 @@ table.ctr td{font-size:10.5px}
 .pc{display:block;color:var(--muted);font-size:9.5px;font-weight:400}
 .nodata td{text-align:center !important;color:var(--muted);font-family:var(--sans);padding:26px 14px}
 /* catering */
-.ct-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px;margin-bottom:18px}
+.ct-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-bottom:18px}
+@media (max-width:1100px){.ct-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:700px){.ct-grid{grid-template-columns:minmax(0,1fr)}}
 .ct-grid .panel{margin-bottom:0;padding:18px 18px 12px}
 .ct-grid .chartbox{height:190px}
 table.ctr td.cur,table.ctr th.cur{background:color-mix(in srgb,var(--accent) 7%,var(--card))}
