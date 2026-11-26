@@ -13,12 +13,13 @@
  },
  {
   "weekStart": "2026-11-16",
-  "uploadedAt": "2026-11-26T12:59:32.580Z",
+  "uploadedAt": "2026-11-26T15:41:11.105Z",
   "sections": [
    "toast",
    "reviews",
    "loyalty",
    "marketing",
+   "ueAds",
    "tpd",
    "catering"
   ]
