@@ -55,7 +55,7 @@ export const lyCamp = new Chart(document.getElementById('lyCampChart'), {
     { label:'Sales generated', data:[], backgroundColor:'#9f7cef', borderRadius:4 },
     { label:'Discount given',  data:[], backgroundColor:'#93c5fd', borderRadius:4 } ]},
   options:{ indexAxis:'y', maintainAspectRatio:false, plugins:{ legend:{ position:'bottom', labels:{ boxWidth:30, boxHeight:12, color:css('--muted') } }, tooltip:{ callbacks:{ label:usdTip } } },
-    scales:{ x:{ beginAtZero:true, grid:grid(), ticks:{ color:css('--muted'), callback:v=>'$'+v.toLocaleString('en-US') } }, y:{ grid:{ display:false }, ticks:{ color:css('--muted'), font:{ size:9 } } } } }
+    scales:{ x:{ beginAtZero:true, grid:grid(), ticks:{ color:css('--muted'), callback:v=>'$'+v.toLocaleString('en-US') } }, y:{ grid:{ display:false }, ticks:{ color:css('--muted'), font:{ size:12 } } } } }
 });
 
 export function renderLoyalty(){

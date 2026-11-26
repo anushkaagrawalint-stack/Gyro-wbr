@@ -17,7 +17,7 @@ import { locCalc, locSel } from './location';
 
 const CO = BOOT.company || null;
 const PUR = '#9f7cef', GREY = '#9ca3af';
-const STAR_COL = ['#86efac', '#bbf7d0', '#fcd34d', '#fdba74', '#fca5a5'];        // 5 stars (green) ... 1 star (red)
+const STAR_COL = ['#86efac', '#bbf7d0', '#fde68a', '#fdba74', '#fca5a5'];        // 5 stars (green) ... 1 star (red)
 const f2n = v => v == null ? 'NA' : v.toFixed(2);
 const arrow = v => v == null ? '' : v >= 0 ? '▲' : '▼';
 const chip = (t, tone) => `<span class="lc-chip ${tone}">${t}</span>`;
@@ -137,7 +137,7 @@ function renderReviews() {
     options: { maintainAspectRatio: false, plugins: { legend, tooltip: { callbacks: { label: c => `${c.dataset.label}: ${c.parsed.y == null ? '-' : c.parsed.y.toFixed(2)}` } } }, scales: { x: axes().x, y: { min: 1, max: 5, grid: grid(), ticks: { color: css('--muted'), stepSize: 1 } } } } });
   // star distribution (counts)
   chart('lvRvStars', { type: 'bar', data: { labels: ['5 Star', '4 Star', '3 Star', '2 Star', '1 Star'], datasets: overall
-      ? plats.map((p, i) => ({ label: p, backgroundColor: ['#9f7cef', 'rgba(209,213,219,0.7)', '#93c5fd', '#f9a8d4'][i % 4], borderRadius: 4, data: rwStats(cur, [p], loc).s }))
+      ? plats.map((p, i) => ({ label: p, backgroundColor: ['#9f7cef', 'rgba(209,213,219,0.7)', '#93c5fd', '#f9a8d4', '#86efac'][i % 5], borderRadius: 4, data: rwStats(cur, [p], loc).s }))
       : [{ label: loc, backgroundColor: LOC_COL, borderRadius: 4, data: rwStats(cur, plats, loc).s }] },
     options: { maintainAspectRatio: false, plugins: { legend }, scales: axes({ precision: 0 }) } });
   if (showTrend) {

@@ -9,7 +9,7 @@ import { BOOT, fmtD, grid } from './core';
    A rule = { table, column, axis:'column'|'row', mode:'pill'|'cell'|'text', rules:[{ op:'<'|'<='|'>'|'>='|'='|'between', v, v2, color }] }  (first matching rule wins)
    Durations such as "1 min 4 sec" are compared in seconds; "(11.2%)" is -11.2; "$1,234" is 1234.
    ========================================================================= */
-export const FMT_COL = { green:['#dcfce7','#166534'], amber:['#fef3c7','#92400e'], red:['#fee2e2','#991b1b'], purple:['#ede9fe','#5b21b6'], grey:['#f3f4f6','#374151'] };
+export const FMT_COL = { green:['#dcfce7','#15803d'], amber:['#fef3c7','#b45309'], red:['#fee2e2','#b91c1c'], purple:['#ede9fe','#5b21b6'], grey:['#f3f4f6','#374151'] };
 export const fmtColors = c => FMT_COL[c] || (/^#[0-9a-f]{6}$/i.test(c) ? [c + '2e', c] : FMT_COL.grey);
 export const fmtNorm = s => String(s || '').toUpperCase().replace(/\([^)]*\)/g, '').replace(/\/\s*(WEEK|PERIOD)\b/g, '').replace(/\s+/g, ' ').trim();
 export function fmtValue(text){

@@ -20,8 +20,8 @@
 }
 *{box-sizing:border-box}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
-/* the whole app is drawn at 67%: at 100% browser zoom it looks the way it did at 67% */
-body{zoom:.67}
+/* the whole app is drawn at 75% (a bit larger than the 67% look) */
+body{zoom:.75}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;
   padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--header);z-index:20}
@@ -254,9 +254,9 @@ body{font-size:14px;line-height:1.5}
 .pillsel:hover .pill{background:rgba(255,255,255,.28)}
 .signout{font-size:11px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);padding:6px 14px}
 .tabs{padding:0 32px;gap:4px;position:static;box-shadow:0 1px 4px rgba(0,0,0,.06)}
-.tab{padding:13px 20px;border-bottom:2px solid transparent;flex:1 1 auto;text-align:center}
+.tab{padding:13px 20px;font-size:15px;border-bottom:2px solid transparent;flex:1 1 auto;text-align:center}
 .tab:hover{color:var(--accent)}
-main{max-width:1600px;margin:0 auto;padding:24px 32px 48px}
+main{max-width:none;margin:0;padding:24px 32px 48px}
 .eyebrow{font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--muted)}
 .seg{background:var(--bg);border:1.5px solid var(--line);border-radius:10px;padding:3px;gap:2px}
 .seg button{font:500 12px var(--sans);padding:6px 16px;border-radius:7px;color:var(--muted);transition:.15s}
@@ -295,3 +295,27 @@ tr.tot td{background:#f5f3ff;border-top:2px solid var(--line)}
 #view-location .panel:not(:has(.tablewrap)) .t-title,.lv .panel:not(:has(.tablewrap)) .t-title{color:var(--muted);text-transform:none}
 .lv-mini{grid-template-columns:96px minmax(0,1fr) 36px}.lv-mini span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 #view-location .lc-plats{grid-template-columns:repeat(auto-fit,minmax(190px,1fr))}
+
+/* one set of text sizes everywhere, taken from the Overview tab:
+   labels 10, small notes 11, body text and table cells 12, first table column 13, titles 11, big numbers 28 */
+table.ctr td{font-size:12px}
+table.ctr td:first-child{font-size:13px}
+.pc{font-size:11px}
+.muted-line,.mut{font-size:12px}
+.lc-bl,.lc-vr,.lc-m .top,.lc-prog .top,.lc-fn,.lc-roas,.lc-plat .hd,.lc-empty,.lc-legend.col{font-size:12px}
+.lc-vr .co,.lc-pct,.lc-legend,.lc-low,.lc-tag,.lv-mini,.lc-medal span{font-size:11px}
+.lc-fns h4,.lv-h4,.lc-stats small,.lc-ring small{font-size:10px}
+
+/* Marketing campaign tables: larger text than the other tables */
+#view-marketing table th{font-size:12px}
+#view-marketing table td,#view-marketing table.ctr td{font-size:14px}
+#view-marketing table td:first-child,#view-marketing table.ctr td:first-child{font-size:15px}
+#view-marketing .pc{font-size:12px}
+#view-marketing td>span[style*="9.7px"]{font-size:14px !important}   /* campaign names in the Loyalty Marketing table are inline-styled small */
+#view-marketing .vp{font-size:12px}
+
+/* Catering tables: same larger text as the Marketing tables */
+#view-catering table th{font-size:12px}
+#view-catering table td,#view-catering table.ctr td{font-size:14px}
+#view-catering table td:first-child,#view-catering table.ctr td:first-child{font-size:15px}
+#view-catering .pc{font-size:12px}

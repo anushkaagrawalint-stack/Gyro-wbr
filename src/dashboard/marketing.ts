@@ -2,7 +2,7 @@
 /* eslint-disable */
 // Ported verbatim from reference/index.html (the source of truth for every number and layout).
 // DOM-string rendering, so the types are loose; the public entry is mount() in ./main.ts and the data contract is Boot in src/lib/data/boot.ts.
-import { DATA } from './core';
+import { Chart, DATA, css, grid } from './core';
 import { kcard, noEm } from './tpd';
 
 /* =========================================================================
@@ -24,6 +24,7 @@ document.getElementById('mkSeg').addEventListener('click', e => { const b=e.targ
 document.getElementById('mkDaysSeg').addEventListener('click', e => { const b=e.target.closest('button'); if(!b) return; mkDays=b.dataset.d;
   document.querySelectorAll('#mkDaysSeg button').forEach(x=>x.classList.toggle('on',x===b)); renderMarketing(); });
 
+let mkCharts = [];
 export function renderMarketing(){
   const rows = (DATA.marketing?.apollo?.[mkDays] || []).map(r => ({ ...r, name: noEm(r.name) })), has = rows.length>0;
   const K = ['sent','delivered','bounced','spamBlocked','unsubscribed','opened','replied'];
@@ -36,10 +37,25 @@ export function renderMarketing(){
     kcard('Opened & Open Rate', n(tot.opened), `<span>Open rate: ${rt(tot.opened, tot.delivered)}</span>`) +
     kcard('Replied & Reply Rate', n(tot.replied), `<span>Reply rate: ${rt(tot.replied, tot.delivered)}</span>`);
   const cells = r => `<td>${n(r.sent)}</td><td>${n(r.delivered)}</td><td>${n(r.bounced)}</td><td>${n(r.spamBlocked)}</td><td>${n(r.unsubscribed)}</td><td>${op(r)}</td><td>${n(r.replied)}</td>`;
-  document.getElementById('mkTables').innerHTML = `<section class="card panel">
+  const card = (title, id) => `<section class="card panel"><div class="panel-h"><h3>${title}</h3></div><div class="chartbox"><canvas id="${id}"></canvas></div></section>`;
+  const chartRow = has ? `<div class="ov-two">${card(`Email Funnel - Last ${mkDays} Days`, 'mkFunnel')}${card(`Campaigns Compared - Last ${mkDays} Days`, 'mkCampaigns')}</div>` : '';
+  document.getElementById('mkTables').innerHTML = chartRow + `<section class="card panel">
     <div class="panel-h"><span class="t-title">Email Campaigns - Last ${mkDays} Days (Apollo)</span><button class="dl" title="Download table">⤓</button></div>
     <div class="tablewrap"><table class="ctr" style="min-width:820px"><thead><tr><th>Campaigns</th><th>Sent</th><th>Delivered</th><th>Bounced</th><th>Spam Blocked</th><th>Unsubscribed</th><th>Opened</th><th>Replied</th></tr></thead>
     <tbody>${has ? rows.map(r => `<tr><td>${r.name}</td>${cells(r)}</tr>`).join('') : `<tr class="nodata"><td colspan="8">No Apollo campaign data uploaded yet</td></tr>`}
     <tr class="tot"><td>Total</td>${cells(tot)}</tr></tbody></table></div></section>`;
+
+  mkCharts.forEach(c => c.destroy()); mkCharts = [];
+  if (!has) return;
+  const SEQ = ['#9f7cef', 'rgba(209,213,219,0.7)', '#93c5fd', '#f9a8d4', '#86efac'];   // bar colours in order: purple, grey, blue, pink, green
+  const legend = { position: 'bottom', labels: { boxWidth: 36, boxHeight: 12, color: css('--muted') } };
+  const scales = { y: { beginAtZero: true, grid: grid(), ticks: { color: css('--muted'), precision: 0 } }, x: { grid: grid(), ticks: { color: css('--muted') } } };
+  const tip = { callbacks: { label: c => `${c.dataset.label ? c.dataset.label + ': ' : ''}${Math.round(c.parsed.y).toLocaleString('en-US')}` } };
+  mkCharts.push(new Chart(document.getElementById('mkFunnel'), { type: 'bar',
+    data: { labels: ['Sent', 'Delivered', 'Opened', 'Replied'], datasets: [{ data: [tot.sent, tot.delivered, tot.opened, tot.replied], backgroundColor: SEQ.slice(0, 4), borderRadius: 4 }] },
+    options: { maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: tip }, scales } }));
+  mkCharts.push(new Chart(document.getElementById('mkCampaigns'), { type: 'bar',
+    data: { labels: rows.map(r => r.name), datasets: [['Delivered', 'delivered'], ['Opened', 'opened'], ['Replied', 'replied']].map(([label, k], i) => ({ label, data: rows.map(r => r[k]), backgroundColor: SEQ[i], borderRadius: 4 })) },
+    options: { maintainAspectRatio: false, plugins: { legend, tooltip: tip }, scales } }));
 }
 

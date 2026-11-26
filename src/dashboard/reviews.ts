@@ -15,9 +15,10 @@ import { BOOT, Chart, DATA, LOCATIONS, css, grid } from './core';
                      dd:[missing/incorrect, delivered] <- DD Operations cols I,H }
    ========================================================================= */
 export const RW_ORDER = ['Google','Yelp','Uber Eats','DoorDash'];
+export const BAR_SEQ = ['#9f7cef','rgba(209,213,219,0.7)','#93c5fd','#f9a8d4','#86efac'];   // bar series, in order: purple, grey, blue, pink, green
 export const RW_PLATS = { overall:RW_ORDER, google:['Google'], yelp:['Yelp'], ue:['Uber Eats'], dd:['DoorDash'] };
 export const RW_NAME  = { google:'Google', yelp:'Yelp', ue:'Uber Eats', dd:'DoorDash' };
-export const RW_COL   = { 'Google':'#9f7cef', 'Yelp':'#f9a8d4', 'Uber Eats':'#86efac', 'DoorDash':'#fcd34d' };
+export const RW_COL   = { 'Google':'#9f7cef', 'Yelp':'#f9a8d4', 'Uber Eats':'#86efac', 'DoorDash':'#fde68a' };
 // Platform integrations per location (from the platform-integrations screen):
 // Google, Uber Eats and DoorDash are connected at all 7 locations; Yelp only at Fondren and Richmond (Grubhub is disconnected at Fondren and not used).
 export const RW_INTEG = BOOT.integrations;
@@ -100,13 +101,13 @@ export function renderReviews(){
   document.getElementById('rwStarTitle').textContent = overall ? `Star Distribution by Platform (${D})` : rwMode==='google' ? `Star Distribution - In-Store (${D})` : `Star Distribution - ${pn} (${D})`;
   rwBar.data.labels = overall ? RW_ORDER : locs;
   rwBar.data.datasets[0].data = overall ? RW_ORDER.map(p => rwStats(cur,[p]).rating) : locs.map(l => rwStats(cur, plats, l).rating);
-  rwBar.data.datasets[0].backgroundColor = overall ? RW_ORDER.map(p => RW_COL[p]) : '#9f7cef';
+  rwBar.data.datasets[0].backgroundColor = overall ? RW_ORDER.map((p,i) => BAR_SEQ[i % 5]) : '#9f7cef';
   const sel = document.getElementById('rwStarSel'), opts = ['All Locations', ...locs];
   if(sel.options.length!==opts.length || opts.some((o,i)=>sel.options[i].text!==o)) sel.innerHTML = opts.map(l => `<option>${l}</option>`).join('');
   if(!opts.includes(rwStarLoc)) rwStarLoc = 'All Locations'; sel.value = rwStarLoc;
   const sl = rwStarLoc==='All Locations' ? null : rwStarLoc;
   rwStar.data.datasets = overall
-    ? RW_ORDER.map(p => ({ label:p, data:rwStats(cur,[p],sl).s, backgroundColor:RW_COL[p], borderRadius:4 }))      // one series per platform
+    ? RW_ORDER.map((p,i) => ({ label:p, data:rwStats(cur,[p],sl).s, backgroundColor:BAR_SEQ[i % 5], borderRadius:4 }))      // one series per platform
     : [{ label:rwStarLoc, data:rwStats(cur, plats, sl).s, backgroundColor:'#9f7cef', borderRadius:4 }];
   rwBar.update(); rwStar.update();
 }
