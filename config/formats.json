@@ -925,29 +925,5 @@
     "color": "red"
    }
   ]
- },
- {
-  "table": "Reviews & Ratings by Platform (7 Days)",
-  "column": "All Locations Rating",
-  "axis": "column",
-  "mode": "pill",
-  "rules": [
-   {
-    "op": ">=",
-    "v": 4.7,
-    "color": "green"
-   },
-   {
-    "op": "between",
-    "v": 4.51,
-    "v2": 4.69,
-    "color": "amber"
-   },
-   {
-    "op": "<=",
-    "v": 4.5,
-    "color": "red"
-   }
-  ]
  }
 ]
