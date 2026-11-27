@@ -27,5 +27,14 @@
   "locations": [],
   "salt": "ae2b8ebd8faecb72b7dd1ef68129b7a0",
   "hash": "fcfeb28854439b18695babcfd7e3f45f7be5b4edfbf95a0ca222c5eb35a25c10276d5d322c0c7f5b306f18e99d69675dac281abb3e10ab4d489b1f5373e9a975"
+ },
+ {
+  "id": "31243fc3-4942-4dab-8681-829dafede668",
+  "email": "rehan@gyrorepublic.com",
+  "name": "Rehan",
+  "role": "client",
+  "locations": [],
+  "salt": "e7d0bc313e3627c66f116b90d27f430f",
+  "hash": "5bc6f4f364069f967fd37cb919aa0fc511b4923cf19286b529dc3bb265ac4601b96ad1e1b2c5c72a6a28d41a8f9c1fee11d491fd44f7e7a1913785f54ad00ba5"
  }
 ]
