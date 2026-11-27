@@ -338,9 +338,9 @@ table.ctr td:first-child{font-size:13px}
   .tablewrap table thead tr:nth-child(2) th:first-child{position:static;box-shadow:none;z-index:auto}
 }
 
-/* fiscal calendar: an "i" button in the header (admin and client logins) opens it in a window */
-.fc-i{width:30px;height:30px;border-radius:50%;border:1.5px solid rgba(255,255,255,.75);background:transparent;color:#fff;font:italic 700 16px Georgia,serif;line-height:1;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;padding:0}
-.fc-i:hover{background:rgba(255,255,255,.16)}
+/* fiscal calendar: an "i" button after a tab's heading (admin and client logins) opens it in a window */
+.fc-i{width:20px;height:20px;margin-left:10px;vertical-align:middle;border-radius:50%;border:1.5px solid var(--accent);background:transparent;color:var(--accent);font:italic 700 12px Georgia,serif;letter-spacing:0;text-transform:none;line-height:1;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;padding:0}
+.fc-i:hover{background:#f5f3ff}
 #fiscalCal{position:fixed;inset:0;z-index:300;background:rgba(26,31,46,.5);display:flex;align-items:flex-start;justify-content:center;padding:40px 16px;overflow:auto}
 #fiscalCal[hidden]{display:none}
 #fiscalCal .fc-box{background:var(--card);border-radius:14px;box-shadow:0 12px 40px rgba(0,0,0,.25);width:min(980px,100%);padding:20px 24px 24px}

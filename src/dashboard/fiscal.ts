@@ -2,7 +2,7 @@
 /* eslint-disable */
 /* =========================================================================
    FISCAL CALENDAR (owner's reference): periods, quarters and weeks, and how Toast dining options are mapped to channels.
-   An "i" button in the header (admin and client logins) opens it in a window. Press a period to see its weeks.
+   A small "i" after the heading of Overview, Revenue Channels and Catering (admin and client logins) opens it in a window. Press a period to see its weeks.
    Fiscal years come from FISCAL in ./core.ts (client file FY2026_Calendar.xlsx); the mapping is the admin Mapping screen, read only.
    ========================================================================= */
 import { BOOT, FISCAL, MONTHS, fiscalOf, toDate } from './core';
@@ -38,23 +38,30 @@ export function renderFiscal() {
       <p class="note" style="margin:10px 0 0">Every dining option Toast reports is assigned to a line, and every line belongs to a channel (the groups on Revenue Channels). Options not assigned yet are counted on the Unmapped line, so no sales go missing. Changes are made in Admin, Mapping.</p>`;
   };
 
-  // an "i" button in the header opens the calendar in a window; nothing on any tab is touched
+  // a small "i" after the heading of a tab opens this window: Overview and Revenue Channels show the fiscal calendar and the mapping, Catering only the calendar. No other tab has the button.
   const sec = document.createElement('div');
   sec.id = 'fiscalCal'; sec.hidden = true;
-  sec.innerHTML = `<div class="fc-box" role="dialog" aria-modal="true" aria-label="Fiscal calendar and revenue mapping">
-      <div class="fc-top"><span class="t-title" style="font-size:13px">Fiscal Calendar &amp; Revenue Mapping</span><button class="fc-x" title="Close" aria-label="Close">×</button></div>
+  sec.innerHTML = `<div class="fc-box" role="dialog" aria-modal="true" aria-label="Fiscal calendar">
+      <div class="fc-top"><span class="t-title" id="fcTitle" style="font-size:13px"></span><button class="fc-x" title="Close" aria-label="Close">×</button></div>
       <div class="seg" id="fcYears" style="margin:14px 0 12px">${years.map(y => `<button data-y="${y}" class="${y === fy ? 'on' : ''}">FY${y}</button>`).join('')}</div>
       <div id="fcCal">${calendar()}</div>
       <p class="note" style="margin:10px 0 18px">Weeks run Monday to Sunday. Press a period to see its weeks; the week number is the fiscal week of the year.</p>
-      <div class="lv-h4" style="margin:0 0 6px">Dining options to channels</div>
-      ${mapping()}
+      <div id="fcMap"><div class="lv-h4" style="margin:0 0 6px">Dining options to channels</div>
+      ${mapping()}</div>
     </div>`;
   document.body.appendChild(sec);
-  const btn = document.createElement('button');
-  btn.className = 'fc-i'; btn.type = 'button'; btn.textContent = 'i'; btn.title = 'Fiscal calendar and revenue mapping'; btn.setAttribute('aria-label', 'Fiscal calendar and revenue mapping');
-  const right = document.querySelector('.hdr .right'); right?.insertBefore(btn, right.querySelector('.signout'));
-  const open = o => { sec.hidden = !o; if (o) sec.querySelector('.fc-x').focus(); else btn.focus(); };
-  btn.addEventListener('click', () => open(sec.hidden));
+  let opener = null;
+  const open = (o, withMapping, btn) => {
+    if (o) { opener = btn; sec.querySelector('#fcMap').hidden = !withMapping; sec.querySelector('#fcTitle').textContent = withMapping ? 'Fiscal Calendar & Revenue Mapping' : 'Fiscal Calendar'; }
+    sec.hidden = !o; if (o) sec.querySelector('.fc-x').focus(); else opener?.focus();
+  };
+  [['overview', true], ['revenue', true], ['catering', false]].forEach(([view, withMapping]) => {
+    const h = document.querySelector(`#view-${view} > .filters .eyebrow`); if (!h) return;
+    const btn = document.createElement('button');
+    btn.className = 'fc-i'; btn.type = 'button'; btn.textContent = 'i'; btn.title = withMapping ? 'Fiscal calendar and revenue mapping' : 'Fiscal calendar'; btn.setAttribute('aria-label', btn.title);
+    btn.addEventListener('click', () => open(sec.hidden, withMapping, btn));
+    h.appendChild(btn);
+  });
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && !sec.hidden) open(false); });
 
   const toggle = tr => { const o = tr.getAttribute('aria-expanded') !== 'true'; tr.setAttribute('aria-expanded', o); tr.querySelector('.fc-ar').textContent = o ? '▾' : '▸'; sec.querySelectorAll('.fc-p' + tr.dataset.p).forEach(r => r.hidden = !o); };
