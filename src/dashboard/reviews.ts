@@ -52,6 +52,7 @@ export function rwStats(rows, plats, loc){
   return { n, s, rating: n ? (5*s[0]+4*s[1]+3*s[2]+2*s[3]+s[4])/n : null };
 }
 export const f2 = v => v==null ? 'NA' : v.toFixed(2);
+export const fr = v => v==null ? "NA" : `<span class="vp">${v.toFixed(2)}</span>`;   // a rating inside a table cell: a plain pill the colour rules (Admin, Formatting) can paint
 
 export const rwBar = new Chart(document.getElementById('rwBar'), {
   type:'bar', data:{ labels:LOCATIONS, datasets:[{ label:'Avg Rating', data:[], backgroundColor:'#9f7cef', borderRadius:4 }] },
@@ -88,12 +89,12 @@ export function renderReviews(){
     head.innerHTML = `<tr><th rowspan="2">Location</th>${[...RW_ORDER, 'All Platforms'].map(p => `<th colspan="2" class="grp gstart">${p}</th>`).join('')}</tr>` +
                      `<tr>${[...RW_ORDER, 'All'].map(() => '<th class="gstart">Rating</th><th># Reviews</th>').join('')}</tr>`;
     const prow = (name, loc, cls) => `<tr class="${cls||''}"><td>${name}</td>${RW_ORDER.map(p => { const t = rwStats(cur,[p],loc);
-        return (!loc || RW_INTEG[p].includes(loc)) ? `<td class="gstart">${f2(t.rating)}</td><td>${t.n}</td>` : '<td class="gstart">NA</td><td>NA</td>'; }).join('')}${(t => `<td class="gstart">${f2(t.rating)}</td><td>${t.n}</td>`)(rwStats(cur, plats, loc))}</tr>`;
+        return (!loc || RW_INTEG[p].includes(loc)) ? `<td class="gstart">${fr(t.rating)}</td><td>${t.n}</td>` : '<td class="gstart">NA</td><td>NA</td>'; }).join('')}${(t => `<td class="gstart">${fr(t.rating)}</td><td>${t.n}</td>`)(rwStats(cur, plats, loc))}</tr>`;
     body.innerHTML = LOCATIONS.map(l => prow(l,l)).join('') + prow('Total',null,'tot');
   } else {
     head.innerHTML = '<tr><th>Location</th><th># Reviews</th><th>Rating</th><th>5★</th><th>4★</th><th>3★</th><th>2★</th><th>1★</th></tr>';
     const row = (name, loc, cls) => { const t = rwStats(cur, plats, loc), s = t.s;
-      return `<tr class="${cls||''}"><td>${name}</td><td>${t.n}</td><td>${f2(t.rating)}</td>${s.map(v=>`<td>${v}</td>`).join('')}</tr>`; };
+      return `<tr class="${cls||''}"><td>${name}</td><td>${t.n}</td><td>${fr(t.rating)}</td>${s.map(v=>`<td>${v}</td>`).join('')}</tr>`; };
     body.innerHTML = locs.map(l => row(l,l)).join('') + row('Total',null,'tot');
   }
 

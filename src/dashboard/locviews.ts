@@ -8,7 +8,7 @@
    Admin and Client logins never reach this file's output.
    ========================================================================= */
 import { BOOT, Chart, DATA, LOCATIONS, MONTHS, PERIODS, css, grid, money, pct, pill, varPct, view, weekLabels } from './core';
-import { RW_COL, RW_INTEG, RW_ORDER, rwRows, rwStats } from './reviews';
+import { RW_COL, RW_INTEG, RW_ORDER, fr, rwRows, rwStats } from './reviews';
 import { T_m0, T_ms, T_n, T_p1, WAIT_BAD, WAIT_GOOD, div, noOther, tpTable, vp } from './tpd';
 import { LY_C, nfmt, pf1, usd0 } from './loyalty';
 import { CHANNELS, donutLabels, renderRevenue } from './revenue';
@@ -104,13 +104,13 @@ function renderReviews() {
     title = `Reviews & Ratings by Platform (${D})`;
     head = `<tr><th>Platform</th><th># Reviews</th>${lw ? '<th>vs LW</th>' : ''}<th>5★</th><th>4★</th><th>3★</th><th>2★</th><th>1★</th><th>${loc} Rating</th><th>All Locations Rating</th></tr>`;
     const row = (name, x, pv, c, cls) => { const d = lw && x.rating != null && pv?.rating != null ? x.rating - pv.rating : null;
-      return `<tr class="${cls || ''}"><td>${name}</td><td>${x.n}</td>${lw ? `<td>${d == null ? '-' : d >= 0 ? '+' + d.toFixed(2) : '(' + Math.abs(d).toFixed(2) + ')'}</td>` : ''}${starCells(x.s)}<td>${f2n(x.rating)}</td><td>${f2n(c.rating)}</td></tr>`; };
+      return `<tr class="${cls || ''}"><td>${name}</td><td>${x.n}</td>${lw ? `<td>${d == null ? '-' : d >= 0 ? '+' + d.toFixed(2) : '(' + Math.abs(d).toFixed(2) + ')'}</td>` : ''}${starCells(x.s)}<td>${fr(x.rating)}</td><td>${fr(c.rating)}</td></tr>`; };
     body = connected.map(p => row(p, rwStats(cur, [p], loc), prev ? rwStats(prev, [p], loc) : null, rwStats(C.cur, [p], null))).join('') + row('All Platforms', rwStats(cur, connected, loc), prev ? rwStats(prev, connected, loc) : null, rwStats(C.cur, connected, null), 'tot');
   } else {
     title = `${rvMode} Reviews by Week`;
     head = `<tr><th>Week</th><th># Reviews</th><th>5★</th><th>4★</th><th>3★</th><th>2★</th><th>1★</th><th>${loc} Rating</th><th>All Locations Rating</th></tr>`;
     body = [...weeks].reverse().map(w => { const x = rwStats(mineAll.filter(r => r[2] === w), [rvMode], loc), c = rwStats(coAll.filter(r => r[2] === w), [rvMode], null);
-      return `<tr><td>${shortDate(w)}</td><td>${x.n}</td>${starCells(x.s)}<td>${f2n(x.rating)}</td><td>${f2n(c.rating)}</td></tr>`; }).join('');
+      return `<tr><td>${shortDate(w)}</td><td>${x.n}</td>${starCells(x.s)}<td>${fr(x.rating)}</td><td>${fr(c.rating)}</td></tr>`; }).join('');
   }
 
   const showTrend = overall && rvDays !== '7';   // a trend needs more than the current week

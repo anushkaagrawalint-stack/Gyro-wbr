@@ -56,6 +56,14 @@ export function FormattingScreen() {
     [rules[k], rules[j]] = [rules[j], rules[k]]; upd(i, { rules });
   };
 
+  // the new rule goes to the top of the list and is scrolled into view (at the bottom it was off screen below the other rules)
+  const addRule = () => {
+    if (!tables.length) return;
+    setFormats((f) => [{ table: tables[0].title, column: tables[0].columns[1] ?? tables[0].columns[0] ?? '', axis: 'column', mode: 'pill', rules: [{ op: '>', v: 0, color: 'green' }] }, ...(f ?? [])]);
+    setDirty(true); setStatus({ kind: 'ok', text: 'New colour rule added at the top of the list. Choose its table and column, then press Save colour rules.' });
+    setTimeout(() => document.getElementById('fmt-first')?.scrollIntoView({ behavior: 'smooth', block: 'center' }), 50);
+  };
+
   async function save() {
     setBusy(true);
     try {
@@ -70,7 +78,7 @@ export function FormattingScreen() {
   return (
     <>
       <Msg s={status} />
-      <Panel title="Colour rules" right={<button className="btn ghost sm" disabled={!tables.length} onClick={() => { setFormats([...formats, { table: tables[0].title, column: tables[0].columns[1] ?? tables[0].columns[0] ?? '', axis: 'column', mode: 'pill', rules: [{ op: '>', v: 0, color: 'green' }] }]); setDirty(true); }}>Add a colour rule</button>}>
+      <Panel title="Colour rules" right={<button className="btn ghost sm" disabled={!tables.length} onClick={addRule}>Add a colour rule</button>}>
         <p className="note" style={{ marginBottom: 12 }}>
           Pick a table and a column, then say which colour each range gets, for example "above 60 then red, 30 to 60 amber, below 30 green". The first rule that matches wins, so list the most specific first.
           Durations such as "1 min 4 sec" are compared in seconds; "(11.2%)" counts as -11.2; "$1,234" as 1234. Rules apply on the dashboard for everyone.
@@ -80,7 +88,7 @@ export function FormattingScreen() {
           const t = tables.find((x) => x.title === f.table);
           const targets = f.axis === 'row' ? (t?.rows ?? []) : (t?.columns ?? []);
           return (
-            <div key={i} className="card" style={{ padding: 16, marginBottom: 14, boxShadow: 'none' }}>
+            <div key={i} id={i === 0 ? 'fmt-first' : undefined} className="card" style={{ padding: 16, marginBottom: 14, boxShadow: 'none' }}>
               <div className="row" style={{ marginBottom: 10 }}>
                 <select className="sel" aria-label="Table" value={f.table} onChange={(e) => { const nt = tables.find((x) => x.title === e.target.value); upd(i, { table: e.target.value, column: (f.axis === 'row' ? nt?.rows[0] : nt?.columns[1] ?? nt?.columns[0]) ?? '' }); }}>
                   {!t && <option value={f.table}>{f.table} (not on screen)</option>}
