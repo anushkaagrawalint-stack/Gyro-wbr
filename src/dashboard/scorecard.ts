@@ -22,15 +22,15 @@ export const SC_METRICS = [
   { key: 'rating',  label: 'Guest Rating',       w: 20, best: 'high', fmt: v => v.toFixed(2), get: c => c.rAll.rating,
     why: 'What guests say, across Google, Yelp, Uber Eats and DoorDash (7 days). The best early sign of repeat business.' },
   { key: 'err',     label: 'Order Errors',       w: 15, best: 'low',  fmt: v => T_p1(v), get: c => blend(c.ue.err, c.dd.err, c.ue.orders, c.dd.orders),
-    why: 'Wrong or missing items cost refunds and reviews. Uber Eats and DoorDash error rates, weighted by their orders.' },
+    why: 'Wrong or missing items cost refunds and reviews. Uber Eats and DoorDash error rates.' },
   { key: 'avoid',   label: 'Avoidable Wait',     w: 15, best: 'low',  fmt: v => T_ms(v).replace(/<.*?>/g, ''), get: c => blend(c.ue.avoid, c.dd.avoid, c.ue.orders, c.dd.orders),
-    why: 'Time a courier waits because the kitchen was late. The part of delivery speed the restaurant controls. Weighted by orders.' },
+    why: 'Time a courier waits because the kitchen was late. The part of delivery speed the restaurant controls.' },
   { key: 'up',      label: 'Store Uptime',       w: 10, best: 'high', fmt: v => T_p1(v), get: c => avg(c.ue.up, c.dd.up),
-    why: 'A store that is offline on an app cannot sell. Average of Uber Eats and DoorDash uptime.' },
+    why: 'A store that is offline on an app cannot sell.' },
   { key: 'loyalty', label: 'Loyalty %',          w: 10, best: 'high', fmt: v => T_p1(v), get: c => c.ly.loyaltyPct,
     why: 'Share of app users who are loyalty members: guests the store keeps. A slower-moving signal, so a lower weight.' },
   { key: 'kept',    label: 'Delivery Payout Kept', w: 5, best: 'high', fmt: v => T_p1(v), get: c => { const s = (c.ue.sales || 0) + (c.dd.sales || 0); return s ? ((c.ue.payout || 0) + (c.dd.payout || 0)) / s * 100 : null; },
-    why: 'Share of delivery sales that reaches the restaurant after app fees and promotions. Smallest weight: it is mostly set by the apps and promotions chosen.' },
+    why: 'Share of delivery sales that reaches the restaurant after app fees and promotions.' },
 ];
 
 export function scoreLocations(locs, calc = locCalc) {
@@ -73,6 +73,7 @@ export function renderScorecard() {
   const how = [...host.querySelectorAll('.panel')].find(x => x.querySelector('.t-title')?.textContent.trim() === 'How the Score Works');
   if (how) {
     const hd = how.querySelector('.panel-h'), tw = how.querySelector('.tablewrap'), t = how.querySelector('.t-title'), set = open => { tw.hidden = !open; t.textContent = 'How the Score Works ' + (open ? '▴' : '▾'); hd.setAttribute('aria-expanded', open); };
+    how.querySelectorAll('tbody td').forEach(td => { td.style.fontFamily = 'var(--sans)'; td.style.fontSize = '13px'; });   // Weight, Better when and Why it counts read in the same font as the Metric column
     hd.style.cursor = 'pointer'; hd.setAttribute('role', 'button'); hd.tabIndex = 0; set(false);
     const toggle = () => set(tw.hidden);
     hd.addEventListener('click', e => { if (!e.target.closest('.dl')) toggle(); });

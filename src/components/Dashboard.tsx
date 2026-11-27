@@ -43,17 +43,20 @@ export function Dashboard({ boot, weeks, unmapped }: Props) {
   const endYear = (ws: string) => endDate(ws).getUTCFullYear();
   const monthName = (ws: string) => endDate(ws).toLocaleString('en-US', { month: 'long', year: 'numeric', timeZone: 'UTC' });
   const go = (ws: string) => window.location.assign(`/?week=${ws}`);
+  // weeks kept in the data but left out of the Month and Week dropdowns for now (a hidden week still opens if its link is used)
+  const HIDDEN_WEEKS = ['2026-10-12'];
+  const listed = weeks.filter((w) => !HIDDEN_WEEKS.includes(w.weekStart) || w.weekStart === boot.week.weekStart);
   // one entry per month: its latest uploaded week (weeks arrive newest first)
   const months: { key: string; weekStart: string }[] = [];
-  for (const w of weeks) if (!months.some((m) => m.key === monthKey(w.weekStart))) months.push({ key: monthKey(w.weekStart), weekStart: w.weekStart });
+  for (const w of listed) if (!months.some((m) => m.key === monthKey(w.weekStart))) months.push({ key: monthKey(w.weekStart), weekStart: w.weekStart });
 
   return (
     <>
       <div dangerouslySetInnerHTML={{ __html: DASHBOARD_MARKUP }} suppressHydrationWarning />
-      {slots.labels && slots.week && weeks.length > 0 &&
+      {slots.labels && slots.week && listed.length > 0 &&
         createPortal(
           <select aria-label="Week" value={boot.week.weekStart} onChange={(e) => go(e.target.value)}>
-            {weeks.map((w) => { const l = slots.labels!.weekLabels(w.weekStart); return <option key={w.weekStart} value={w.weekStart}>{w.weekStart === boot.week.weekStart ? '✓ ' : ''}Week {l.no} ({l.range} {endYear(w.weekStart)})</option>; })}
+            {listed.map((w) => { const l = slots.labels!.weekLabels(w.weekStart); return <option key={w.weekStart} value={w.weekStart}>{w.weekStart === boot.week.weekStart ? '✓ ' : ''}Week {l.no} ({l.range} {endYear(w.weekStart)})</option>; })}
           </select>,
           slots.week,
         )}
