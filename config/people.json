@@ -36,5 +36,14 @@
   "locations": [],
   "salt": "e7d0bc313e3627c66f116b90d27f430f",
   "hash": "5bc6f4f364069f967fd37cb919aa0fc511b4923cf19286b529dc3bb265ac4601b96ad1e1b2c5c72a6a28d41a8f9c1fee11d491fd44f7e7a1913785f54ad00ba5"
+ },
+ {
+  "id": "c15bed56-3ed5-4c2a-92a7-7f212b47182c",
+  "email": "admin@gyrorepublic.com",
+  "name": "Admin Gyro Repulbic",
+  "role": "client",
+  "locations": [],
+  "salt": "83d2770af01fd0ec28e771584c4f204f",
+  "hash": "eee23165832bb39c954e39a012c2784509f6d9d9a9f4d3fc4ba8593d121611240d7a8e059b2115bb14988901bc002362ad0bac50166ac6291322366d57bc8a04"
  }
 ]
