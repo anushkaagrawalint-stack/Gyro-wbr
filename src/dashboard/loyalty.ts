@@ -70,7 +70,7 @@ export function renderLoyalty(){
 
   /* ---- Members & Sales ---- */
   document.getElementById('lyKpis1').innerHTML =
-    lyCard('AppFront Sales', hasLoc?usd0(tot.sales):'-', `<span>Var%: ${pf1(salesVarTot)} vs prior period</span>`) +
+    lyCard('AppFront Sales', hasLoc?usd0(tot.sales):'-', `<span>Var%: ${pf1(salesVarTot)} vs prior week</span>`) +
     lyCard('Total Members', nfmt(tot.totalMembers), `<span>${pf1(div(tot.totalMembers,tot.totalUsers)*100)} of ${nfmt(tot.totalUsers)} users</span>`) +
     lyCard('Active Members', nfmt(tot.activeMembers), `<span>${pf1(div(tot.activeMembers,tot.totalMembers)*100)} of members active</span>`) +
     lyCard('New Members', nfmt(tot.newMembers), `<span>${nfmt(tot.newApp)} app · ${nfmt(tot.newWeb)} web</span>`);

@@ -207,7 +207,7 @@ function renderLoyaltyLoc() {
   const act = raw.totalMembers ? raw.activeMembers / raw.totalMembers * 100 : null, cAct = craw.totalMembers ? craw.activeMembers / craw.totalMembers * 100 : null;
   const per1k = raw.totalMembers ? nm / raw.totalMembers * 1000 : null, cPer1k = craw.totalMembers ? craw.newMembers / craw.totalMembers * 1000 : null;
   const dot = col => `<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${col};margin-right:6px"></span>`;
-  const vTxt = L.v == null ? '- vs prior period' : `<span style="color:${L.v >= 0 ? '#16a34a' : '#dc2626'}">${pf1(L.v)} vs prior period</span>`;
+  const vTxt = L.v == null ? '- vs prior week' : `<span style="color:${L.v >= 0 ? '#16a34a' : '#dc2626'}">${pf1(L.v)} vs prior week</span>`;
 
   const kpis = `<section class="kpis" style="grid-template-columns:repeat(auto-fit,minmax(240px,1fr))">
     ${kcard('AppFront Sales', usd0(L.sales), `${vTxt}<br>${L.share == null ? '-' : L.share.toFixed(1) + '% of net sales'}`)}
