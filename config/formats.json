@@ -296,8 +296,18 @@
   "rules": [
    {
     "op": ">=",
-    "v": 0,
+    "v": 50,
     "color": "green"
+   },
+   {
+    "op": ">=",
+    "v": 30,
+    "color": "amber"
+   },
+   {
+    "op": "<",
+    "v": 30,
+    "color": "red"
    }
   ]
  },
@@ -308,14 +318,20 @@
   "mode": "pill",
   "rules": [
    {
-    "op": ">",
-    "v": 0,
-    "color": "red"
+    "op": "<=",
+    "v": 5.9,
+    "color": "green"
    },
    {
-    "op": "<=",
-    "v": 0,
-    "color": "green"
+    "op": "between",
+    "v": 6,
+    "v2": 12,
+    "color": "amber"
+   },
+   {
+    "op": ">=",
+    "v": 12,
+    "color": "red"
    }
   ]
  },
