@@ -64,7 +64,8 @@ export const rwBar = new Chart(document.getElementById('rwBar'), {
 const STAR_LABELS = ['5 Star','4 Star','3 Star','2 Star','1 Star'], starLegend = { position:'bottom', labels:{ boxWidth:36, boxHeight:12, color:css('--muted') } };
 const mkStar = kind => new Chart(document.getElementById('rwStar'), kind === 'donut'
   ? { type:'doughnut', plugins:[donutLabels], data:{ labels:STAR_LABELS, datasets:[{ data:[], backgroundColor:DONUT_COLS.slice(0,5), borderWidth:2, borderColor:'#fff' }] },
-      options:{ maintainAspectRatio:false, cutout:'55%', plugins:{ legend:starLegend, tooltip:{ callbacks:{ label:c => `${c.label}: ${c.parsed} reviews` } } } } }
+      options:{ maintainAspectRatio:false, cutout:'55%', plugins:{ tooltip:{ callbacks:{ label:c => `${c.label}: ${c.parsed} review${c.parsed === 1 ? '' : 's'}` } },
+        legend:{ ...starLegend, labels:{ ...starLegend.labels, generateLabels: ch => Chart.overrides.doughnut.plugins.legend.labels.generateLabels(ch).map(l => ({ ...l, text: `${l.text} (${ch.data.datasets[0].data[l.index] ?? 0})` })) } } } } }
   : { type:'bar', data:{ labels:STAR_LABELS, datasets:[{ label:'All Locations', data:[], backgroundColor:'#9f7cef', borderRadius:4 }] },
       options:{ maintainAspectRatio:false, plugins:{ legend:starLegend },
         scales:{ y:{ beginAtZero:true, grid:grid(), ticks:{ color:css('--muted'), precision:0 } }, x:{ grid:grid(), ticks:{ color:css('--muted') } } } } });

@@ -30,7 +30,7 @@ export function renderMarketing(){
   const K = ['sent','delivered','bounced','spamBlocked','unsubscribed','opened','replied'];
   const tot = {}; K.forEach(k => tot[k] = rows.reduce((s,r)=>s+(r[k]||0),0));
   const n  = v => has ? Math.round(v).toLocaleString('en-US') : '-';
-  const op = r => has ? `${Math.round(r.opened).toLocaleString('en-US')}<span class="pc">(${r.delivered ? Math.round(r.opened/r.delivered*100) : 0}%)</span>` : '-';
+  const op = r => has ? `${Math.round(r.opened).toLocaleString('en-US')}<span class="pc" style="display:inline;margin-left:6px">(${r.delivered ? Math.round(r.opened/r.delivered*100) : 0}%)</span>` : '-';
   const rt = (a, b) => has && b ? (a/b*100).toFixed(1)+'%' : '-';                  // open / reply rate = share of delivered emails
   document.getElementById('mkKpis').innerHTML =
     kcard('Sent & Delivered', n(tot.sent), `<span>Delivered: ${n(tot.delivered)}</span>`) +
