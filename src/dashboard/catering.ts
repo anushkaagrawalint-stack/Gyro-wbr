@@ -40,22 +40,12 @@ export const ctCharts = CT_ROWS.map(([label,key,kind]) => {
   card.innerHTML = `<div class="panel-h"><h3>5-Week Trend - ${label}</h3></div><div class="chartbox"><canvas></canvas></div>`;
   document.getElementById('ctTrend').appendChild(card);
   return { key, kind, label, h3: card.querySelector('h3'), chart: new Chart(card.querySelector('canvas'), {
-    type:'line', data:{ labels:[], datasets:[{ data:[], borderColor:'#7c3aed', backgroundColor:'#7c3aed', tension:.3, pointRadius:4, borderWidth:2.5, spanGaps:false }] },
-    options:{ maintainAspectRatio:false, plugins:{ legend:{ display:false }, tooltip:{ callbacks:{ label:c => ctFmt(c.parsed.y, kind) } } },
+    type:'line', data:{ labels:[], datasets:[{ data:[], borderColor:'#7c3aed', backgroundColor:'#7c3aed', tension:.3, pointRadius:4, pointHoverRadius:6, pointHitRadius:14, borderWidth:2.5, spanGaps:false }] },
+    options:{ maintainAspectRatio:false, interaction:{ mode:'nearest', axis:'x', intersect:false }, plugins:{ legend:{ display:false }, tooltip:{ callbacks:{ label:c => ctFmt(c.parsed.y, kind) } } },
       scales:{ y:{ beginAtZero:true, grid:grid(), ticks:{ color:css('--muted'), maxTicksLimit:5, callback:v => kind==='p' ? v+'%' : kind==='$' ? '$'+v.toLocaleString('en-US') : v.toLocaleString('en-US') } },
                x:{ grid:grid(), ticks:{ color:css('--muted') } } } } }) };
 });
 
-export const ctPaidCard = document.createElement('section'); ctPaidCard.className = 'card panel';
-ctPaidCard.innerHTML = `<div class="panel-h"><h3>Trend - Order Value (Paid), All Weeks</h3></div><div class="chartbox"><canvas></canvas></div>`;
-document.getElementById('ctPaidTrend').appendChild(ctPaidCard);
-export const ctPaidH3 = ctPaidCard.querySelector('h3');
-export const ctPaidChart = new Chart(ctPaidCard.querySelector('canvas'), {
-  type:'line', data:{ labels:[], datasets:[{ data:[], borderColor:'#7c3aed', backgroundColor:'#7c3aed', tension:.3, pointRadius:4, borderWidth:2.5, spanGaps:false }] },
-  options:{ maintainAspectRatio:false, plugins:{ legend:{ display:false }, tooltip:{ callbacks:{ label:c => ctFmt(c.parsed.y, '$') } } },
-    scales:{ y:{ beginAtZero:true, grid:grid(), ticks:{ color:css('--muted'), maxTicksLimit:6, callback:v => '$'+v.toLocaleString('en-US') } },
-             x:{ grid:grid(), ticks:{ color:css('--muted') } } } }
-});
 
 export let ctMode = 'weekly';                                                         // weekly | periodic (fiscal periods)
 document.getElementById('ctSeg').innerHTML = '<button data-m="weekly" class="on">Weekly</button><button data-m="periodic">Periodic</button>';
@@ -94,8 +84,6 @@ export function renderCatering(){
   ctCharts.forEach(({key,kind,label,h3,chart}) => { h3.textContent = per ? `Period Trend - ${lab(label)}` : `5-Week Trend - ${label}`;
     chart.data.labels = last5.map(w => per ? w.short : 'Wk '+w.week); chart.data.datasets[0].data = last5.map(w => ctVal(w,key)); chart.update(); });
 
-  ctPaidH3.textContent = per ? 'Trend - Order Value (Paid), All Periods' : 'Trend - Order Value (Paid), All Weeks';
-  ctPaidChart.data.labels = W.map(w => per ? w.short : 'Wk '+w.week); ctPaidChart.data.datasets[0].data = W.map(w => per ? w.valuePaid : (w.valuePaid ?? (w.ordersPaid === 0 ? 0 : null))); ctPaidChart.update();      // Order Value (Paid) for every week / period in the sheet; a blank value in a week with 0 paid orders is $0, a week with nothing entered stays empty
 
   const LP = per ? ctLocPeriods() : [], LS = per ? (LP.find(x => x.key === ctLocPer) || LP[LP.length-1]) : null; if(per && LS) ctLocPer = LS.key;
   const L = per ? (LS || {}) : (D.location || {}), names = Object.keys(L.locations||{}), T = L.total || {};

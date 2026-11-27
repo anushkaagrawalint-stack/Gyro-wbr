@@ -88,7 +88,8 @@ export function renderTpd(){
     const shv = (tb, re) => { const i = tb ? tb.head.findIndex(h => re.test(h)) : -1, r = tb?.rows.find(x => x[0] === 'All Stores'), v = i >= 0 && r ? parseFloat(String(r[i]).replace(/[$,%\s]/g, '')) : NaN; return isNaN(v) ? null : v; };
     const cSales = shv(SHEET?.uePerf, /^total sales/i) ?? tot.sales, cPay = shv(SHEET?.uePerf, /^net payout/i) ?? tot.payout, cOrd = shv(SHEET?.uePerf, /^order volume/i) ?? tot.orders, cErr = shv(SHEET?.ueOps, /^order error rate/i) ?? err(tot);
     kp = kcard('Total Sales', T_m0(cSales), VLW) + kcard('Number of Orders', T_n(cOrd), VLW1) +
-         kcard('Total Net Payout', T_m0(cPay), VLW) + kcard('Overall Error Rate', T_p1(cErr), VLW2);
+         kcard('Total Net Payout', T_m0(cPay), VLW) + kcard('Overall Error Rate', T_p1(cErr), VLW2) +
+         kcard('ROAS', T_x2((s => s.spend ? s.sales / s.spend : null)((DATA.ueAds || []).reduce((t, a) => ({ sales: t.sales + (a.sales || 0), spend: t.spend + (a.spend || 0) }), { sales: 0, spend: 0 }))), '<span>Var: -<br>Var%: - vs LW</span>');   // Uber Eats ads: ad sales / ad spend over every campaign
     // when the week has the "UBER EATS-DOOR DASH" tab, its tables are shown as they are; the Avg Rating column comes from the Uber Eats ratings of Reviews & Ratings (7 Days)
     const ue7 = rwRows('7').cur.filter(r => r[0]==='Uber Eats');
     html += SHEET?.uePerf ? sheetTable('UE Performance by Location', SHEET.uePerf, (r, c, h) => /^avg rating/i.test(h) ? T_r2(rwStats(ue7, ['Uber Eats'], r[0]==='All Stores' ? null : r[0]).rating) : /complaint/i.test(h) ? note(c) : c, l => trophy('ue', l)) :
@@ -113,11 +114,11 @@ export function renderTpd(){
       const usd2 = v => v==null || isNaN(v) ? DASH : '$' + v.toFixed(2), pc1 = v => v==null || isNaN(v) ? DASH : v.toFixed(1) + '%', nn = v => v==null ? DASH : T_n(v);
       const sum = k => ads.reduce((t,r) => t + (r[k]||0), 0), hasNew = ads.some(r => r.newCustomers != null);
       const T = { sales:sum('sales'), spend:sum('spend'), imp:sum('impressions'), clk:sum('clicks'), ord:sum('orders'), nc:sum('newCustomers') };
-      const r = a => [usd2(a.sales), usd2(a.spend), a.spend ? T_x2(a.sales/a.spend) : DASH, T_n(a.impressions), T_n(a.clicks), pc1(a.ctr), T_n(a.orders), pc1(a.conv), usd2(a.cpo), nn(a.newCustomers)];
+      const r = a => [usd2(a.sales), usd2(a.spend), a.spend ? T_x2(a.sales/a.spend) : DASH, T_n(a.impressions), T_n(a.clicks), pc1(a.ctr), T_n(a.orders), pc1(a.conv), usd2(a.cpo)];
       html += tpTable('Uber Eats Ads',
-        ['Campaign Name','Location','Sales ($)','Ad Spend ($)','ROAS','Impressions','Clicks','CTR (%)','Orders','Conversion Rate (Orders/Clicks)','Cost Per Order','New Customers'],
+        ['Campaign Name','Location','Sales ($)','Ad Spend ($)','ROAS','Impressions','Clicks','CTR (%)','Orders','Conversion Rate (Orders/Clicks)','Cost Per Order'],
         ads.map(a => [esc(a.campaign), esc(a.location), ...r(a)]),
-        ['Total', '', usd2(T.sales), usd2(T.spend), T.spend ? T_x2(T.sales/T.spend) : DASH, T_n(T.imp), T_n(T.clk), T.imp ? pc1(T.clk/T.imp*100) : DASH, T_n(T.ord), T.clk ? pc1(T.ord/T.clk*100) : DASH, T.ord ? usd2(T.spend/T.ord) : DASH, hasNew ? T_n(T.nc) : DASH]);
+        ['Total', '', usd2(T.sales), usd2(T.spend), T.spend ? T_x2(T.sales/T.spend) : DASH, T_n(T.imp), T_n(T.clk), T.imp ? pc1(T.clk/T.imp*100) : DASH, T_n(T.ord), T.clk ? pc1(T.ord/T.clk*100) : DASH, T.ord ? usd2(T.spend/T.ord) : DASH]);
     }
   } else {
     const err = d => div(d.errOrders, d.opsOrders)*100, pR = d => div(d.pSales,d.pSpend), sR = d => div(d.sSales,d.sSpend);

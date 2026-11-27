@@ -3,7 +3,7 @@
 // Ported verbatim from reference/index.html (the source of truth for every number and layout).
 // DOM-string rendering, so the types are loose; the public entry is mount() in ./main.ts and the data contract is Boot in src/lib/data/boot.ts.
 import { DASH, div, noEm, note, tpTable, vp } from './tpd';
-import { Chart, DATA, LOCATIONS, css, grid, pill, usdTip } from './core';
+import { Chart, DATA, DONUT_COLS, LOCATIONS, css, grid, pill, usdTip } from './core';
 import { donutLabels } from './revenue';
 
 /* =========================================================================
@@ -46,7 +46,7 @@ export const lyChan = new Chart(document.getElementById('lyChannelChart'), {
     scales:{ x:{ stacked:true, grid:grid(), ticks:{ color:css('--muted'), maxRotation:25 } }, y:{ stacked:true, beginAtZero:true, grid:grid(), ticks:{ color:css('--muted'), precision:0 } } } }
 });
 export const lyMix = new Chart(document.getElementById('lyMixChart'), {
-  type:'doughnut', data:{ labels:['App','Web','Other / unattributed'], datasets:[{ data:[], backgroundColor:[LY_C.app,LY_C.web,LY_C.other], borderWidth:2, borderColor:'#fff' }] },
+  type:'doughnut', data:{ labels:['App','Web','Other / unattributed'], datasets:[{ data:[], backgroundColor:DONUT_COLS.slice(0,3), borderWidth:2, borderColor:'#fff' }] },
   options:{ maintainAspectRatio:false, cutout:'55%', plugins:{ legend:{ position:'bottom', labels:{ color:css('--muted'), boxWidth:30, boxHeight:12 } } } },
   plugins:[donutLabels]
 });
@@ -110,9 +110,9 @@ export function renderLoyalty(){
   const sorted = [...camps].sort((a,b) => b.sales-a.sales), top = sorted.slice(0,8);
   lyCamp.data.labels = top.map(c => c.name.length>38 ? c.name.slice(0,36)+'…' : c.name);
   lyCamp.data.datasets[0].data = top.map(c => c.sales); lyCamp.data.datasets[1].data = top.map(c => c.discount); lyCamp.update();
-  const cr = c => [nfmt(c.generated), nfmt(c.redeemed), redPill(c.generated? c.redeemed/c.generated*100 : null), usd2(c.discount), usd2(c.sales), rtnPill(c.discount? c.sales/c.discount : null)];
+  const cr = c => [nfmt(c.generated), nfmt(c.redeemed), usd2(c.discount), c.redeemed ? usd2(c.discount/c.redeemed) : DASH, usd2(c.sales), rtnPill(c.discount? c.sales/c.discount : null)];
   document.getElementById('lyTables3').innerHTML =
-    tpTable('Campaign Performance', ['Campaign','Generated','Redeemed','Redemption %','Discount Amount','Total Sales Generated','Sales per $1 Discount'],
+    tpTable('Campaign Performance', ['Campaign','Generated','Redeemed','Discount Amount','Discount per Redemption','Total Sales Generated','Sales per $1 Discount'],
       sorted.map(c => [note(c.name), ...cr(c)]), hasC ? ['Total', ...cr(ct)] : null);
 }
 

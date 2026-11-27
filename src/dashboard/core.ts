@@ -78,3 +78,4 @@ Chart.defaults.font.family = "'Montserrat',sans-serif"; Chart.defaults.font.size
 export const usdTip = c => { const s = String(c.formattedValue), neg = s.startsWith('-'), lab = c.dataset.label ? c.dataset.label + ': ' : (c.label ? c.label + ': ' : '');   // hover label for sales charts: keep the number format, add the $
   return `${lab}${neg ? '-' : ''}$${neg ? s.slice(1) : s}`; };
 export const grid = () => ({ color: 'rgba(0,0,0,0.1)' });
+export const DONUT_COLS = ['#9f7cef', 'rgba(209,213,219,0.7)', '#93c5fd', '#f9a8d4', '#86efac', '#fde68a', '#fdba74', '#c4b5fd'];   // every donut chart: slice colours in this order (purple, grey, blue, pink, green, then more)

@@ -2,7 +2,7 @@
 /* eslint-disable */
 // Ported verbatim from reference/index.html (the source of truth for every number and layout).
 // DOM-string rendering, so the types are loose; the public entry is mount() in ./main.ts and the data contract is Boot in src/lib/data/boot.ts.
-import { BOOT, Chart, DATA, LOCATIONS, PERIODS, css, grid, money, pct, pill, usdTip, varPct, view } from './core';
+import { BOOT, Chart, DATA, DONUT_COLS, LOCATIONS, PERIODS, css, grid, money, pct, pill, usdTip, varPct, view } from './core';
 
 /* =========================================================================
    REVENUE CHANNELS
@@ -121,7 +121,7 @@ export function renderRevenue(){
   revBar.data.datasets[2].data = items.map(x => x.b);
   mixChart.data.labels = items.map(x => x.n);
   mixChart.data.datasets[0].data = items.map(x => x.a || 0);
-  mixChart.data.datasets[0].backgroundColor = items.map(x => x.col);
+  mixChart.data.datasets[0].backgroundColor = items.map((x, i) => DONUT_COLS[i % DONUT_COLS.length]);
   revBar.update(); mixChart.update();
 }
 

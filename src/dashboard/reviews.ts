@@ -2,7 +2,8 @@
 /* eslint-disable */
 // Ported verbatim from reference/index.html (the source of truth for every number and layout).
 // DOM-string rendering, so the types are loose; the public entry is mount() in ./main.ts and the data contract is Boot in src/lib/data/boot.ts.
-import { BOOT, Chart, DATA, LOCATIONS, css, grid } from './core';
+import { BOOT, Chart, DATA, DONUT_COLS, LOCATIONS, css, grid } from './core';
+import { donutLabels } from './revenue';
 
 /* =========================================================================
    REVIEWS & RATINGS
@@ -59,11 +60,15 @@ export const rwBar = new Chart(document.getElementById('rwBar'), {
   options:{ maintainAspectRatio:false, plugins:{ legend:{ display:false } },
     scales:{ y:{ min:1, max:5, grid:grid(), ticks:{ color:css('--muted'), stepSize:1 } }, x:{ grid:grid(), ticks:{ color:css('--muted'), maxRotation:25 } } } }
 });
-export const rwStar = new Chart(document.getElementById('rwStar'), {
-  type:'bar', data:{ labels:['5 Star','4 Star','3 Star','2 Star','1 Star'], datasets:[{ label:'All Locations', data:[], backgroundColor:'#9f7cef', borderRadius:4 }] },
-  options:{ maintainAspectRatio:false, plugins:{ legend:{ position:'bottom', labels:{ boxWidth:36, boxHeight:12, color:css('--muted') } } },
-    scales:{ y:{ beginAtZero:true, grid:grid(), ticks:{ color:css('--muted'), precision:0 } }, x:{ grid:grid(), ticks:{ color:css('--muted') } } } }
-});
+// star distribution: grouped bars for Overall (one series per platform), a donut for a single platform
+const STAR_LABELS = ['5 Star','4 Star','3 Star','2 Star','1 Star'], starLegend = { position:'bottom', labels:{ boxWidth:36, boxHeight:12, color:css('--muted') } };
+const mkStar = kind => new Chart(document.getElementById('rwStar'), kind === 'donut'
+  ? { type:'doughnut', plugins:[donutLabels], data:{ labels:STAR_LABELS, datasets:[{ data:[], backgroundColor:DONUT_COLS.slice(0,5), borderWidth:2, borderColor:'#fff' }] },
+      options:{ maintainAspectRatio:false, cutout:'55%', plugins:{ legend:starLegend, tooltip:{ callbacks:{ label:c => `${c.label}: ${c.parsed} reviews` } } } } }
+  : { type:'bar', data:{ labels:STAR_LABELS, datasets:[{ label:'All Locations', data:[], backgroundColor:'#9f7cef', borderRadius:4 }] },
+      options:{ maintainAspectRatio:false, plugins:{ legend:starLegend },
+        scales:{ y:{ beginAtZero:true, grid:grid(), ticks:{ color:css('--muted'), precision:0 } }, x:{ grid:grid(), ticks:{ color:css('--muted') } } } } });
+export let rwStar = mkStar('bar'), rwStarKind = 'bar';
 
 export function renderReviews(){
   const plats = RW_PLATS[rwMode], D = RW_DAYS[rwDays], overall = rwMode === 'overall', pn = RW_NAME[rwMode];
@@ -107,9 +112,11 @@ export function renderReviews(){
   if(sel.options.length!==opts.length || opts.some((o,i)=>sel.options[i].text!==o)) sel.innerHTML = opts.map(l => `<option>${l}</option>`).join('');
   if(!opts.includes(rwStarLoc)) rwStarLoc = 'All Locations'; sel.value = rwStarLoc;
   const sl = rwStarLoc==='All Locations' ? null : rwStarLoc;
+  const wantKind = overall ? 'bar' : 'donut';
+  if (wantKind !== rwStarKind) { rwStar.destroy(); rwStar = mkStar(wantKind); rwStarKind = wantKind; }                      // a different chart type needs a new chart
   rwStar.data.datasets = overall
     ? RW_ORDER.map((p,i) => ({ label:p, data:rwStats(cur,[p],sl).s, backgroundColor:BAR_SEQ[i % 5], borderRadius:4 }))      // one series per platform
-    : [{ label:rwStarLoc, data:rwStats(cur, plats, sl).s, backgroundColor:'#9f7cef', borderRadius:4 }];
+    : [{ label:rwStarLoc, data:rwStats(cur, plats, sl).s, backgroundColor:DONUT_COLS.slice(0,5), borderWidth:2, borderColor:'#fff' }];
   rwBar.update(); rwStar.update();
 }
 

@@ -7,7 +7,7 @@
    Same figures as the shared tabs (same data, same sums); company totals come from BOOT.company (totals only).
    Admin and Client logins never reach this file's output.
    ========================================================================= */
-import { BOOT, Chart, DATA, LOCATIONS, MONTHS, PERIODS, css, grid, money, pct, pill, varPct, view, weekLabels } from './core';
+import { BOOT, Chart, DATA, DONUT_COLS, LOCATIONS, MONTHS, PERIODS, css, grid, money, pct, pill, varPct, view, weekLabels } from './core';
 import { RW_COL, RW_INTEG, RW_ORDER, fr, rwRows, rwStats } from './reviews';
 import { T_m0, T_ms, T_n, T_p1, WAIT_BAD, WAIT_GOOD, div, noOther, tpTable, vp } from './tpd';
 import { LY_C, nfmt, pf1, usd0 } from './loyalty';
@@ -117,8 +117,8 @@ function renderReviews() {
   const trendCard = showTrend ? `<section class="card panel"><div class="panel-h"><h3>Rating Trend by Week (last ${RV_WEEKS[rvDays]} weeks)</h3>${dlBtn('lvRvTrend', 'chart')}</div><div class="chartbox"><canvas id="lvRvTrend"></canvas></div></section>` : '';
   h.innerHTML = `<div class="filters" style="justify-content:space-between"><span class="eyebrow" style="margin:0">Reviews · ${loc}</span><div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:flex-end">${segHtml('lvRvDays', [['7', '7 Days'], ['30', '30 Days'], ['90', '90 Days']], rvDays, 'data-d')}</div></div>` +
     `<section class="kpis" style="grid-template-columns:repeat(auto-fit,minmax(240px,1fr))">${kpis}</section>` +
-    `<section class="card panel"><div class="panel-h"><span class="t-title">${title}</span>${dlBtn(null, 'table')}</div><div class="tablewrap"><table class="ctr"><thead>${head}</thead><tbody>${body}</tbody></table></div></section>` +
-    `<div class="ov-two">${chartCard(overall ? `Avg Rating by Platform (${D})` : `${rvMode} Avg Rating by Week`, 'lvRvAvg')}${chartCard(overall ? `Star Distribution by Platform (${D})` : `Star Distribution - ${rvMode} (${D})`, 'lvRvStars')}</div>` + trendCard;
+    `<div class="ov-two">${chartCard(overall ? `Avg Rating by Platform (${D})` : `${rvMode} Avg Rating by Week`, 'lvRvAvg')}${chartCard(overall ? `Star Distribution by Platform (${D})` : `Star Distribution - ${rvMode} (${D})`, 'lvRvStars')}</div>` + trendCard +
+    `<section class="card panel"><div class="panel-h"><span class="t-title">${title}</span>${dlBtn(null, 'table')}</div><div class="tablewrap"><table class="ctr"><thead>${head}</thead><tbody>${body}</tbody></table></div></section>` ;
   h.querySelector('#lvRvDays').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; rvDays = b.dataset.d; renderReviews(); });
   wireDownloads(h);
 
@@ -193,7 +193,7 @@ function renderTpdLoc() {
     { label: 'Uber Eats', data: [ue.sales || 0, ue.payout || 0], backgroundColor: UE_COL, borderRadius: 4 }, { label: 'DoorDash', data: [dd.sales || 0, dd.payout || 0], backgroundColor: DD_COL, borderRadius: 4 }] },
     options: { maintainAspectRatio: false, plugins: { legend, tooltip: { callbacks: { label: c => `${c.dataset.label}: ${money(c.parsed.y)}` } } },
       scales: { y: { beginAtZero: true, grid: grid(), ticks: { color: css('--muted'), callback: v => '$' + v.toLocaleString('en-US') } }, x: { grid: grid(), ticks: { color: css('--muted') } } } } });
-  chart('lvTpOrders', { type: 'doughnut', plugins: [donutLabels], data: { labels: ['Uber Eats', 'DoorDash'], datasets: [{ data: [ue.orders || 0, dd.orders || 0], backgroundColor: [UE_COL, DD_COL], borderWidth: 2, borderColor: '#fff' }] },
+  chart('lvTpOrders', { type: 'doughnut', plugins: [donutLabels], data: { labels: ['Uber Eats', 'DoorDash'], datasets: [{ data: [ue.orders || 0, dd.orders || 0], backgroundColor: DONUT_COLS.slice(0, 2), borderWidth: 2, borderColor: '#fff' }] },
     options: { maintainAspectRatio: false, cutout: '55%', plugins: { legend, tooltip: { callbacks: { label: c => `${c.label}: ${c.parsed} orders` } } } } });
 }
 
@@ -238,7 +238,7 @@ function renderLoyaltyLoc() {
   wireDownloads(h);
 
   const legend = { position: 'bottom', labels: { boxWidth: 36, boxHeight: 12, color: css('--muted') } };
-  chart('lvLyMix', { type: 'doughnut', plugins: [donutLabels], data: { labels: ['App', 'Web', 'Other / unattributed'], datasets: [{ data: [app, web, oth], backgroundColor: [LY_C.app, LY_C.web, LY_C.other], borderWidth: 2, borderColor: '#fff' }] },
+  chart('lvLyMix', { type: 'doughnut', plugins: [donutLabels], data: { labels: ['App', 'Web', 'Other / unattributed'], datasets: [{ data: [app, web, oth], backgroundColor: DONUT_COLS.slice(0, 3), borderWidth: 2, borderColor: '#fff' }] },
     options: { maintainAspectRatio: false, cutout: '55%', plugins: { legend, tooltip: { callbacks: { label: c => `${c.label}: ${c.parsed} new members` } } } } });
   const rl = ['Loyalty % (members / users)', 'Active % of members', 'New members via app %', 'AppFront % of net sales'];
   chart('lvLyBase', { type: 'bar', data: { labels: rl, datasets: [
@@ -327,7 +327,7 @@ function renderOverviewLoc() {
   chart('lvOvChan', { type: 'bar', data: { labels: chan.map(x => x.name), datasets: [{ label: 'Actual', data: chan.map(x => x.a), backgroundColor: LOC_COL, borderRadius: 4 }, { label: 'LY', data: chan.map(x => x.l), backgroundColor: ALL_COL, borderRadius: 4 }] },
     options: { maintainAspectRatio: false, plugins: { legend, tooltip: { callbacks: { label: c => `${c.dataset.label}: ${money(c.parsed.y)}` } } },
       scales: { y: { beginAtZero: true, grid: grid(), ticks: { color: css('--muted'), callback: v => v.toLocaleString('en-US') } }, x: { grid: grid(), ticks: { color: css('--muted') } } } } });
-  chart('lvOvMix', { type: 'doughnut', plugins: [donutLabels], data: { labels: chan.map(x => x.name), datasets: [{ data: chan.map(x => x.a), backgroundColor: chan.map(x => x.color), borderWidth: 2, borderColor: '#fff' }] },
+  chart('lvOvMix', { type: 'doughnut', plugins: [donutLabels], data: { labels: chan.map(x => x.name), datasets: [{ data: chan.map(x => x.a), backgroundColor: chan.map((x, i) => DONUT_COLS[i % DONUT_COLS.length]), borderWidth: 2, borderColor: '#fff' }] },
     options: { maintainAspectRatio: false, cutout: '55%', plugins: { legend, tooltip: { callbacks: { label: c => `${c.label}: ${money(c.parsed)}` } } } } });
 }
 
