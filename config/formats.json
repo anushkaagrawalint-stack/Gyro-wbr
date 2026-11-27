@@ -337,7 +337,7 @@
  },
  {
   "table": "Sales & Activity by Location",
-  "column": "Var % (vs prior period)",
+  "column": "Var % (vs prior week)",
   "axis": "column",
   "mode": "pill",
   "rules": [
