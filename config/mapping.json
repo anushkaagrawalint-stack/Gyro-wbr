@@ -22,7 +22,8 @@
      "options": [
       "App Pickup",
       "Mobile App - Pickup",
-      "Online Ordering - Takeout"
+      "Online Ordering - Takeout",
+      "App Pickup Lane"
      ]
     },
     {
@@ -59,9 +60,7 @@
     },
     {
      "name": "App Pickup Lane",
-     "options": [
-      "App Pickup Lane"
-     ]
+     "options": []
     },
     {
      "name": "Phone Order",
