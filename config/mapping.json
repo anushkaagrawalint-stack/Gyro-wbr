@@ -59,10 +59,6 @@
      ]
     },
     {
-     "name": "App Pickup Lane",
-     "options": []
-    },
-    {
      "name": "Phone Order",
      "options": [
       "Phone Order"
@@ -130,12 +126,6 @@
      ]
     },
     {
-     "name": "DeliverThat",
-     "options": [
-      "DeliverThat"
-     ]
-    },
-    {
      "name": "Google Delivery",
      "options": [
       "Google Delivery"
@@ -167,6 +157,12 @@
      "name": "Ez Cater",
      "options": [
       "Ez Cater"
+     ]
+    },
+    {
+     "name": "DeliverThat",
+     "options": [
+      "DeliverThat"
      ]
     }
    ]
