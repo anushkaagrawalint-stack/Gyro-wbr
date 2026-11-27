@@ -104,13 +104,13 @@ function renderReviews() {
     title = `Reviews & Ratings by Platform (${D})`;
     head = `<tr><th>Platform</th><th># Reviews</th>${lw ? '<th>vs LW</th>' : ''}<th>5★</th><th>4★</th><th>3★</th><th>2★</th><th>1★</th><th>${loc} Rating</th><th>All Locations Rating</th></tr>`;
     const row = (name, x, pv, c, cls) => { const d = lw && x.rating != null && pv?.rating != null ? x.rating - pv.rating : null;
-      return `<tr class="${cls || ''}"><td>${name}</td><td>${x.n}</td>${lw ? `<td>${d == null ? '-' : d >= 0 ? '+' + d.toFixed(2) : '(' + Math.abs(d).toFixed(2) + ')'}</td>` : ''}${starCells(x.s)}<td>${fr(x.rating)}</td><td>${fr(c.rating)}</td></tr>`; };
+      return `<tr class="${cls || ''}"><td>${name}</td><td>${x.n}</td>${lw ? `<td>${d == null ? '-' : d >= 0 ? '+' + d.toFixed(2) : '(' + Math.abs(d).toFixed(2) + ')'}</td>` : ''}${starCells(x.s)}<td>${fr(x.rating)}</td><td>${f2n(c.rating)}</td></tr>`; };
     body = connected.map(p => row(p, rwStats(cur, [p], loc), prev ? rwStats(prev, [p], loc) : null, rwStats(C.cur, [p], null))).join('') + row('All Platforms', rwStats(cur, connected, loc), prev ? rwStats(prev, connected, loc) : null, rwStats(C.cur, connected, null), 'tot');
   } else {
     title = `${rvMode} Reviews by Week`;
     head = `<tr><th>Week</th><th># Reviews</th><th>5★</th><th>4★</th><th>3★</th><th>2★</th><th>1★</th><th>${loc} Rating</th><th>All Locations Rating</th></tr>`;
     body = [...weeks].reverse().map(w => { const x = rwStats(mineAll.filter(r => r[2] === w), [rvMode], loc), c = rwStats(coAll.filter(r => r[2] === w), [rvMode], null);
-      return `<tr><td>${shortDate(w)}</td><td>${x.n}</td>${starCells(x.s)}<td>${fr(x.rating)}</td><td>${fr(c.rating)}</td></tr>`; }).join('');
+      return `<tr><td>${shortDate(w)}</td><td>${x.n}</td>${starCells(x.s)}<td>${fr(x.rating)}</td><td>${f2n(c.rating)}</td></tr>`; }).join('');
   }
 
   const showTrend = overall && rvDays !== '7';   // a trend needs more than the current week
@@ -174,7 +174,7 @@ function renderTpdLoc() {
   // one small table per app (3 columns each) instead of one wide 5-column table
   const rowsFor = (a, A, withRoas) => {
     const r = (label, key, fmt, best) => [label, cell(a[key], A[key], fmt, best), fmt(A[key])];
-    return [r('Sales', 'sales', mon), r('Orders', 'orders', cnt), r('Average Order', 'aov', mon), r('Net Payout', 'payout', mon),
+    return [r('Sales', 'sales', mon), r('Orders', 'orders', cnt), r('Average Order', 'aov', mon, 'high'), r('Net Payout', 'payout', mon),
       r('Avoidable Wait', 'avoid', wait, 'low'), r('Courier Wait', 'wait', wait, 'low'), r('Order Errors', 'err', pc, 'low'), r('Store Uptime', 'up', pc, 'high'),
       ...(withRoas ? [r('Promo ROAS', 'promo', x2, 'high'), r('Sponsor ROAS', 'spons', x2, 'high')] : (ok(a.ads) ? [r('Ads ROAS', 'ads', x2, 'high')] : []))];
   };
@@ -221,7 +221,7 @@ function renderLoyaltyLoc() {
   const one = v => ok(v) ? v.toFixed(1) : '-';
   const rows = [
     ['AppFront Sales', usd0(L.sales), usd0(K.sales)],
-    ['Var % vs Prior Period', L.v == null ? '-' : vp(pf1(L.v), L.v >= 0 ? 'pos' : 'neg'), K.v == null ? '-' : vp(pf1(K.v), K.v >= 0 ? 'pos' : 'neg')],
+    ['Var % vs Prior Period', L.v == null ? '-' : vp(pf1(L.v), L.v >= 0 ? 'pos' : 'neg'), K.v == null ? '-' : pf1(K.v)],
     ['AppFront % of Net Sales', good(L.share, K.share, pf1), pf1(K.share)],
     ['Total Members', nfmt(raw.totalMembers), nfmt(craw.totalMembers)],
     ['Active Members', nfmt(raw.activeMembers), nfmt(craw.activeMembers)],
@@ -305,13 +305,14 @@ function renderOverviewLoc() {
     ${ce ? kcard('Catering MQLs (Week)', nfmt(ce.mqls), `${nfmt(ce.calls)} calls<br>${nfmt(ce.emails)} emails`) : ''}
   </section>`;
 
-  // this restaurant against all locations (plain figures, no colour)
+  // this restaurant against all locations: the restaurant's figure is green when it is better than All Locations and red when worse
+  const cmp = (a, b, fmt, best) => ok(a) && ok(b) ? vp(fmt(a), (best === 'high' ? a >= b : a <= b) ? 'pos' : 'neg') : fmt(a);
   const rows = [
-    [`Sales Growth vs LY (${P.label})`, pct(vLY), pct(cV)],
-    ['Guest Rating (7 Days)', f2n(rr), f2n(co.rAll.rating)],
-    ['Uber Eats Avoidable Wait', wait(c.ue.avoid), wait(co.ue.avoid)], ['DoorDash Avoidable Wait', wait(c.dd.avoid), wait(co.dd.avoid)],
-    ['Uber Eats Order Errors', p1(c.ue.err), p1(co.ue.err)], ['DoorDash Order Errors', p1(c.dd.err), p1(co.dd.err)],
-    ['Loyalty % (Members / Users)', pf1(L.loyaltyPct), pf1(co.ly.loyaltyPct)]];
+    [`Sales Growth vs LY (${P.label})`, cmp(vLY, cV, pct, 'high'), pct(cV)],
+    ['Guest Rating (7 Days)', cmp(rr, co.rAll.rating, f2n, 'high'), f2n(co.rAll.rating)],
+    ['Uber Eats Avoidable Wait', cmp(c.ue.avoid, co.ue.avoid, wait, 'low'), wait(co.ue.avoid)], ['DoorDash Avoidable Wait', cmp(c.dd.avoid, co.dd.avoid, wait, 'low'), wait(co.dd.avoid)],
+    ['Uber Eats Order Errors', cmp(c.ue.err, co.ue.err, p1, 'low'), p1(co.ue.err)], ['DoorDash Order Errors', cmp(c.dd.err, co.dd.err, p1, 'low'), p1(co.dd.err)],
+    ['Loyalty % (Members / Users)', cmp(L.loyaltyPct, co.ly.loyaltyPct, pf1, 'high'), pf1(co.ly.loyaltyPct)]];
   const table = tpTable(`${loc} vs All Locations`, ['Metric', loc, 'All Locations'], rows, null);
 
   // sales by channel, for the chosen period
