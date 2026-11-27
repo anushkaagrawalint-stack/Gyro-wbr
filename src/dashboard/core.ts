@@ -74,6 +74,17 @@ export const sum = o => o ? Object.values(o).reduce((s,x)=>s+(x||0),0) : null;
 
 /* ---------- charts (empty datasets, final styling) ---------- */
 export const css = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+// The page is drawn with CSS zoom (body{zoom:.75}), and Chart.js reads the mouse position as if there were no zoom: the further right or down the pointer is, the further off the bar or dot it picks (hovering one showed another's value).
+// The pointer position is scaled back by the zoom the canvas is really drawn at (1 when there is no zoom, so nothing changes then).
+const chartEventHandler = Chart.prototype._eventHandler;
+Chart.prototype._eventHandler = function (e, replay) {
+  if (e && e.x != null && !e._zoomFixed) {
+    const cv = this.canvas, k = cv.offsetWidth ? cv.getBoundingClientRect().width / cv.offsetWidth : 1;
+    if (k > 0 && Math.abs(k - 1) > 0.001) { e.x /= k; e.y /= k; }
+    e._zoomFixed = true;
+  }
+  return chartEventHandler.call(this, e, replay);
+};
 Chart.defaults.font.family = "'Montserrat',sans-serif"; Chart.defaults.font.size = 12; Chart.defaults.color = '#6b7280';      // chart text slightly smaller (default 12)
 export const usdTip = c => { const s = String(c.formattedValue), neg = s.startsWith('-'), lab = c.dataset.label ? c.dataset.label + ': ' : (c.label ? c.label + ': ' : '');   // hover label for sales charts: keep the number format, add the $
   return `${lab}${neg ? '-' : ''}$${neg ? s.slice(1) : s}`; };
