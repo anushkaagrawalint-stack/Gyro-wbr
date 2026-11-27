@@ -80,7 +80,7 @@ export function renderLoyalty(){
   const t2 = (d) => [nfmt(d.totalUsers), nfmt(d.totalMembers), vp(pf1(div(d.totalMembers,d.totalUsers)*100), div(d.totalMembers,d.totalUsers)>=.8?'pos':div(d.totalMembers,d.totalUsers)>=.7?'flat':'neg'),
                      nfmt((d.totalUsers||0)-(d.totalMembers||0)), pf1(div(d.totalMembers,tot.totalMembers)*100)];
   document.getElementById('lyTables1').innerHTML =
-    tpTable('Sales & Activity by Location', ['Location','Sales','Var % (vs prior period)','Active Users','Active Members','Members % of Active Users','Active Members % of Total Members'],
+    tpTable('Sales & Activity by Location', ['Location','Sales','Var % (vs prior week)','Active Users','Active Members','Members % of Active Users','Active Members % of Total Members'],
       rows.map(([l,d]) => [l, ...t1(d,false)]), ['All Locations', ...t1(tot,true)]) +
     tpTable('Membership by Location', ['Location','Total Users','Total Members','Loyalty % (Members / Users)','Non-Members','Share of All Members'],
       rows.map(([l,d]) => [l, ...t2(d)]), ['All Locations', ...t2(tot)]);
