@@ -520,5 +520,413 @@
     "color": "red"
    }
   ]
+ },
+ {
+  "table": "Reviews & Ratings by Platform (7 Days)",
+  "column": "Google / Rating",
+  "axis": "column",
+  "mode": "pill",
+  "rules": [
+   {
+    "op": ">=",
+    "v": 4.7,
+    "color": "green"
+   },
+   {
+    "op": "between",
+    "v": 4.51,
+    "v2": 4.69,
+    "color": "amber"
+   },
+   {
+    "op": "<=",
+    "v": 4.5,
+    "color": "red"
+   }
+  ]
+ },
+ {
+  "table": "Reviews & Ratings by Platform (7 Days)",
+  "column": "Yelp / Rating",
+  "axis": "column",
+  "mode": "pill",
+  "rules": [
+   {
+    "op": ">=",
+    "v": 4.7,
+    "color": "green"
+   },
+   {
+    "op": "between",
+    "v": 4.51,
+    "v2": 4.69,
+    "color": "amber"
+   },
+   {
+    "op": "<=",
+    "v": 4.5,
+    "color": "red"
+   }
+  ]
+ },
+ {
+  "table": "Reviews & Ratings by Platform (7 Days)",
+  "column": "Uber Eats / Rating",
+  "axis": "column",
+  "mode": "pill",
+  "rules": [
+   {
+    "op": ">=",
+    "v": 4.7,
+    "color": "green"
+   },
+   {
+    "op": "between",
+    "v": 4.51,
+    "v2": 4.69,
+    "color": "amber"
+   },
+   {
+    "op": "<=",
+    "v": 4.5,
+    "color": "red"
+   }
+  ]
+ },
+ {
+  "table": "Reviews & Ratings by Platform (7 Days)",
+  "column": "DoorDash / Rating",
+  "axis": "column",
+  "mode": "pill",
+  "rules": [
+   {
+    "op": ">=",
+    "v": 4.7,
+    "color": "green"
+   },
+   {
+    "op": "between",
+    "v": 4.51,
+    "v2": 4.69,
+    "color": "amber"
+   },
+   {
+    "op": "<=",
+    "v": 4.5,
+    "color": "red"
+   }
+  ]
+ },
+ {
+  "table": "Reviews & Ratings by Platform (7 Days)",
+  "column": "All Platforms / Rating",
+  "axis": "column",
+  "mode": "pill",
+  "rules": [
+   {
+    "op": ">=",
+    "v": 4.7,
+    "color": "green"
+   },
+   {
+    "op": "between",
+    "v": 4.51,
+    "v2": 4.69,
+    "color": "amber"
+   },
+   {
+    "op": "<=",
+    "v": 4.5,
+    "color": "red"
+   }
+  ]
+ },
+ {
+  "table": "In-Store Reviews - Google (7 Days)",
+  "column": "Rating",
+  "axis": "column",
+  "mode": "pill",
+  "rules": [
+   {
+    "op": ">=",
+    "v": 4.7,
+    "color": "green"
+   },
+   {
+    "op": "between",
+    "v": 4.51,
+    "v2": 4.69,
+    "color": "amber"
+   },
+   {
+    "op": "<=",
+    "v": 4.5,
+    "color": "red"
+   }
+  ]
+ },
+ {
+  "table": "In-Store Reviews - Yelp (7 Days)",
+  "column": "Rating",
+  "axis": "column",
+  "mode": "pill",
+  "rules": [
+   {
+    "op": ">=",
+    "v": 4.7,
+    "color": "green"
+   },
+   {
+    "op": "between",
+    "v": 4.51,
+    "v2": 4.69,
+    "color": "amber"
+   },
+   {
+    "op": "<=",
+    "v": 4.5,
+    "color": "red"
+   }
+  ]
+ },
+ {
+  "table": "Uber Eats Reviews (7 Days)",
+  "column": "Rating",
+  "axis": "column",
+  "mode": "pill",
+  "rules": [
+   {
+    "op": ">=",
+    "v": 4.7,
+    "color": "green"
+   },
+   {
+    "op": "between",
+    "v": 4.51,
+    "v2": 4.69,
+    "color": "amber"
+   },
+   {
+    "op": "<=",
+    "v": 4.5,
+    "color": "red"
+   }
+  ]
+ },
+ {
+  "table": "DoorDash Reviews (7 Days)",
+  "column": "Rating",
+  "axis": "column",
+  "mode": "pill",
+  "rules": [
+   {
+    "op": ">=",
+    "v": 4.7,
+    "color": "green"
+   },
+   {
+    "op": "between",
+    "v": 4.51,
+    "v2": 4.69,
+    "color": "amber"
+   },
+   {
+    "op": "<=",
+    "v": 4.5,
+    "color": "red"
+   }
+  ]
+ },
+ {
+  "table": "Reviews & Ratings by Platform (7 Days)",
+  "column": "Fondren Rating",
+  "axis": "column",
+  "mode": "pill",
+  "rules": [
+   {
+    "op": ">=",
+    "v": 4.7,
+    "color": "green"
+   },
+   {
+    "op": "between",
+    "v": 4.51,
+    "v2": 4.69,
+    "color": "amber"
+   },
+   {
+    "op": "<=",
+    "v": 4.5,
+    "color": "red"
+   }
+  ]
+ },
+ {
+  "table": "Reviews & Ratings by Platform (7 Days)",
+  "column": "Sugar Land Rating",
+  "axis": "column",
+  "mode": "pill",
+  "rules": [
+   {
+    "op": ">=",
+    "v": 4.7,
+    "color": "green"
+   },
+   {
+    "op": "between",
+    "v": 4.51,
+    "v2": 4.69,
+    "color": "amber"
+   },
+   {
+    "op": "<=",
+    "v": 4.5,
+    "color": "red"
+   }
+  ]
+ },
+ {
+  "table": "Reviews & Ratings by Platform (7 Days)",
+  "column": "Richmond Rating",
+  "axis": "column",
+  "mode": "pill",
+  "rules": [
+   {
+    "op": ">=",
+    "v": 4.7,
+    "color": "green"
+   },
+   {
+    "op": "between",
+    "v": 4.51,
+    "v2": 4.69,
+    "color": "amber"
+   },
+   {
+    "op": "<=",
+    "v": 4.5,
+    "color": "red"
+   }
+  ]
+ },
+ {
+  "table": "Reviews & Ratings by Platform (7 Days)",
+  "column": "Katy Rating",
+  "axis": "column",
+  "mode": "pill",
+  "rules": [
+   {
+    "op": ">=",
+    "v": 4.7,
+    "color": "green"
+   },
+   {
+    "op": "between",
+    "v": 4.51,
+    "v2": 4.69,
+    "color": "amber"
+   },
+   {
+    "op": "<=",
+    "v": 4.5,
+    "color": "red"
+   }
+  ]
+ },
+ {
+  "table": "Reviews & Ratings by Platform (7 Days)",
+  "column": "Missouri City Rating",
+  "axis": "column",
+  "mode": "pill",
+  "rules": [
+   {
+    "op": ">=",
+    "v": 4.7,
+    "color": "green"
+   },
+   {
+    "op": "between",
+    "v": 4.51,
+    "v2": 4.69,
+    "color": "amber"
+   },
+   {
+    "op": "<=",
+    "v": 4.5,
+    "color": "red"
+   }
+  ]
+ },
+ {
+  "table": "Reviews & Ratings by Platform (7 Days)",
+  "column": "Spring Rating",
+  "axis": "column",
+  "mode": "pill",
+  "rules": [
+   {
+    "op": ">=",
+    "v": 4.7,
+    "color": "green"
+   },
+   {
+    "op": "between",
+    "v": 4.51,
+    "v2": 4.69,
+    "color": "amber"
+   },
+   {
+    "op": "<=",
+    "v": 4.5,
+    "color": "red"
+   }
+  ]
+ },
+ {
+  "table": "Reviews & Ratings by Platform (7 Days)",
+  "column": "Pearland Rating",
+  "axis": "column",
+  "mode": "pill",
+  "rules": [
+   {
+    "op": ">=",
+    "v": 4.7,
+    "color": "green"
+   },
+   {
+    "op": "between",
+    "v": 4.51,
+    "v2": 4.69,
+    "color": "amber"
+   },
+   {
+    "op": "<=",
+    "v": 4.5,
+    "color": "red"
+   }
+  ]
+ },
+ {
+  "table": "Reviews & Ratings by Platform (7 Days)",
+  "column": "All Locations Rating",
+  "axis": "column",
+  "mode": "pill",
+  "rules": [
+   {
+    "op": ">=",
+    "v": 4.7,
+    "color": "green"
+   },
+   {
+    "op": "between",
+    "v": 4.51,
+    "v2": 4.69,
+    "color": "amber"
+   },
+   {
+    "op": "<=",
+    "v": 4.5,
+    "color": "red"
+   }
+  ]
  }
 ]
